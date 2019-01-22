@@ -4,7 +4,12 @@ Class {
 	#instVars : [
 		'famixInvocation',
 		'javaMethodInvocation',
-		'fastJavaMethodInvocation'
+		'fastJavaMethodInvocation',
+		'famixMethod',
+		'fastJavaMethodEntity',
+		'famixStructuralEntity',
+		'fastJavaAssignementExpression',
+		'fastJavaVariableDeclarator'
 	],
 	#category : #'Carrefour-Model-Generator'
 }
@@ -36,14 +41,27 @@ CRFMetamodelGenerator class >> submetamodels [
 { #category : #definition }
 CRFMetamodelGenerator >> defineClasses [
 	super defineClasses.
+	famixMethod := self remoteEntity: #Method withPrefix: #FAMIX.
+	fastJavaMethodEntity := self remoteEntity: #JavaMethodEntity withPrefix: #FAST.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FAMIX.
-	fastJavaMethodInvocation := self remoteEntity: #JavaMethodInvocation withPrefix: #FAST
+	fastJavaMethodInvocation := self remoteEntity: #JavaMethodInvocation withPrefix: #FAST.
+	famixStructuralEntity := self remoteEntity: #StructuralEntity withPrefix: #FAMIX.
+	fastJavaAssignementExpression := self remoteEntity: #JavaAssignementExpression withPrefix: #FAST.
+	fastJavaVariableDeclarator := self remoteEntity: #JavaVariableDeclarator withPrefix: #FAST.
+]
+
+{ #category : #definition }
+CRFMetamodelGenerator >> defineHierarchy [
+	super defineHierarchy
 ]
 
 { #category : #definition }
 CRFMetamodelGenerator >> defineRelations [
 	super defineRelations.
-	(famixInvocation property: #fast) - (fastJavaMethodInvocation property: #famix)
+	(famixInvocation property: #fast) - (fastJavaMethodInvocation property: #famix).
+	(famixMethod property: #fast) - (fastJavaMethodEntity property: #famix).
+	( famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
+	( famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable)
 ]
 
 { #category : #definition }
