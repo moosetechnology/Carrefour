@@ -1,6 +1,11 @@
 Class {
 	#name : #CRFMetamodelGenerator,
 	#superclass : #FamixMetamodelGenerator,
+	#instVars : [
+		'famixInvocation',
+		'javaMethodInvocation',
+		'fastJavaMethodInvocation'
+	],
 	#category : #'Carrefour-Model-Generator'
 }
 
@@ -25,17 +30,20 @@ CRFMetamodelGenerator class >> prefix [
 { #category : #accessing }
 CRFMetamodelGenerator class >> submetamodels [
 	^ {FASTJavaMetamodelGenerator.
-	FamixJavaGenerator}
+	FamixCompatibilityGenerator}
 ]
 
 { #category : #definition }
 CRFMetamodelGenerator >> defineClasses [
 	super defineClasses.
+	famixInvocation := self remoteEntity: #Invocation withPrefix: #FAMIX.
+	fastJavaMethodInvocation := self remoteEntity: #JavaMethodInvocation withPrefix: #FAST
 ]
 
 { #category : #definition }
 CRFMetamodelGenerator >> defineRelations [
-	super defineRelations
+	super defineRelations.
+	(famixInvocation property: #fast) - (fastJavaMethodInvocation property: #famix)
 ]
 
 { #category : #definition }
