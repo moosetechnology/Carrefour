@@ -7,11 +7,15 @@ Class {
 	#category : #'Carrefour-FastAndBindingGenerator'
 }
 
+{ #category : #api }
+CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity [
+	^ self new bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity
+]
+
 { #category : #'as yet unclassified' }
-CRFBinderVisitor >> bindFastModel: fastModel fromFamixEntity: aFamixEntity [
-	self sourceFamixEntity: aFamixEntity.
-	fastModel allFASTJavaMethodEntity do: [:methodEntity | self clone accept: methodEntity ].
-	
+CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
+	self sourceFamixEntity: aFamixMethodEntity.
+	fastModel allFASTJavaMethodEntity do: [ :methodEntity | self clone accept: methodEntity ]
 ]
 
 { #category : #accessing }
