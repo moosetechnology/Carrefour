@@ -45,3 +45,34 @@ CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 		assert: (self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations second
 		equals: (self fastModel allWithType: FASTJavaMethodInvocation) first famix
 ]
+
+{ #category : #tests }
+CRFBindingTestTest >> testStubAttributeUsages [
+	self
+		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses first
+		equals: (self fastModel allWithType: FASTJavaClassProperty) first.
+	self
+		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first
+		equals: (self fastModel allWithType: FASTJavaClassProperty) first famixVariable
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testTypeAccess [
+	self
+		assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) first fastAccesses first
+		equals: ((self fastModel allWithType: FASTNamedEntity) select: [ :type | type name = 'System' ]) first.
+		
+	self
+		assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) first
+		equals: ((self fastModel allWithType: FASTNamedEntity) select: [ :type | type name = 'System' ]) first famixVariable
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testVariableDeclarator [
+	self
+		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first fastAssignement first
+		equals: (self fastModel allWithType: FASTJavaAssignementExpression) first.
+	self
+		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first
+		equals: (self fastModel allWithType: FASTJavaAssignementExpression) first famixVariable 
+]

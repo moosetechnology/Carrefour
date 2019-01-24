@@ -9,7 +9,11 @@ Class {
 		'fastJavaMethodEntity',
 		'famixStructuralEntity',
 		'fastJavaAssignementExpression',
-		'fastJavaVariableDeclarator'
+		'fastJavaVariableDeclarator',
+		'fastJavaClassProperty',
+		'fastNamedEntity',
+		'famixType',
+		'fastJavaIdentifier'
 	],
 	#category : #'Carrefour-Model-Generator'
 }
@@ -48,6 +52,10 @@ CRFMetamodelGenerator >> defineClasses [
 	famixStructuralEntity := self remoteEntity: #StructuralEntity withPrefix: #FAMIX.
 	fastJavaAssignementExpression := self remoteEntity: #JavaAssignementExpression withPrefix: #FAST.
 	fastJavaVariableDeclarator := self remoteEntity: #JavaVariableDeclarator withPrefix: #FAST.
+	fastJavaClassProperty := self remoteEntity: #JavaClassProperty withPrefix: #FAST.
+	fastNamedEntity := self remoteEntity: #NamedEntity withPrefix: #FAST.
+	fastJavaIdentifier := self remoteEntity: #JavaIdentifier withPrefix: #FAST.
+	famixType := self remoteEntity: #Type withPrefix: #FAMIX
 ]
 
 { #category : #definition }
@@ -61,7 +69,11 @@ CRFMetamodelGenerator >> defineRelations [
 	(famixInvocation property: #fast) - (fastJavaMethodInvocation property: #famix).
 	(famixMethod property: #fast) - (fastJavaMethodEntity property: #famix).
 	(famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
-	(famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable)
+	(famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable).
+	(famixStructuralEntity property: #fastAccesses) -* (fastJavaClassProperty property: #famixVariable).
+	(famixStructuralEntity property: #fastAccesses) -* (fastNamedEntity property: #famixVariable).
+	(famixStructuralEntity property: #fastAccesses) -* (fastJavaIdentifier property: #famixVariable).
+	(famixType property: #fastAccesses) -* (fastNamedEntity property: #famixVariable).
 ]
 
 { #category : #definition }
