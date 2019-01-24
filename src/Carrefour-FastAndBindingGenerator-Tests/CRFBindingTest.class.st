@@ -1,11 +1,25 @@
 Class {
 	#name : #CRFBindingTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'famixModel',
+		'fastModel'
+	],
 	#category : #'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CRFBindingTest >> famixModel [
+	^ famixModel
+]
+
+{ #category : #accessing }
+CRFBindingTest >> famixModel: anObject [
+	famixModel := anObject
+]
+
+{ #category : #'as yet unclassified' }
+CRFBindingTest >> famixModelString [
 	"package hello;
 
 public class Hello {
@@ -418,7 +432,7 @@ public class Hello {
 ]
 
 { #category : #'as yet unclassified' }
-CRFBindingTest >> fastMethodMain [
+CRFBindingTest >> fastMethodMainString [
 	"public static void main(String[] args) {
         new Hello();
     }"
@@ -435,7 +449,7 @@ CRFBindingTest >> fastMethodMain [
 ]
 
 { #category : #'as yet unclassified' }
-CRFBindingTest >> fastMethodReturnNumber [
+CRFBindingTest >> fastMethodReturnNumberString [
 	"private int returnNumber(int i){
         return i;
     }"
@@ -449,7 +463,7 @@ CRFBindingTest >> fastMethodReturnNumber [
 ]
 
 { #category : #'as yet unclassified' }
-CRFBindingTest >> fastMethodTest [
+CRFBindingTest >> fastMethodTestString [
 	" public int test () {
         hello = returnNumber(5);
         hello++;
@@ -492,4 +506,29 @@ CRFBindingTest >> fastMethodTest [
 		(name ''System''))
 	(FAST.ReturnStatement (id: 17))
 	(FAST.ExpressionStatement (id: 18)))'
+]
+
+{ #category : #accessing }
+CRFBindingTest >> fastModel [
+	^ fastModel
+]
+
+{ #category : #accessing }
+CRFBindingTest >> fastModel: anObject [
+	fastModel := anObject
+]
+
+{ #category : #running }
+CRFBindingTest >> setUp [
+	super setUp.
+	famixModel := (MooseModel
+		importFromMSEStream: (ReadStream on: self famixModelString)) name: #famixModel;
+		yourself
+]
+
+{ #category : #running }
+CRFBindingTest >> testCanLoadFamixAndFastModel [
+	"This test will fail if the setup failed --> it will mean that the famix model cannot be load"
+
+	
 ]
