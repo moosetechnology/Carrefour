@@ -60,8 +60,8 @@ CRFMetamodelGenerator >> defineRelations [
 	super defineRelations.
 	(famixInvocation property: #fast) - (fastJavaMethodInvocation property: #famix).
 	(famixMethod property: #fast) - (fastJavaMethodEntity property: #famix).
-	( famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
-	( famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable)
+	(famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
+	(famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable)
 ]
 
 { #category : #definition }
