@@ -7,10 +7,13 @@ Class {
 { #category : #running }
 CRFBindingReturnNumberTest >> setUp [
 	super setUp.
-	fastModel := (MooseModel importFromMSEStream: (ReadStream on: self fastMethodTestString))
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodReturnNumberString)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'returnNumber' ]) first
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'returnNumber' ]) first
 ]
 
 { #category : #running }

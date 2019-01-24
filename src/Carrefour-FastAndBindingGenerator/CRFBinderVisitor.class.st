@@ -36,15 +36,13 @@ CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
 { #category : #'as yet unclassified' }
 CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression [
 	super visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression.
-	self halt.
 	((self sourceFamixEntity localVariables select: [ :localVariable | localVariable name = aFASTJavaAssignementExpression variable name ])
 		ifEmpty: [ (self sourceFamixEntity parameters select: [ :parameter | parameter name = aFASTJavaAssignementExpression variable name ])
 				ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aFASTJavaAssignementExpression variable name ])
 						ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aFASTJavaAssignementExpression variable name ])
 								ifEmpty: [ (self sourceFamixEntity atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aFASTJavaAssignementExpression variable name ] ] ] ] ])
 		do: [ :structuralEntity | 
-			structuralEntity fastAssignement add: aFASTJavaAssignementExpression.
-			self halt ]
+			structuralEntity fastAssignement add: aFASTJavaAssignementExpression. ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,7 +54,9 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 { #category : #'as yet unclassified' }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
-	self sourceFamixEntity outgoingInvocations select: [ :invoc | aFASTJavaMethodInvocation name beginsWith: invoc to first name ] thenDo: [ :invoc | invoc fast: aFASTJavaMethodInvocation ] .
+	self sourceFamixEntity outgoingInvocations
+		select: [ :invoc | aFASTJavaMethodInvocation name beginsWith: invoc to first name ]
+		thenDo: [ :invoc | invoc fast: aFASTJavaMethodInvocation ].
 ]
 
 { #category : #'as yet unclassified' }

@@ -7,7 +7,8 @@ Class {
 { #category : #running }
 CRFBindingMainTest >> setUp [
 	super setUp.
-	fastModel := (MooseModel importFromMSEStream: (ReadStream on: self fastMethodTestString))
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodMainString )
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor

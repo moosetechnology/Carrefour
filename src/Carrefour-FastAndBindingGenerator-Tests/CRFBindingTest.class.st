@@ -433,79 +433,26 @@ public class Hello {
 
 { #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodMainString [
-	"public static void main(String[] args) {
+	^ 'public static void main(String[] args) {
         new Hello();
-    }"
-
-	^ '	(
-	(FAST.StatementBlock (id: 1))
-	(FAST.ExpressionStatement (id: 2))
-	(FAST.NamedEntity (id: 3)
-		(name ''args''))
-	(FAST.JavaNewExpression (id: 4)
-		(name ''Hello''))
-	(FAST.JavaMethodEntity (id: 5)
-		(name ''main'')))'
+    }'
 ]
 
 { #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodReturnNumberString [
-	"private int returnNumber(int i){
+	^ 'private int returnNumber(int i){
         return i;
-    }"
-
-	^ '	((FAST.JavaMethodEntity (id: 1)
-		(name ''returnNumber''))
-	(FAST.NamedEntity (id: 2)
-		(name ''i''))
-	(FAST.ReturnStatement (id: 3))
-	(FAST.StatementBlock (id: 4)))'
+    }'
 ]
 
 { #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodTestString [
-	" public int test () {
+	^ 'public int test () {
         hello = returnNumber(5);
         hello++;
         System.out.println(patate + hello);
         return hello;
-    }"
-	^ '(
-	(FAST.JavaUnaryExpression (id: 1)
-		(expression (ref: 2))
-		(operator ''++''))
-	(FAST.JavaClassProperty (id: 3)
-		(fieldName ''out'')
-		(type (ref: 4)))
-	(FAST.ExpressionStatement (id: 5))
-	(FAST.NamedEntity (id: 2)
-		(name ''hello''))
-	(FAST.NamedEntity (id: 6)
-		(name ''hello''))
-	(FAST.JavaMethodEntity (id: 7)
-		(name ''test''))
-	(FAST.NamedEntity (id: 8)
-		(name ''hello''))
-	(FAST.JavaIntegerLiteral (id: 9)
-		(value ''5''))
-	(FAST.StatementBlock (id: 10))
-	(FAST.JavaAssignementExpression (id: 11)
-		(expression (ref: 12))
-		(variable (ref: 8)))
-	(FAST.JavaMethodInvocation (id: 12)
-		(name ''returnNumber''))
-	(FAST.JavaMethodInvocation (id: 13)
-		(name ''println'')
-		(receiver (ref: 3)))
-	(FAST.ExpressionStatement (id: 14))
-	(FAST.JavaInfixOperation (id: 15)
-		(operator ''+''))
-	(FAST.NamedEntity (id: 16)
-		(name ''patate''))
-	(FAST.NamedEntity (id: 4)
-		(name ''System''))
-	(FAST.ReturnStatement (id: 17))
-	(FAST.ExpressionStatement (id: 18)))'
+    }'
 ]
 
 { #category : #accessing }
