@@ -29,21 +29,25 @@ CRFBindingTestTest >> testBindingMethod [
 { #category : #tests }
 CRFBindingTestTest >> testBindingMethodInvocationPrintLN [
 	self
-		assert: (self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations first fast
-		equals: (self fastModel allWithType: FASTJavaMethodInvocation) second.
+		assert: ((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(patate + hello)' ]) first fast
+		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' ]) first.
 	self
-		assert: (self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations first
-		equals: (self fastModel allWithType: FASTJavaMethodInvocation) second famix
+		assert: ((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(patate + hello)' ]) first
+		equals:((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' ]) first famix
 ]
 
 { #category : #tests }
 CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 	self
-		assert: (self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations second fast
-		equals: (self fastModel allWithType: FASTJavaMethodInvocation) first.
+		assert:
+			((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations
+				select: [ :invocation | invocation signature = 'returnNumber(5)' ]) first fast
+		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [:fastMethodInvocation | fastMethodInvocation name = 'returnNumber' ]) first.
 	self
-		assert: (self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations second
-		equals: (self fastModel allWithType: FASTJavaMethodInvocation) first famix
+		assert:
+			((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations
+				select: [ :invocation | invocation signature = 'returnNumber(5)' ]) first
+		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [:fastMethodInvocation | fastMethodInvocation name = 'returnNumber' ]) first famix 
 ]
 
 { #category : #tests }
