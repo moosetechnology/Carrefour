@@ -81,16 +81,24 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
-	self sourceFamixEntity fast: aFASTJavaMethodEntity.
+	(self sourceFamixEntity allToScope: FAMIXMethod)
+		select: [ :method | method name = aFASTJavaMethodEntity name ]
+		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ].
 	aFASTJavaMethodEntity statements do: [ :statement | self clone accept: statement ].
-	aFASTJavaMethodEntity parameters do: [ :parameter | self sourceFamixEntity parameters select: [ :famixParameter | famixParameter name = parameter name ] thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
+	aFASTJavaMethodEntity parameters
+		do: [ :parameter | 
+			self sourceFamixEntity parameters
+				select: [ :famixParameter | famixParameter name = parameter name ]
+				thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
-	self sourceFamixEntity outgoingInvocations
-		select: [ :invoc | aFASTJavaMethodInvocation name beginsWith: invoc to first name ]
+	self sourceFamixEntity queryAllOutgoingInvocations
+		select: [ :invoc | 
+			(aFASTJavaMethodInvocation name beginsWith: invoc to first name)
+				and: [ (aFASTJavaMethodInvocation atScope: FASTJavaMethodEntity) first famix = invoc from ] ]
 		thenDo: [ :invoc | invoc fast: aFASTJavaMethodInvocation ]
 ]
 

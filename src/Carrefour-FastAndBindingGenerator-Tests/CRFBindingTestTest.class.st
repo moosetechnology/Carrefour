@@ -17,23 +17,31 @@ CRFBindingTestTest >> setUp [
 ]
 
 { #category : #tests }
-CRFBindingTestTest >> testBindingMethod [
+CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 	self
-		assert: (self famixModel allMethods select: [ :method | method name = 'test' ]) first fast
-		equals: self fastModel allFASTJavaMethodEntity first.
+		assert:
+			((self famixModel allMethods select: [ :method | method name = 'onClick' ]) first outgoingInvocations
+				select: [ :invocation | invocation signature = 'println(event + " I''m calling " + hello)' ]) first fast
+		equals:
+			((self fastModel allWithType: FASTJavaMethodInvocation)
+				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first.
 	self
-		assert: self fastModel allFASTJavaMethodEntity first famix
-		equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
+		assert:
+			((self famixModel allMethods select: [ :method | method name = 'onClick' ]) first outgoingInvocations
+				select: [ :invocation | invocation signature = 'println(event +  I''m calling  + hello)' ]) first
+		equals:
+			((self fastModel allWithType: FASTJavaMethodInvocation)
+				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first famix
 ]
 
 { #category : #tests }
 CRFBindingTestTest >> testBindingMethodInvocationPrintLN [
 	self
 		assert: ((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(patate + hello)' ]) first fast
-		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' ]) first.
+		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'test' ] ])  first.
 	self
 		assert: ((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(patate + hello)' ]) first
-		equals:((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' ]) first famix
+		equals:((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'test' ] ]) first famix
 ]
 
 { #category : #tests }
@@ -48,6 +56,22 @@ CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 			((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations
 				select: [ :invocation | invocation signature = 'returnNumber(5)' ]) first
 		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [:fastMethodInvocation | fastMethodInvocation name = 'returnNumber' ]) first famix 
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testBindingMethodOnClick [
+	self
+		assert: (self famixModel allMethods select: [ :method | method name = 'onClick' ]) first fast
+		equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ]) first.
+	self
+		assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ]) first famix
+		equals: (self famixModel allMethods select: [ :method | method name = 'onClick' ]) first
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testBindingMethodTest [
+	self assert: (self famixModel allMethods select: [ :method | method name = 'test' ]) first fast equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first.
+	self assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first famix equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
 ]
 
 { #category : #tests }
