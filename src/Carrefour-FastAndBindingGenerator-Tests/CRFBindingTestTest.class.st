@@ -28,7 +28,7 @@ CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 	self
 		assert:
 			((self famixModel allMethods select: [ :method | method name = 'onClick' ]) first outgoingInvocations
-				select: [ :invocation | invocation signature = 'println(event +  I''m calling  + hello)' ]) first
+				select: [ :invocation | invocation signature = 'println(event + " I''m calling " + hello)' ]) first
 		equals:
 			((self fastModel allWithType: FASTJavaMethodInvocation)
 				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first famix
@@ -75,24 +75,37 @@ CRFBindingTestTest >> testBindingMethodTest [
 ]
 
 { #category : #tests }
-CRFBindingTestTest >> testStubAttributeUsages [
+CRFBindingTestTest >> testStubAttributeUsagesOnClick [
 	self
-		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses first
-		equals: (self fastModel allWithType: FASTJavaClassProperty) first.
-	self
-		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first
-		equals: (self fastModel allWithType: FASTJavaClassProperty) first famixVariable
+		assert: ((self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'onClick' ]) first
+		equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'onClick' ]) first.
+	self assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'onClick' ]) first famixVariable
 ]
 
 { #category : #tests }
-CRFBindingTestTest >> testTypeAccess [
+CRFBindingTestTest >> testStubAttributeUsagesTest [
 	self
-		assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) first fastAccesses first
-		equals: ((self fastModel allWithType: FASTNamedEntity) select: [ :type | type name = 'System' ]) first.
-		
+		assert: ((self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'test' ]) first
+		equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'test' ]) first.
+	self assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'test' ]) first famixVariable
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testTypeAccessOnClick [
 	self
-		assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) first
-		equals: ((self fastModel allWithType: FASTNamedEntity) select: [ :type | type name = 'System' ]) first famixVariable
+		assert: ((self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) anyOne
+		equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) anyOne type.
+	self 
+		assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne 
+		equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) anyOne type famixVariable
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testTypeAccessTest [
+	self
+		assert: ((self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ]) anyOne
+		equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ]) anyOne type.
+	self assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ]) anyOne type famixVariable
 ]
 
 { #category : #tests }
