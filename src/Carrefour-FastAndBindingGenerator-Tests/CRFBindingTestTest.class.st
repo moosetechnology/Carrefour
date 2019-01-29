@@ -75,6 +75,16 @@ CRFBindingTestTest >> testBindingMethodTest [
 ]
 
 { #category : #tests }
+CRFBindingTestTest >> testNewInnerClass [
+	self
+		assert: (self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) anyOne fastDeclaration anyOne
+		equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne.
+	self
+		assert: (self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) anyOne
+		equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne famixType
+]
+
+{ #category : #tests }
 CRFBindingTestTest >> testStubAttributeUsagesOnClick [
 	self
 		assert: ((self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) first name = 'onClick' ]) first

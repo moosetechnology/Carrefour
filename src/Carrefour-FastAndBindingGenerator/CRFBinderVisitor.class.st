@@ -103,6 +103,14 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 ]
 
 { #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
+	self sourceFamixEntity mooseModel allClasses asOrderedCollection
+		select: [ :class | '*' , aFASTJavaNewClassExpression name , '*' match: class name ]
+		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression  ].
+	aFASTJavaNewClassExpression childrenNode do: [ :child | self clone accept: child ]
+]
+
+{ #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator [
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
 	((self sourceFamixEntity localVariables select: [ :localVariable | localVariable name = aFASTJavaVariableDeclarator variable name ])
