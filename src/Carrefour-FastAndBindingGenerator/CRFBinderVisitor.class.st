@@ -124,5 +124,6 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
-	self clone accept: aFASTReturnStatement expression
+	aFASTReturnStatement expression ifNotNil: [ 
+	self clone accept: aFASTReturnStatement expression ]
 ]

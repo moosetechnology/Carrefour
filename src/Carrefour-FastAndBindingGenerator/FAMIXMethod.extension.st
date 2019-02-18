@@ -10,5 +10,8 @@ FAMIXMethod >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 	fastModel := self generateFast.
-	CRFBinderVisitor new bindFastModel: fastModel fromFamixEntity: self
+	CRFBinderVisitor new
+		bindFastModel: fastModel
+		fromFamixMethodEntity: self.
+	^ fastModel
 ]
