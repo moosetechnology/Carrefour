@@ -17,6 +17,12 @@ CRFBindingTestTest >> setUp [
 ]
 
 { #category : #tests }
+CRFBindingTestTest >> testAsssignementClassProperty [
+	self flag: #mustBeDone.
+	self fail.
+]
+
+{ #category : #tests }
 CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 	self
 		assert:
