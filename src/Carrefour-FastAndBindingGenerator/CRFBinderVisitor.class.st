@@ -80,6 +80,14 @@ CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 ]
 
 { #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
+	super visitFASTJavaAssignementExpression: aFASTJavaFieldAccess.
+	(self determineAttributeWithName: aFASTJavaFieldAccess fieldName)
+		ifNotNil:
+			[ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaFieldAccess ]
+]
+
+{ #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 	(self determineAttributeWithName: aFASTJavaIdentifier name) ifNotNil: [ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaIdentifier ]
 	
@@ -111,9 +119,19 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	self sourceFamixEntity mooseModel allClasses asOrderedCollection
-		select: [ :class | '*' , aFASTJavaNewClassExpression name , '*' match: class name ]
+		select: [ :class | '*' , aFASTJavaNewClassExpression type name , '*' match: class name ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression  ].
 	aFASTJavaNewClassExpression childrenNode do: [ :child | self clone accept: child ]
+]
+
+{ #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
+	super visitFASTJavaMethodInvocation: aFASTJavaNewExpression.
+	self sourceFamixEntity queryAllOutgoingInvocations
+		select: [ :invoc | 
+			(aFASTJavaNewExpression type name beginsWith: invoc to first name)
+				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ]
+		thenDo: [ :invoc | invoc fast: aFASTJavaNewExpression ]
 ]
 
 { #category : #visitor }

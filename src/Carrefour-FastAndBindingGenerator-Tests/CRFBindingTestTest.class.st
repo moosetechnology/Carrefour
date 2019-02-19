@@ -81,6 +81,12 @@ CRFBindingTestTest >> testBindingMethodTest [
 ]
 
 { #category : #tests }
+CRFBindingTestTest >> testFieldAccessCorrectlyLinked [
+	self flag: #mustBeDone.
+	self fail
+]
+
+{ #category : #tests }
 CRFBindingTestTest >> testNewInnerClass [
 	self
 		assert: (self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) anyOne fastDeclaration anyOne

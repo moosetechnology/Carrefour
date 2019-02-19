@@ -14,7 +14,9 @@ Class {
 		'fastNamedEntity',
 		'famixType',
 		'fastJavaIdentifier',
-		'fastJavaNewClassExpression'
+		'fastJavaNewClassExpression',
+		'fastJavaFieldAccess',
+		'fastJavaNew'
 	],
 	#category : #'Carrefour-Model-Generator'
 }
@@ -50,6 +52,7 @@ CRFMetamodelGenerator >> defineClasses [
 	fastJavaMethodEntity := self remoteEntity: #JavaMethodEntity withPrefix: #FAST.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FAMIX.
 	fastJavaMethodInvocation := self remoteEntity: #JavaMethodInvocation withPrefix: #FAST.
+	fastJavaNew := self remoteEntity: #JavaNewExpression withPrefix: #FAST.
 	famixStructuralEntity := self remoteEntity: #StructuralEntity withPrefix: #FAMIX.
 	fastJavaAssignementExpression := self remoteEntity: #JavaAssignementExpression withPrefix: #FAST.
 	fastJavaVariableDeclarator := self remoteEntity: #JavaVariableDeclarator withPrefix: #FAST.
@@ -58,6 +61,7 @@ CRFMetamodelGenerator >> defineClasses [
 	fastJavaIdentifier := self remoteEntity: #JavaIdentifier withPrefix: #FAST.
 	famixType := self remoteEntity: #Type withPrefix: #FAMIX.
 	fastJavaNewClassExpression := self remoteEntity: #JavaNewClassExpression withPrefix: #FAST.
+	fastJavaFieldAccess := self remoteEntity: #JavaFieldAccess withPrefix: #FAST
 ]
 
 { #category : #definition }
@@ -69,12 +73,14 @@ CRFMetamodelGenerator >> defineHierarchy [
 CRFMetamodelGenerator >> defineRelations [
 	super defineRelations.
 	(famixInvocation property: #fast) - (fastJavaMethodInvocation property: #famix).
+	(famixInvocation property: #fast) - (fastJavaNew property: #famix).
 	(famixMethod property: #fast) - (fastJavaMethodEntity property: #famix).
 	(famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
 	(famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable).
 	(famixStructuralEntity property: #fastAccesses) -* (fastJavaClassProperty property: #famixVariable).
 	(famixStructuralEntity property: #fastAccesses) -* (fastNamedEntity property: #famixVariable).
 	(famixStructuralEntity property: #fastAccesses) -* (fastJavaIdentifier property: #famixVariable).
+	(famixStructuralEntity property: #fastAccesses) -* (fastJavaFieldAccess property: #famixVariable).
 	(famixType property: #fastAccesses) -* (fastNamedEntity property: #famixVariable).
 	(famixType property: #fastDeclaration) -* (fastJavaNewClassExpression property: #famixType)
 ]
