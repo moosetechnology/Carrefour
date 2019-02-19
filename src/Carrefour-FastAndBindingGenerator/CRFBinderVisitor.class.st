@@ -129,7 +129,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	super visitFASTJavaMethodInvocation: aFASTJavaNewExpression.
 	self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			(aFASTJavaNewExpression type name beginsWith: invoc to first name)
+			((invoc to first name replaceAllRegex: '.*\.' with: '') = aFASTJavaNewExpression type name)
 				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ]
 		thenDo: [ :invoc | invoc fast: aFASTJavaNewExpression ]
 ]
