@@ -95,6 +95,7 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
+	super visitFASTJavaMethodEntity: aFASTJavaMethodEntity.
 	(self sourceFamixEntity allToScope: FAMIXMethod)
 		select: [ :method | method name = aFASTJavaMethodEntity name ]
 		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ].
@@ -148,6 +149,7 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
-	aFASTReturnStatement expression ifNotNil: [ 
-	self clone accept: aFASTReturnStatement expression ]
+	super visitFASTReturnStatement: aFASTReturnStatement.
+	aFASTReturnStatement expression
+		ifNotNil: [ self clone accept: aFASTReturnStatement expression ]
 ]
