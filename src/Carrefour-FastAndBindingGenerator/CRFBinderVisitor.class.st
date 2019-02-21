@@ -126,10 +126,12 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
+	"We base the selection on sourceAnchor because it is the the most precise thing we have
+	However, we accept a one character error because it can happens with the source anchor of verveineJ"
 	self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			((invoc sourceAnchor startPos - invoc from sourceAnchor startPos) = aFASTJavaNewExpression startPos)
-				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ]
+			((invoc sourceAnchor startPos - invoc from sourceAnchor startPos) >= (aFASTJavaNewExpression startPos - 1)) and: [ ((invoc sourceAnchor endPos - invoc from sourceAnchor startPos) <= (aFASTJavaNewExpression endPos +1))
+				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ] ]
 		thenDo: [ :invoc | invoc fast: aFASTJavaNewExpression ]
 ]
 
