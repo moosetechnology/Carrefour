@@ -15,3 +15,9 @@ FAMIXMethod >> generateFastAndBind [
 		fromFamixMethodEntity: self.
 	^ fastModel
 ]
+
+{ #category : #'*Carrefour-FastAndBindingGenerator' }
+FAMIXMethod >> generateFastIfNotDoneAndBind [
+	self fast ifNotNil: [ ^ self fast mooseModel ].
+	^ self generateFastAndBind 
+]
