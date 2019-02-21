@@ -17,14 +17,6 @@ CRFBindingDoubleAffectationTest >> setUp [
 ]
 
 { #category : #running }
-CRFBindingDoubleAffectationTest >> testBindingFirstAffectation [
-	self 
-		assert: ((self famixModel allWithType: FAMIXLocalVariable) select: [ :localVariable | localVariable parentBehaviouralEntity name = 'doubleAffectation' ]) first 
-		equals: (self fastModel allWithType: FASTJavaVariableDeclarator) first famixVariable.
-
-]
-
-{ #category : #running }
 CRFBindingDoubleAffectationTest >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'doubleAffectation' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
 	self assert: self fastModel allFASTJavaMethodEntity first famix equals: (self famixModel allMethods select: [ :method | method name = 'doubleAffectation' ]) first.
@@ -32,9 +24,9 @@ CRFBindingDoubleAffectationTest >> testBindingMethod [
 ]
 
 { #category : #running }
-CRFBindingDoubleAffectationTest >> testBindingSecondAffectation [
+CRFBindingDoubleAffectationTest >> testBindingSameClassAffectation [
 	self 
-		assert: ((self famixModel allWithType: FAMIXLocalVariable) select: [ :localVariable | localVariable parentBehaviouralEntity name = 'doubleAffectation' ]) second 
-		equals: (self fastModel allWithType: FASTJavaVariableDeclarator) second famixVariable.
+		assertCollection:  ((self famixModel allWithType: FAMIXLocalVariable) select: [ :localVariable | localVariable parentBehaviouralEntity name = 'doubleAffectation' ])  
+		hasSameElements: ((self fastModel allWithType: FASTJavaVariableDeclarator) collect: #famixVariable).
 
 ]

@@ -47,7 +47,7 @@ CRFBinderVisitor >> sourceFamixEntity: anObject [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
-	^ aFASTEntity childrenNode do: [ :child | self clone accept: child ]
+	^ aFASTEntity childrenNode do: [ :child | self accept: child ]
 ]
 
 { #category : #visitor }
@@ -95,11 +95,10 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
-	super visitFASTJavaMethodEntity: aFASTJavaMethodEntity.
 	(self sourceFamixEntity allToScope: FAMIXMethod)
 		select: [ :method | method name = aFASTJavaMethodEntity name ]
 		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ].
-	aFASTJavaMethodEntity statements do: [ :statement | self clone accept: statement ].
+	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	aFASTJavaMethodEntity parameters
 		do: [ :parameter | 
 			self sourceFamixEntity parameters
@@ -122,15 +121,14 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 	self sourceFamixEntity mooseModel allClasses asOrderedCollection
 		select: [ :class | '*' , aFASTJavaNewClassExpression type name , '*' match: class name ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression  ].
-	aFASTJavaNewClassExpression childrenNode do: [ :child | self clone accept: child ]
+	aFASTJavaNewClassExpression childrenNode do: [ :child | self accept: child ]
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
-	super visitFASTJavaMethodInvocation: aFASTJavaNewExpression.
 	self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			((invoc to first name replaceAllRegex: '.*\.' with: '') = aFASTJavaNewExpression type name)
+			((invoc sourceAnchor startPos - invoc from sourceAnchor startPos) = aFASTJavaNewExpression startPos)
 				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ]
 		thenDo: [ :invoc | invoc fast: aFASTJavaNewExpression ]
 ]
@@ -151,5 +149,5 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
 	super visitFASTReturnStatement: aFASTReturnStatement.
 	aFASTReturnStatement expression
-		ifNotNil: [ self clone accept: aFASTReturnStatement expression ]
+		ifNotNil: [ self accept: aFASTReturnStatement expression ]
 ]
