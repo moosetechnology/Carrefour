@@ -17,12 +17,6 @@ CRFBindingTestTest >> setUp [
 ]
 
 { #category : #tests }
-CRFBindingTestTest >> testAsssignementClassProperty [
-	self flag: #mustBeDone.
-	self fail.
-]
-
-{ #category : #tests }
 CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 	self
 		assert:
@@ -78,12 +72,6 @@ CRFBindingTestTest >> testBindingMethodOnClick [
 CRFBindingTestTest >> testBindingMethodTest [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'test' ]) first fast equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first.
 	self assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first famix equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
-]
-
-{ #category : #tests }
-CRFBindingTestTest >> testFieldAccessCorrectlyLinked [
-	self flag: #mustBeDone.
-	self fail
 ]
 
 { #category : #tests }

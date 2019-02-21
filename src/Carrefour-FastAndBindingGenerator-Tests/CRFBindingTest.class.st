@@ -878,11 +878,26 @@ public class Hello {
 ]
 
 { #category : #'as yet unclassified' }
+CRFBindingTest >> fastMethodClassPropertyAccess [
+	^ 'private void classPropertyAccess(){
+        call(Hello.classProperty);
+    }'
+]
+
+{ #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodDoubleAffectation [
 	^ 'private int doubleAffectation(){
         Label i = new Label();
         Label j = new Label();
     }'
+]
+
+{ #category : #'as yet unclassified' }
+CRFBindingTest >> fastMethodFieldAccess [
+	^ ' private void fieldAccess(){
+	call(this.classProperty);
+	call2(this.patate);
+}'
 ]
 
 { #category : #'as yet unclassified' }
