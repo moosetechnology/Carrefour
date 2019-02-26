@@ -8,7 +8,7 @@ Class {
 CRFBindingTestTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
-		parseCodeMethodString: self fastMethodTestString)
+		parseCodeMethodString: ((self famixModel allModelMethods select: [ :method | method name = 'test' ]) first sourceText))
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor
