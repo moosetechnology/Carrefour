@@ -894,7 +894,7 @@ CRFBindingTest >> fastMethodDoubleAffectation [
 
 { #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodFieldAccess [
-	^ ' private void fieldAccess(){
+	^ 'private void fieldAccess(){
 	call(this.classProperty);
 	call2(this.patate);
 }'
@@ -916,7 +916,7 @@ CRFBindingTest >> fastMethodReturnNumberString [
 
 { #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodTestString [
-	^ ' public int test () {
+	^ 'public int test () {
         hello = returnNumber(5);
         hello++;
         System.out.println(patate + hello);
@@ -945,7 +945,8 @@ CRFBindingTest >> setUp [
 	super setUp.
 	famixModel := (MooseModel
 		importFromMSEStream: (ReadStream on: self famixModelString)) name: #famixModel;
-		yourself
+		yourself.
+	famixModel rootFolder: 'D:\Developpement\mse\verveineJ2'.
 ]
 
 { #category : #running }
