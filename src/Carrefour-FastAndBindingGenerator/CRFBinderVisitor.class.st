@@ -15,7 +15,8 @@ CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamix
 { #category : #api }
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self sourceFamixEntity: aFamixMethodEntity.
-	fastModel allFASTJavaMethodEntity do: [ :methodEntity | self clone accept: methodEntity ]
+	fastModel allFASTJavaMethodEntity do: [ :methodEntity | self clone accept: methodEntity ].
+	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ]
 ]
 
 { #category : #visitor }
@@ -94,6 +95,14 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 ]
 
 { #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
+	(self sourceFamixEntity allToScope: FAMIXMethod)
+		select: [ :method | method name = '<Initializer>' ]
+		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
+	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ].
+]
+
+{ #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 	(self sourceFamixEntity allToScope: FAMIXMethod)
 		select: [ :method | method name = aFASTJavaMethodEntity name ]
@@ -113,15 +122,15 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 		select: [ :invoc | 
 			(invoc hasSourceAnchor
 				ifTrue: [  invoc sourceAnchor startPos
-						- ((invoc from allAtScope: FAMIXMethod) asOrderedCollection sort: [ :el1 :el2 | el1 sourceAnchor startPos < el2 sourceAnchor startPos ]) first sourceAnchor startPos
+						- (invoc from allAtScope: FAMIXMethod) first sourceAnchor startPos
 						>= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos
-								- ((invoc from allAtScope: FAMIXMethod) asOrderedCollection sort: [ :el1 :el2 | el1 sourceAnchor startPos < el2 sourceAnchor startPos ]) first sourceAnchor startPos
+								- (invoc from allAtScope: FAMIXMethod) first sourceAnchor startPos
 								<= (aFASTJavaMethodInvocation endPos + 1) ] ]
 				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
 				and: [ (aFASTJavaMethodInvocation atScope: FASTJavaMethodEntity) first
 						famix = invoc from ] ]
-				thenDo: [ :invoc | invoc fast: aFASTJavaMethodInvocation ]
+		thenDo: [ :invoc | invoc fast: aFASTJavaMethodInvocation ]
 ]
 
 { #category : #visitor }
@@ -136,25 +145,10 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	"We base the selection on sourceAnchor because it is the the most precise thing we have
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
-
 	self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			(invoc hasSourceAnchor
-				ifTrue: [ invoc sourceAnchor startPos
-						-
-							((invoc from allAtScope: FAMIXMethod) asOrderedCollection
-								sort: [ :el1 :el2 | el1 sourceAnchor startPos < el2 sourceAnchor startPos ])
-								first sourceAnchor startPos
-						>= (aFASTJavaNewExpression startPos - 1)
-						and: [ invoc sourceAnchor endPos
-								-
-									((invoc from allAtScope: FAMIXMethod) asOrderedCollection
-										sort: [ :el1 :el2 | el1 sourceAnchor startPos < el2 sourceAnchor startPos ])
-										first sourceAnchor startPos
-								<= (aFASTJavaNewExpression endPos + 1) ] ]
-				ifFalse: [ invoc to first name beginsWith: aFASTJavaNewExpression name ])
-				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix
-						= invoc from ] ]
+			invoc hasSourceAnchor and: [((invoc sourceAnchor startPos - invoc from sourceAnchor startPos) >= (aFASTJavaNewExpression startPos - 1)) and: [ ((invoc sourceAnchor endPos - invoc from sourceAnchor startPos) <= (aFASTJavaNewExpression endPos +1))
+				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ] ] ]
 		thenDo: [ :invoc | invoc fast: aFASTJavaNewExpression ]
 ]
 

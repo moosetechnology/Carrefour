@@ -13,7 +13,6 @@ FAMIXInvocation >> fast [
 FAMIXInvocation >> fast: anObject [
 
 	<generated>
-	"self haltIf: [ anObject parentNode variable name = 'j' ]."
 	(self privateState attributeAt: #fast ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
 	self privateState attributeAt: #fast put: anObject.
 	anObject famix: self
