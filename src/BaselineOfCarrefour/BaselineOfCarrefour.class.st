@@ -20,7 +20,7 @@ BaselineOfCarrefour >> baseline: spec [
 { #category : #baselines }
 BaselineOfCarrefour >> defineDependencies: spec [
 	spec
-		baseline: 'FAST-Java'
+		baseline: 'FASTJava'
 		with: [ spec
 				loads: #('smacc' 'visitor');
 				repository: 'github://moosetechnology/FAST-Java:master/src' ].
@@ -40,8 +40,8 @@ BaselineOfCarrefour >> defineGroups: spec [
 BaselineOfCarrefour >> definePackages: spec [
 	spec
 		repository: 'https://github.com/badetitou/Carrefour';
-		package: 'Carrefour-Model' with: [ spec requires: #('FAST-Java') ];
-		package: 'Carrefour-Model-Generator' with: [ spec requires: #('FAST-Java') ];
-		package: 'Carrefour-FastAndBindingGenerator' with: [ spec requires: #('FAST-Java') ];
-		package: 'Carrefour-FastAndBindingGenerator-Tests' with: [ spec requires: #('FAST-Java') ]
+		package: 'Carrefour-Model' with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-Model-Generator' with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-FastAndBindingGenerator' with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-FastAndBindingGenerator-Tests' with: [ spec requires: #('FASTJava') ]
 ]
