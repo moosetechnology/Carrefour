@@ -1,6 +1,6 @@
 Class {
 	#name : #CRFBinderVisitor,
-	#superclass : #FASTVisitor,
+	#superclass : #FASTJavaVisitor,
 	#instVars : [
 		'sourceFamixEntity'
 	],
