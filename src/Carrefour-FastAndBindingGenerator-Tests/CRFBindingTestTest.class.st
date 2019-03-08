@@ -13,7 +13,8 @@ CRFBindingTestTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'test' ]) first
+		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'test' ]) first.
+	
 ]
 
 { #category : #tests }

@@ -118,19 +118,26 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
-	self sourceFamixEntity queryAllOutgoingInvocations
+	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
 			(invoc hasSourceAnchor
-				ifTrue: [  invoc sourceAnchor startPos
-						- (invoc from allAtScope: FAMIXMethod) first sourceAnchor startPos
+				ifTrue: [ invoc sourceAnchor startPos
+						- ((invoc from allAtScope: FAMIXMethod) asOrderedCollection sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor startPos
 						>= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos
-								- (invoc from allAtScope: FAMIXMethod) first sourceAnchor startPos
+								- ((invoc from allAtScope: FAMIXMethod) asOrderedCollection sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor startPos
 								<= (aFASTJavaMethodInvocation endPos + 1) ] ]
 				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
-				and: [ (aFASTJavaMethodInvocation atScope: FASTJavaMethodEntity) first
-						famix = invoc from ] ]
-		thenDo: [ :invoc | invoc fast: aFASTJavaMethodInvocation ]
+				and: [ (aFASTJavaMethodInvocation
+						atAnyScope:
+							{FASTJavaInitializer.
+							FASTJavaMethodEntity}) first famix = invoc from ] ])
+		asOrderedCollection
+		ifNotEmpty: [ :collectionOfPotentialInvoc | 
+			(collectionOfPotentialInvoc
+				sort:
+					[ :invoc1 :invoc2 | invoc1 sourceAnchor startPos < invoc2 sourceAnchor startPos ])
+				first fast: aFASTJavaMethodInvocation ]
 ]
 
 { #category : #visitor }
@@ -145,11 +152,24 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	"We base the selection on sourceAnchor because it is the the most precise thing we have
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
-	self sourceFamixEntity queryAllOutgoingInvocations
+
+	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			invoc hasSourceAnchor and: [((invoc sourceAnchor startPos - invoc from sourceAnchor startPos) >= (aFASTJavaNewExpression startPos - 1)) and: [ ((invoc sourceAnchor endPos - invoc from sourceAnchor startPos) <= (aFASTJavaNewExpression endPos +1))
-				and: [ (aFASTJavaNewExpression atScope: FASTJavaMethodEntity) first famix = invoc from ] ] ] ]
-		thenDo: [ :invoc | invoc fast: aFASTJavaNewExpression ]
+			invoc hasSourceAnchor
+				and: [ invoc sourceAnchor startPos - invoc from sourceAnchor startPos
+						>= (aFASTJavaNewExpression startPos - 1)
+						and: [ invoc sourceAnchor endPos - invoc from sourceAnchor startPos
+								<= (aFASTJavaNewExpression endPos + 1)
+								and: [ (aFASTJavaNewExpression
+										atAnyScope:
+											{FASTJavaMethodEntity.
+											FASTJavaInitializer}) first famix = invoc from ] ] ] ])
+		asOrderedCollection
+		ifNotEmpty: [ :collectionOfPotentialInvoc | 
+			(collectionOfPotentialInvoc
+				sort:
+					[ :invoc1 :invoc2 | invoc1 sourceAnchor startPos < invoc2 sourceAnchor startPos ])
+				first fast: aFASTJavaNewExpression ]
 ]
 
 { #category : #visitor }
