@@ -7,8 +7,12 @@ Class {
 { #category : #running }
 CRFBindingTestTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+	"fastModel := (JavaSmaCCProgramNodeImporterVisitor new
 		parseCodeMethodString: ((self famixModel allModelMethods select: [ :method | method name = 'test' ]) first sourceText))
+		name: #fastModel;
+		yourself."
+		fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodTestString)
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor
@@ -73,6 +77,16 @@ CRFBindingTestTest >> testBindingMethodOnClick [
 CRFBindingTestTest >> testBindingMethodTest [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'test' ]) first fast equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first.
 	self assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first famix equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
+]
+
+{ #category : #tests }
+CRFBindingTestTest >> testNewInnerAssignement [
+	self
+		assert: (self famixModel allLocalVariables select: [ :localVariable | localVariable name = 'innertButton' ]) anyOne fastDeclaration anyOne
+		equals: ((self fastModel allWithType: FASTJavaVariableDeclarator) select: [:variableDeclarator | variableDeclarator variable name = 'innertButton' ]) anyOne. 
+	self
+		assert: (self famixModel allLocalVariables select: [ :localVariable | localVariable name = 'innertButton' ]) anyOne
+		equals: ((self fastModel allWithType: FASTJavaVariableDeclarator) select: [:variableDeclarator | variableDeclarator variable name = 'innertButton' ]) anyOne famixVariable.
 ]
 
 { #category : #tests }

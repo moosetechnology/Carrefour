@@ -7,8 +7,12 @@ Class {
 { #category : #running }
 CRFBindingStaticMethodTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+	"fastModel := (JavaSmaCCProgramNodeImporterVisitor new
 		parseCodeMethodString: ((self famixModel allModelMethods select: [ :method | method name = '<Initializer>' ]) first sourceText))
+		name: #fastModel;
+		yourself."
+		fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodStaticInitialization)
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor

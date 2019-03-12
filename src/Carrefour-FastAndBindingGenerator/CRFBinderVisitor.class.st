@@ -15,7 +15,7 @@ CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamix
 { #category : #api }
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self sourceFamixEntity: aFamixMethodEntity.
-	fastModel allFASTJavaMethodEntity do: [ :methodEntity | self clone accept: methodEntity ].
+	fastModel allFASTJavaMethodEntity select: [:methodEntity | methodEntity parentNode isNil] thenDo: [ :methodEntity | self clone accept: methodEntity ].
 	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ]
 ]
 
@@ -29,11 +29,24 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName [
 	^ ((self sourceFamixEntity localVariables select: [ :localVariable | localVariable name = aVariableName ])
 		ifEmpty: [ (self sourceFamixEntity parameters select: [ :parameter | parameter name = aVariableName ])
 				ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aVariableName ])
-						ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aVariableName ])
-								ifEmpty: [ (self sourceFamixEntity atScope: FAMIXClass) first attributes
-										select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ] ])
+						ifEmpty: [ (self sourceFamixEntity atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ])
 		ifNotEmpty: [ :possibleStructuralEntities | possibleStructuralEntities first ]
 		ifEmpty: [ nil ]
+]
+
+{ #category : #visitor }
+CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity [
+	"I do a lookup for a variable in the famix code with the name = aVariableName 
+	 I return the variable if found nil else
+	
+	It should have only one variable possible for one identifier (if the lookup is done correctly)"
+	((aFASTEntity allAtScope: FASTJavaMethodEntity) collect: #famix) reverse do: [ :aFamixMethod | 
+	 ((aFamixMethod localVariables select: [ :localVariable | localVariable name = aVariableName ])
+		ifEmpty: [ (aFamixMethod parameters select: [ :parameter | parameter name = aVariableName ])
+				ifEmpty: [ (aFamixMethod implicitVariables select: [ :implicitVariable | implicitVariable name = aVariableName ])
+						ifEmpty: [ (aFamixMethod atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ])
+		ifNotEmpty: [ :possibleStructuralEntities | ^ possibleStructuralEntities first ] ].
+	^ nil
 ]
 
 { #category : #accessing }
@@ -53,20 +66,16 @@ CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression [
+	(self determineAttributeWithName: aFASTJavaAssignementExpression variable name from: aFASTJavaAssignementExpression)
+		ifNotNil:
+			[ :structuralEntity | structuralEntity fastAssignement add: aFASTJavaAssignementExpression ].
+	
 	super visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression.
-	((self sourceFamixEntity localVariables select: [ :localVariable | localVariable name = aFASTJavaAssignementExpression variable name ])
-		ifEmpty: [ (self sourceFamixEntity parameters select: [ :parameter | parameter name = aFASTJavaAssignementExpression variable name ])
-				ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aFASTJavaAssignementExpression variable name ])
-						ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aFASTJavaAssignementExpression variable name ])
-								ifEmpty: [ (self sourceFamixEntity atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aFASTJavaAssignementExpression variable name ] ] ] ] ])
-		do: [ :structuralEntity | 
-			structuralEntity fastAssignement add: aFASTJavaAssignementExpression. ]
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 	| classes |
-	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
 	classes := aFASTJavaVariableDeclarator type name = 'this'
 		ifFalse: [ self sourceFamixEntity mooseModel allTypes
 				select: [ :type | type name = aFASTJavaVariableDeclarator type name ] ]
@@ -77,15 +86,18 @@ CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 		select:
 			[ :attribute | attribute name = aFASTJavaVariableDeclarator fieldName ]
 		thenDo:
-			[ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ]
+			[ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
+	
+	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
-	super visitFASTJavaAssignementExpression: aFASTJavaFieldAccess.
 	(self determineAttributeWithName: aFASTJavaFieldAccess fieldName)
 		ifNotNil:
-			[ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaFieldAccess ]
+			[ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaFieldAccess ].
+		
+	super visitFASTJavaAssignementExpression: aFASTJavaFieldAccess.
 ]
 
 { #category : #visitor }
@@ -117,7 +129,6 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
-	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
 	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
 			(invoc hasSourceAnchor
@@ -137,13 +148,15 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 			(collectionOfPotentialInvoc
 				sort:
 					[ :invoc1 :invoc2 | invoc1 sourceAnchor startPos < invoc2 sourceAnchor startPos ])
-				first fast: aFASTJavaMethodInvocation ]
+				first fast: aFASTJavaMethodInvocation ].
+			
+	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	self sourceFamixEntity mooseModel allClasses asOrderedCollection
-		select: [ :class | '*' , aFASTJavaNewClassExpression type name , '*' match: class name ]
+		select: [ :class | ('*' , aFASTJavaNewClassExpression type name , '*' match: class name) and: [ class hasSourceAnchor ] ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression  ].
 	aFASTJavaNewClassExpression childrenNode do: [ :child | self accept: child ]
 ]
@@ -174,19 +187,25 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator [
+	(self determineAttributeWithName: aFASTJavaVariableDeclarator variable name from: aFASTJavaVariableDeclarator)
+		ifNotNil:
+			[ :structuralEntity | structuralEntity fastDeclaration add: aFASTJavaVariableDeclarator ].		
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
-	((self sourceFamixEntity localVariables select: [ :localVariable | localVariable name = aFASTJavaVariableDeclarator variable name ])
-		ifEmpty: [ (self sourceFamixEntity parameters select: [ :parameter | parameter name = aFASTJavaVariableDeclarator variable name ])
-				ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aFASTJavaVariableDeclarator variable name ])
-						ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aFASTJavaVariableDeclarator variable name ])
-								ifEmpty: [ (self sourceFamixEntity atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aFASTJavaVariableDeclarator variable name ] ] ] ] ])
-		do: [ :structuralEntity | 
-			structuralEntity fastDeclaration add: aFASTJavaVariableDeclarator.].
+]
+
+{ #category : #visitor }
+CRFBinderVisitor >> visitFASTNamedEntity: aFASTNamedEntity [ 
+	(self determineAttributeWithName: aFASTNamedEntity name from: aFASTNamedEntity)
+		ifNotNil:
+			[ :structuralEntity | structuralEntity fastAccesses add: aFASTNamedEntity ].
+		
+	super visitFASTNamedEntity: aFASTNamedEntity.
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
-	super visitFASTReturnStatement: aFASTReturnStatement.
 	aFASTReturnStatement expression
-		ifNotNil: [ self accept: aFASTReturnStatement expression ]
+		ifNotNil: [ self accept: aFASTReturnStatement expression ].
+		
+	super visitFASTReturnStatement: aFASTReturnStatement.
 ]
