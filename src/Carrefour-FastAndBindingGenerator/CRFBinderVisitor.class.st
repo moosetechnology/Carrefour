@@ -132,11 +132,15 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
 			(invoc hasSourceAnchor
-				ifTrue: [ invoc sourceAnchor startPos
-						- ((invoc from allAtScope: FAMIXMethod) asOrderedCollection sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor startPos
+				ifTrue: [ 
+					| potentialMethods |
+					potentialMethods := ((invoc from allAtScope: FAMIXMethod) select: #hasSourceAnchor) asOrderedCollection sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ].
+					
+					invoc sourceAnchor startPos
+						- potentialMethods first sourceAnchor startPos
 						>= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos
-								- ((invoc from allAtScope: FAMIXMethod) asOrderedCollection sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor startPos
+								- potentialMethods first sourceAnchor startPos
 								<= (aFASTJavaMethodInvocation endPos + 1) ] ]
 				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
 				and: [ (aFASTJavaMethodInvocation
@@ -165,13 +169,16 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	"We base the selection on sourceAnchor because it is the the most precise thing we have
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
-
 	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
 			invoc hasSourceAnchor
-				and: [ invoc sourceAnchor startPos - invoc from sourceAnchor startPos
+				and: [ 
+					| fromSourceAnchor |
+					fromSourceAnchor := (((invoc from allAtScope: FAMIXMethod) select: #hasSourceAnchor)  sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) last sourceAnchor.
+					
+					invoc sourceAnchor startPos - fromSourceAnchor startPos
 						>= (aFASTJavaNewExpression startPos - 1)
-						and: [ invoc sourceAnchor endPos - invoc from sourceAnchor startPos
+						and: [ invoc sourceAnchor endPos - fromSourceAnchor startPos
 								<= (aFASTJavaNewExpression endPos + 1)
 								and: [ (aFASTJavaNewExpression
 										atAnyScope:
