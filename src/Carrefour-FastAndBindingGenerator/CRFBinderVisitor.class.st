@@ -223,7 +223,5 @@ CRFBinderVisitor >> visitFASTNamedEntity: aFASTNamedEntity [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
 	aFASTReturnStatement expression
-		ifNotNil: [ self accept: aFASTReturnStatement expression ].
-		
-	super visitFASTReturnStatement: aFASTReturnStatement.
+		ifNotNil: [ self accept: aFASTReturnStatement expression ]
 ]
