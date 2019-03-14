@@ -116,18 +116,20 @@ CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
+
+
 	aFASTJavaMethodEntity parentNode
 		ifNil: [ "The current node is the root of the analysis" self sourceFamixEntity fast: aFASTJavaMethodEntity ]
 		ifNotNil: [ "The method is declared inside the root, so we need to use the sourceAnchor to be sure of the binding"
 			(self sourceFamixEntity allToScope: FAMIXMethod)
 				select: [ :method | 
-					method name = aFASTJavaMethodEntity name
-						and: [ method hasSourceAnchor
+					method name = aFASTJavaMethodEntity name 
+						and: [ method hasSourceAnchor 
 								and: [ | fromSourceAnchor |
-									fromSourceAnchor := (((method allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first
-										sourceAnchor.
+									fromSourceAnchor := self sourceFamixEntity	sourceAnchor.
 									method sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity startPos - 1)
-										and: [ method sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity endPos + 1) ] ] ] ]
+										and: [ method sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity endPos + 1) ]
+										 ] ] ]
 				thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	aFASTJavaMethodEntity parameters
@@ -140,14 +142,14 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 		select: [ :invoc | 
 			(invoc hasSourceAnchor
 				ifTrue: [ 
-					| potentialMethods |
-					potentialMethods := ((invoc from allAtScope: FAMIXMethod) select: #hasSourceAnchor) asOrderedCollection sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ].
+					| sourceEntityAnchour |
+					sourceEntityAnchour := self sourceFamixEntity sourceAnchor.
 					
 					invoc sourceAnchor startPos
-						- potentialMethods first sourceAnchor startPos
+						- sourceEntityAnchour startPos
 						>= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos
-								- potentialMethods first sourceAnchor startPos
+								- sourceEntityAnchour startPos
 								<= (aFASTJavaMethodInvocation endPos + 1) ] ]
 				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
 				and: [ (aFASTJavaMethodInvocation
@@ -156,9 +158,7 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 							FASTJavaMethodEntity}) first famix = invoc from ] ])
 		asOrderedCollection
 		ifNotEmpty: [ :collectionOfPotentialInvoc | 
-			(collectionOfPotentialInvoc
-				sort:
-					[ :invoc1 :invoc2 | invoc1 sourceAnchor startPos < invoc2 sourceAnchor startPos ])
+			(collectionOfPotentialInvoc sort: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ])
 				first fast: aFASTJavaMethodInvocation ].
 			
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
@@ -186,8 +186,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 			invoc hasSourceAnchor
 				and: [ 
 					| fromSourceAnchor |
-					fromSourceAnchor := (((invoc from allAtScope: FAMIXMethod) select: #hasSourceAnchor)  sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) last sourceAnchor.
-					
+					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 					invoc sourceAnchor startPos - fromSourceAnchor startPos
 						>= (aFASTJavaNewExpression startPos - 1)
 						and: [ invoc sourceAnchor endPos - fromSourceAnchor startPos
