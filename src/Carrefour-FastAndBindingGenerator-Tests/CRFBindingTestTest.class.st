@@ -25,15 +25,15 @@ CRFBindingTestTest >> setUp [
 CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 	self
 		assert:
-			((self famixModel allMethods select: [ :method | method name = 'onClick' ]) first outgoingInvocations
-				select: [ :invocation | invocation signature = 'println(event + " I''m calling " + hello)' ]) first fast
+			(((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(event + " I''m calling " + hello)' ])
+				first fast
 		equals:
 			((self fastModel allWithType: FASTJavaMethodInvocation)
 				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first.
 	self
 		assert:
-			((self famixModel allMethods select: [ :method | method name = 'onClick' ]) first outgoingInvocations
-				select: [ :invocation | invocation signature = 'println(event + " I''m calling " + hello)' ]) first
+			(((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(event + " I''m calling " + hello)' ])
+				first
 		equals:
 			((self fastModel allWithType: FASTJavaMethodInvocation)
 				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first famix
@@ -66,11 +66,18 @@ CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 { #category : #tests }
 CRFBindingTestTest >> testBindingMethodOnClick [
 	self
-		assert: (self famixModel allMethods select: [ :method | method name = 'onClick' ]) first fast
-		equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ]) first.
+		assert: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fast
+		equals: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) first.
 	self
-		assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ]) first famix
-		equals: (self famixModel allMethods select: [ :method | method name = 'onClick' ]) first
+		assert: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) first famix
+		equals: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first.
+		
+	self
+		assert: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second fast
+		equals: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) second.
+	self
+		assert: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) second famix
+		equals: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second.
 ]
 
 { #category : #tests }
@@ -92,11 +99,18 @@ CRFBindingTestTest >> testNewInnerAssignement [
 { #category : #tests }
 CRFBindingTestTest >> testNewInnerClass [
 	self
-		assert: (self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) anyOne fastDeclaration anyOne
-		equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne.
+		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fastDeclaration anyOne
+		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) first.
 	self
-		assert: (self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) anyOne
-		equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne famixType
+		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first
+		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) first famixType.
+		
+	self
+		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second fastDeclaration anyOne
+		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) second.
+	self
+		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second
+		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) second famixType
 ]
 
 { #category : #tests }

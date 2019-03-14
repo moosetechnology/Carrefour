@@ -117,14 +117,17 @@ CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 	(self sourceFamixEntity allToScope: FAMIXMethod)
-		select: [ :method | method name = aFASTJavaMethodEntity name ]
+		select: [ :method | 
+			method name = aFASTJavaMethodEntity name and: [ method hasSourceAnchor
+				and: [ | fromSourceAnchor |
+					fromSourceAnchor := (((method allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor.
+					method sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity startPos - 1)
+						and: [ method sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity endPos + 1) ] ] ] ]
 		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	aFASTJavaMethodEntity parameters
-		do: [ :parameter | 
-			self sourceFamixEntity parameters
-				select: [ :famixParameter | famixParameter name = parameter name ]
-				thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
+		do:
+			[ :parameter | self sourceFamixEntity parameters select: [ :famixParameter | famixParameter name = parameter name ] thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
 ]
 
 { #category : #visitor }
@@ -160,7 +163,11 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	self sourceFamixEntity mooseModel allClasses asOrderedCollection
-		select: [ :class | ('*' , aFASTJavaNewClassExpression type name , '*' match: class name) and: [ class hasSourceAnchor ] ]
+		select: [ :class | ('*' , aFASTJavaNewClassExpression type name , '*' match: class name) and: [ class hasSourceAnchor and: [ 
+					| fromSourceAnchor |
+					fromSourceAnchor := (((class allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor.
+					class sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewClassExpression startPos - 1)
+						and: [ class sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression  ].
 	aFASTJavaNewClassExpression childrenNode do: [ :child | self accept: child ]
 ]
