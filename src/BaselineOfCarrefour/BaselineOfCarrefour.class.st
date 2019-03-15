@@ -32,7 +32,7 @@ BaselineOfCarrefour >> defineGroups: spec [
 		group: 'default' with: #('all');
 		group: 'all'
 			with:
-			#('Carrefour-Model-Generator' 'Carrefour-Model' 'Carrefour-FastAndBindingGenerator' 'Carrefour-FastAndBindingGenerator-Tests');
+			#('Carrefour-Model-Generator' 'Carrefour-Model' 'Carrefour-FastAndBindingGenerator' 'Carrefour-FastAndBindingGenerator-Tests' 'Carrefour-Extension');
 		group: 'generator' with: #('Carrefour-Model-Generator')
 ]
 
@@ -43,5 +43,6 @@ BaselineOfCarrefour >> definePackages: spec [
 		package: 'Carrefour-Model' with: [ spec requires: #('FASTJava') ];
 		package: 'Carrefour-Model-Generator' with: [ spec requires: #('FASTJava') ];
 		package: 'Carrefour-FastAndBindingGenerator' with: [ spec requires: #('FASTJava') ];
-		package: 'Carrefour-FastAndBindingGenerator-Tests' with: [ spec requires: #('FASTJava') ]
+		package: 'Carrefour-FastAndBindingGenerator-Tests' with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-Extension' with: [ spec requires: #('FASTJava') ]
 ]
