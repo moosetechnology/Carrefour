@@ -87,6 +87,11 @@ CRFBindingTestTest >> testBindingMethodTest [
 ]
 
 { #category : #tests }
+CRFBindingTestTest >> testHelloUsages [
+	self assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first fastAccesses size equals: 5
+]
+
+{ #category : #tests }
 CRFBindingTestTest >> testNewInnerAssignement [
 	self
 		assert: (self famixModel allLocalVariables select: [ :localVariable | localVariable name = 'innertButton' ]) anyOne fastDeclaration anyOne
