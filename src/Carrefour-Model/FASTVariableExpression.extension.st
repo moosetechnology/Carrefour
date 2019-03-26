@@ -1,7 +1,7 @@
-Extension { #name : #FASTNamedEntity }
+Extension { #name : #FASTVariableExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTNamedEntity >> famixVariable [
+FASTVariableExpression >> famixVariable [
 
 	<generated>
 	<MSEProperty: #famixVariable type: #Object>
@@ -10,7 +10,7 @@ FASTNamedEntity >> famixVariable [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTNamedEntity >> famixVariable: anObject [
+FASTVariableExpression >> famixVariable: anObject [
 
 	<generated>
 	self privateState attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAccesses from: self famixVariable to: anObject).
