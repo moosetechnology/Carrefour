@@ -225,3 +225,12 @@ CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
 	aFASTReturnStatement expression
 		ifNotNil: [ self accept: aFASTReturnStatement expression ]
 ]
+
+{ #category : #visitor }
+CRFBinderVisitor >> visitFASTVariableExpression: aFASTVariableExpression [
+	(self determineAttributeWithName: aFASTVariableExpression name from: aFASTVariableExpression)
+		ifNotNil:
+			[ :structuralEntity | structuralEntity fastAccesses add: aFASTVariableExpression ].
+		
+	super visitFASTVariableExpression: aFASTVariableExpression.
+]
