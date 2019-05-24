@@ -1,15 +1,10 @@
 Extension { #name : #FAMIXMethod }
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
-FAMIXMethod >> generateFast [
-	^ JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self sourceAnchor sourceText
-]
-
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
 FAMIXMethod >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
-	fastModel := self generateFast metamodel: FASTJavaMetamodelGenerator metamodel; yourself.
+	fastModel := self generateFastJava metamodel: FASTJavaMetamodelGenerator metamodel; yourself.
 	CRFBinderVisitor new
 		bindFastModel: fastModel
 		fromFamixMethodEntity: self.
