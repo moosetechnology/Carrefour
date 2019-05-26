@@ -32,7 +32,7 @@ CRFBindingReturnNumberTest >> testUsagesOfParameterI [
 
 	self
 		assert: (self famixModel allParameters select: [ :parameter | parameter name = 'i' ]) first fastAccesses second
-		equals: self fastModel allFASTJavaMethodEntity first parameters first
+		equals: self fastModel allFASTJavaMethodEntity first parameters first variable
 ]
 
 { #category : #running }

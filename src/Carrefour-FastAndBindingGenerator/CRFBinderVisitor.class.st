@@ -129,7 +129,7 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 										and: [ method sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity endPos + 1) ] ] ] ]
 				thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
-	aFASTJavaMethodEntity parameters
+	(aFASTJavaMethodEntity parameters collect: #variable)
 		do: [ :parameter | self sourceFamixEntity parameters select: [ :famixParameter | famixParameter name = parameter name ] thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
 ]
 
