@@ -14,6 +14,11 @@ FAMIXInvocation >> fast: anObject [
 
 	<generated>
 	(self privateState attributeAt: #fast ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	self privateState attributeAt: #fast put: anObject.
-	anObject famix: self
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self fast.
+		self privateState attributeAt: #fast put: anObject.
+		otherSide famix: nil ]
+	ifNotNil: [ 
+		self privateState attributeAt: #fast put: anObject.
+		anObject famix: self ]
 ]

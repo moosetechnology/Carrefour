@@ -14,6 +14,11 @@ FASTJavaNewExpression >> famix: anObject [
 
 	<generated>
 	(self privateState attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	self privateState attributeAt: #famix put: anObject.
-	anObject fast: self
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self famix.
+		self privateState attributeAt: #famix put: anObject.
+		otherSide fast: nil ]
+	ifNotNil: [ 
+		self privateState attributeAt: #famix put: anObject.
+		anObject fast: self ]
 ]
