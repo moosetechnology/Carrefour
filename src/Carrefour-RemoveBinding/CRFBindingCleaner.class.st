@@ -11,6 +11,12 @@ CRFBindingCleaner >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExp
 ]
 
 { #category : #generated }
+CRFBindingCleaner >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
+	aFASTJavaFieldAccess famixVariable: nil.
+	^ super visitFASTJavaFieldAccess: aFASTJavaFieldAccess
+]
+
+{ #category : #generated }
 CRFBindingCleaner >> visitFASTJavaInitializer: aFASTJavaInitializer [
 	aFASTJavaInitializer famix: nil.
 	^ super visitFASTVariableExpression: aFASTJavaInitializer
