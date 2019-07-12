@@ -119,14 +119,14 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 	(aFASTJavaMethodEntity parentNode isNil and: [ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
 		ifTrue: [ "The current node is the root of the analysis" self sourceFamixEntity fast: aFASTJavaMethodEntity ]
 		ifFalse: [ "The method is declared inside the root, so we need to use the sourceAnchor to be sure of the binding"
-			(self sourceFamixEntity allToScope: FAMIXMethod)
+			(self sourceFamixEntity allToScope: FamixTMethod)
 				select: [ :method | 
 					method name = aFASTJavaMethodEntity name
 						and: [ method hasSourceAnchor
 								and: [ | fromSourceAnchor |
-									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
-									method sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity startPos - 1)
-										and: [ method sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity endPos + 1) ] ] ] ]
+									fromSourceAnchor := self sourceFamixEntity sourceAnchor.						
+								method sourceAnchor startPos + (method comments ifNotEmpty: [ :comments | comments sum: [ :comment | comment sourceText size ] ] ifEmpty: [ 0 ] ) - fromSourceAnchor startPos <= (aFASTJavaMethodEntity startPos + 1)
+										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ]
 				thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	(aFASTJavaMethodEntity parameters collect: #variable)
