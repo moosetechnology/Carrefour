@@ -104,17 +104,17 @@ CRFBindingTestTest >> testNewInnerAssignement [
 { #category : #tests }
 CRFBindingTestTest >> testNewInnerClass [
 	self
-		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fastDeclaration anyOne
+		assert: ((self famixModel allModelClasses select: [ :class | class name includesSubstring: 'Button' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fastDeclaration anyOne
 		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) first.
 	self
-		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first
+		assert: ((self famixModel allModelClasses select: [ :class | class name includesSubstring: 'Button' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first
 		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) first famixType.
 		
 	self
-		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second fastDeclaration anyOne
+		assert: ((self famixModel allModelClasses select: [ :class | class name includesSubstring: 'Button' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second fastDeclaration anyOne
 		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) second.
 	self
-		assert: ((self famixModel allClasses select: [ :attribute | attribute name = 'anonymous(Button)' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second
+		assert: ((self famixModel allModelClasses select: [ :class | class name includesSubstring: 'Button' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second
 		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) second famixType
 ]
 

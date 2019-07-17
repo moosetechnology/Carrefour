@@ -164,15 +164,17 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
+
 	(self sourceFamixEntity allToScope: FAMIXClass) asOrderedCollection
 		select: [ :class | 
-			(class name matchesRegex: 'anonymous\(' , aFASTJavaNewClassExpression type name , '\)')
-				and: [ class hasSourceAnchor
-						and: [ | fromSourceAnchor |
-							"fromSourceAnchor := (((class allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor."
-							fromSourceAnchor := self sourceFamixEntity sourceAnchor.
-							class sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewClassExpression startPos - 1)
-								and: [ class sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ]
+			class isAnonymousClass
+				and: [ (class name includesSubstring: '(' , aFASTJavaNewClassExpression type name , ')')
+						and: [ class hasSourceAnchor
+								and: [ | fromSourceAnchor |
+									"fromSourceAnchor := (((class allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor."
+									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
+									class sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewClassExpression startPos - 1)
+										and: [ class sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression ].
 	aFASTJavaNewClassExpression childrenNode do: [ :child | self accept: child ]
 ]
