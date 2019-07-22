@@ -124,8 +124,8 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 					method name = aFASTJavaMethodEntity name
 						and: [ method hasSourceAnchor
 								and: [ | fromSourceAnchor |
-									fromSourceAnchor := self sourceFamixEntity sourceAnchor.						
-								method sourceAnchor startPos + (method comments ifNotEmpty: [ :comments | comments sum: [ :comment | comment sourceText size ] ] ifEmpty: [ 0 ] ) - fromSourceAnchor startPos <= (aFASTJavaMethodEntity startPos + 1)
+									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
+									method sourceAnchor startPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity startPos + 1)
 										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ]
 				thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
