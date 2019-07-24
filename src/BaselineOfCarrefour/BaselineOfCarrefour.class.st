@@ -22,7 +22,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 	spec
 		baseline: 'FASTJava'
 		with: [ spec
-				loads: #('smacc' 'visitor');
+				loads: #('all');
 				repository: 'github://moosetechnology/FAST-Java:master/src' ].
 ]
 
