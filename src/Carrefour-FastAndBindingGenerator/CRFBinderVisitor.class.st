@@ -169,7 +169,7 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 	(self sourceFamixEntity allToScope: FAMIXClass) asOrderedCollection
 		select: [ :class | 
 			class isAnonymousClass
-				and: [ (class name includesSubstring: '(' , aFASTJavaNewClassExpression type name , ')')
+				and: [ (class name includesSubstring: '(' , aFASTJavaNewClassExpression type fullName , ')')
 						and: [ class hasSourceAnchor
 								and: [ | fromSourceAnchor |
 									"fromSourceAnchor := (((class allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor."
