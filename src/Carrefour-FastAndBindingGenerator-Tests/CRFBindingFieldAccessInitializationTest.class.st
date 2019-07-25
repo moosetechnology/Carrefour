@@ -18,12 +18,17 @@ CRFBindingFieldAccessInitializationTest >> setUp [
 
 { #category : #tests }
 CRFBindingFieldAccessInitializationTest >> testClassPropertySize [
-	self assert: (self fastModel allWithType: FASTJavaFieldAccess) size equals: 1.
+	self assert: (self fastModel allWithType: FASTJavaFieldAccess) size equals: 2.
 ]
 
 { #category : #tests }
 CRFBindingFieldAccessInitializationTest >> testFieldAccessBinding [
 	self assert: (self fastModel allWithType: FASTJavaFieldAccess) anyOne famixVariable equals: (self famixModel allAttributes select: [:attribute | attribute name = 'patate' ]) anyOne.
+]
+
+{ #category : #tests }
+CRFBindingFieldAccessInitializationTest >> testFieldAccessCanardBindingFamixToFast [
+	self assert: ((self fastModel allWithType: FASTJavaFieldAccess) select: [ :access | access fieldName = 'canard' ]) anyOne equals: (self famixModel allAttributes select: [:attribute | attribute name = 'canard' ]) anyOne fastAccesses anyOne.
 ]
 
 { #category : #tests }
