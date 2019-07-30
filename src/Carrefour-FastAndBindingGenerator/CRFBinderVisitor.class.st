@@ -103,16 +103,22 @@ CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
-	(self determineAttributeWithName: aFASTJavaIdentifier name) ifNotNil: [ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaIdentifier ]
+	(self determineAttributeWithName: aFASTJavaIdentifier name) ifNotNil: [ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaIdentifier ].
+	super visitFASTJavaIdentifier: aFASTJavaIdentifier.
 	
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 	(self sourceFamixEntity allToScope: FAMIXMethod)
-		select: [ :method | method name = '<Initializer>' ]
+		select: [ :method | 
+			method name = '<Initializer>'
+				and: [ | fromSourceAnchor |
+					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
+					method sourceAnchor startPos - fromSourceAnchor startPos <= (aFASTJavaInitializer startPos + 1)
+						and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaInitializer endPos - 1) ] ] ]
 		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
-	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ].
+	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ]
 ]
 
 { #category : #visitor }
@@ -158,15 +164,13 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 		ifNotEmpty: [ :collectionOfPotentialInvoc | 
 			(collectionOfPotentialInvoc sort: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ])
 				first fast: aFASTJavaMethodInvocation ].
-			
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
-
-	(self sourceFamixEntity allToScope: FAMIXClass) asOrderedCollection
+	(self sourceFamixEntity allToScope: FamixTClass) asOrderedCollection
 		select: [ :class | 
 			class isAnonymousClass
 				and: [ (class name includesSubstring: '(' , aFASTJavaNewClassExpression type fullName , ')')
@@ -203,7 +207,8 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 			(collectionOfPotentialInvoc
 				sort:
 					[ :invoc1 :invoc2 | invoc1 sourceAnchor startPos < invoc2 sourceAnchor startPos ])
-				first fast: aFASTJavaNewExpression ]
+				first fast: aFASTJavaNewExpression ].
+		super visitFASTJavaNewExpression: aFASTJavaNewExpression.
 ]
 
 { #category : #visitor }
