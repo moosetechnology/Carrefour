@@ -112,11 +112,11 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 	(self sourceFamixEntity allToScope: FAMIXMethod)
 		select: [ :method | 
-			method name = '<Initializer>'
+			method name = '<Initializer>' and: [ method hasSourceAnchor
 				and: [ | fromSourceAnchor |
 					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 					method sourceAnchor startPos - fromSourceAnchor startPos <= (aFASTJavaInitializer startPos + 1)
-						and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaInitializer endPos - 1) ] ] ]
+						and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaInitializer endPos - 1) ] ] ] ]
 		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
 	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ]
 ]
