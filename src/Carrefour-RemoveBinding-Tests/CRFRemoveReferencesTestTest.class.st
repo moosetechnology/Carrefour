@@ -41,7 +41,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveStructuralEntityBinding [
 	| structuralEntities |
-	structuralEntities := (self famixModel allWithType: FAMIXStructuralEntity).
+	structuralEntities := (self famixModel allWithSubTypesOf: FAMIXStructuralEntity).
 	"we check the value at the beginning to avoid breaking the tests"
 	self assert: (structuralEntities flatCollect: #fastDeclaration) size equals: 2.
 	self assert: (structuralEntities flatCollect: #fastAccesses) size equals: 14.
