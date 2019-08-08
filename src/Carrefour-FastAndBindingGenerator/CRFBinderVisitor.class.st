@@ -145,26 +145,16 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
 			(invoc hasSourceAnchor
-				ifTrue: [ 
-					| sourceEntityAnchour |
+				ifTrue: [ | sourceEntityAnchour |
 					sourceEntityAnchour := self sourceFamixEntity sourceAnchor.
-					
-					invoc sourceAnchor startPos
-						- sourceEntityAnchour startPos
-						>= (aFASTJavaMethodInvocation startPos - 1)
-						and: [ invoc sourceAnchor endPos
-								- sourceEntityAnchour startPos
-								<= (aFASTJavaMethodInvocation endPos + 1) ] ]
-				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
-				and: [ (aFASTJavaMethodInvocation
-						atAnyScope:
-							{FASTJavaInitializer.
-							FASTJavaMethodEntity}) first famix = invoc from ] ])
+
+					invoc sourceAnchor startPos - sourceEntityAnchour startPos >= (aFASTJavaMethodInvocation startPos - 1)
+						and: [ invoc sourceAnchor endPos - sourceEntityAnchour startPos <= (aFASTJavaMethodInvocation endPos + 1) ] ]
+				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ]) and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix = invoc from ] ])
 		asOrderedCollection
-		ifNotEmpty: [ :collectionOfPotentialInvoc | 
-			(collectionOfPotentialInvoc sort: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ])
-				first fast: aFASTJavaMethodInvocation ].
-	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation.
+		ifNotEmpty:
+			[ :collectionOfPotentialInvoc | (collectionOfPotentialInvoc sort: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first fast: aFASTJavaMethodInvocation ].
+	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation
 ]
 
 { #category : #visitor }
@@ -190,7 +180,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
 	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			invoc hasSourceAnchor
+			invoc hasSourceAnchor 
 				and: [ 
 					| fromSourceAnchor |
 					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
