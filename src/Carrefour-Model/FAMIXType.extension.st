@@ -2,6 +2,7 @@ Extension { #name : #FAMIXType }
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXType >> fastAccesses [
+	"Relation named: #fastAccesses type: #FAMIXVariableExpression opposite: #famixVariable"
 
 	<generated>
 	<MSEProperty: #fastAccesses type: #Object>
@@ -18,6 +19,7 @@ FAMIXType >> fastAccesses: anObject [
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXType >> fastDeclaration [
+	"Relation named: #fastDeclaration type: #FAMIXNewClassExpression opposite: #famixType"
 
 	<generated>
 	<MSEProperty: #fastDeclaration type: #Object>

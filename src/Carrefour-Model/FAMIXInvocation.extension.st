@@ -2,6 +2,7 @@ Extension { #name : #FAMIXInvocation }
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXInvocation >> fast [
+	"Relation named: #fast type: #FAMIXMethodInvocation opposite: #famix"
 
 	<generated>
 	<MSEProperty: #fast type: #Object>

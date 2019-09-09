@@ -2,6 +2,7 @@ Extension { #name : #FAMIXStructuralEntity }
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXStructuralEntity >> fastAccesses [
+	"Relation named: #fastAccesses type: #FAMIXClassProperty opposite: #famixVariable"
 
 	<generated>
 	<MSEProperty: #fastAccesses type: #Object>
@@ -18,6 +19,7 @@ FAMIXStructuralEntity >> fastAccesses: anObject [
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXStructuralEntity >> fastAssignement [
+	"Relation named: #fastAssignement type: #FAMIXAssignementExpression opposite: #famixVariable"
 
 	<generated>
 	<MSEProperty: #fastAssignement type: #Object>
@@ -34,6 +36,7 @@ FAMIXStructuralEntity >> fastAssignement: anObject [
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXStructuralEntity >> fastDeclaration [
+	"Relation named: #fastDeclaration type: #FAMIXVariableDeclarator opposite: #famixVariable"
 
 	<generated>
 	<MSEProperty: #fastDeclaration type: #Object>

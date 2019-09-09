@@ -2,6 +2,7 @@ Extension { #name : #FASTJavaVariableDeclarator }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaVariableDeclarator >> famixVariable [
+	"Relation named: #famixVariable type: #FASTJavaStructuralEntity opposite: #fastDeclaration"
 
 	<generated>
 	<MSEProperty: #famixVariable type: #Object>

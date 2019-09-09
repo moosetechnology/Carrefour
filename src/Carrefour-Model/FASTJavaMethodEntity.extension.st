@@ -2,6 +2,7 @@ Extension { #name : #FASTJavaMethodEntity }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaMethodEntity >> famix [
+	"Relation named: #famix type: #FASTJavaMethod opposite: #fast"
 
 	<generated>
 	<MSEProperty: #famix type: #Object>

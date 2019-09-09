@@ -2,6 +2,7 @@ Extension { #name : #FASTVariableExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTVariableExpression >> famixVariable [
+	"Relation named: #famixVariable type: #FASTStructuralEntity opposite: #fastAccesses"
 
 	<generated>
 	<MSEProperty: #famixVariable type: #Object>

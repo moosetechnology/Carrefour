@@ -2,6 +2,7 @@ Extension { #name : #FAMIXMethod }
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXMethod >> fast [
+	"Relation named: #fast type: #FAMIXMethodEntity opposite: #famix"
 
 	<generated>
 	<MSEProperty: #fast type: #Object>
