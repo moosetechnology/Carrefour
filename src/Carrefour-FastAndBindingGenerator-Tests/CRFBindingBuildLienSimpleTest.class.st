@@ -24,12 +24,12 @@ CRFBindingBuildLienSimpleTest >> testBindingClassBLAbstractLienSimple [
 { #category : #tests }
 CRFBindingBuildLienSimpleTest >> testBindingVariableRel [
 	self
-		assert: ((self fastModel allWithType: FASTVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne famixVariable
+		assert: ((self fastModel allWithType: FASTJavaVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne famixVariable
 		equals: (self famixModel allAttributes select: [ :attribute | attribute name = 'rel' ]) anyOne.
 		
 	self
 		assert:  (self famixModel allAttributes select: [ :attribute | attribute name = 'rel' ]) anyOne fastAccesses anyOne
-		equals: ((self fastModel allWithType: FASTVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne
+		equals: ((self fastModel allWithType: FASTJavaVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne
 ]
 
 { #category : #tests }
@@ -37,5 +37,5 @@ CRFBindingBuildLienSimpleTest >> testBindingVariableRelDeclaration [
 		
 	self
 		assert:  (self famixModel allAttributes select: [ :attribute | attribute name = 'rel' ]) anyOne fastDeclaration anyOne
-		equals: ((self fastModel allWithType: FASTVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne parentNode
+		equals: ((self fastModel allWithType: FASTJavaVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne parentNode
 ]
