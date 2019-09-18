@@ -1741,6 +1741,14 @@ CRFBindingTest >> fastMethodNewAnonymousOfInnerClassString [
 ]
 
 { #category : #'as yet unclassified' }
+CRFBindingTest >> fastMethodNewMultiline [
+	^ 'public void multiLineNew() {
+			_llNbPoste = new BLLabel(
+																"");;
+	}'
+]
+
+{ #category : #'as yet unclassified' }
 CRFBindingTest >> fastMethodReturnNumberString [
 	^ 'private int returnNumber(int i){
         return i;
