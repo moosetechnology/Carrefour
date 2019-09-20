@@ -50,6 +50,16 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	^ nil
 ]
 
+{ #category : #private }
+CRFBinderVisitor >> distanceOf: element1 with: baseElement [
+	^ element1 startPos - baseElement startPos + element1 endPos - baseElement endPos
+]
+
+{ #category : #private }
+CRFBinderVisitor >> sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity [
+	^ methodsWithCorrectName sorted: [ :element1 :element2 | (self distanceOf: element1 sourceAnchor with: aFASTJavaMethodEntity) > (self distanceOf: element2 sourceAnchor with: aFASTJavaMethodEntity) ]
+]
+
 { #category : #accessing }
 CRFBinderVisitor >> sourceFamixEntity [
 	^ sourceFamixEntity
@@ -134,8 +144,8 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 									method sourceAnchor startPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity startPos + 1)
 										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
-							ifNotEmpty: [ :methodsWithCorrectName | methodsWithCorrectName first fast: aFASTJavaMethodEntity ]
-	"			thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ]" ].
+				ifNotEmpty:
+					[ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	(aFASTJavaMethodEntity parameters collect: #variable)
 		do: [ :parameter | self sourceFamixEntity parameters select: [ :famixParameter | famixParameter name = parameter name ] thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
