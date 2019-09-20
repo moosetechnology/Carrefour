@@ -126,15 +126,16 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 	(aFASTJavaMethodEntity parentNode isNil and: [ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
 		ifTrue: [ "The current node is the root of the analysis" self sourceFamixEntity fast: aFASTJavaMethodEntity ]
 		ifFalse: [ "The method is declared inside the root, so we need to use the sourceAnchor to be sure of the binding"
-			(self sourceFamixEntity allToScope: FamixTMethod)
+			((self sourceFamixEntity allToScope: FamixTMethod)
 				select: [ :method | 
 					method name = aFASTJavaMethodEntity name
 						and: [ method hasSourceAnchor
 								and: [ | fromSourceAnchor |
 									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 									method sourceAnchor startPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity startPos + 1)
-										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ]
-				thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ] ].
+										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
+							ifNotEmpty: [ :methodsWithCorrectName | methodsWithCorrectName first fast: aFASTJavaMethodEntity ]
+	"			thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaMethodEntity ]" ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	(aFASTJavaMethodEntity parameters collect: #variable)
 		do: [ :parameter | self sourceFamixEntity parameters select: [ :famixParameter | famixParameter name = parameter name ] thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
@@ -180,7 +181,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
 	(self sourceFamixEntity queryAllOutgoingInvocations
 		select: [ :invoc | 
-			invoc hasSourceAnchor 
+			invoc hasSourceAnchor
 				and: [ 
 					| fromSourceAnchor |
 					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
