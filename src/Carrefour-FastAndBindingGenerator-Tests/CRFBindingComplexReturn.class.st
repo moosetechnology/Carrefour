@@ -25,6 +25,14 @@ CRFBindingComplexReturn >> testBindingMethod [
 
 { #category : #running }
 CRFBindingComplexReturn >> testBindingNewExpression [
-	self assert: ((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(action,path,fileName,extension)' ]) first fast equals: (self fastModel allWithType: FASTJavaNewExpression) first.
-	self assert: ((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(action,path,fileName,extension)' ]) first equals: (self fastModel allWithType: FASTJavaNewExpression) first famix.
+	self
+		assert:
+			((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations
+				select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(i18n.confirmGroupRemoval(),path,fileName,i18n.confirmGroupRemoval())' ]) first fast
+		equals: (self fastModel allWithType: FASTJavaNewExpression) first.
+	self
+		assert:
+			((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations
+				select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(i18n.confirmGroupRemoval(),path,fileName,i18n.confirmGroupRemoval())' ]) first
+		equals: (self fastModel allWithType: FASTJavaNewExpression) first famix
 ]
