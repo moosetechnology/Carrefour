@@ -1,0 +1,30 @@
+Class {
+	#name : #CRFBindingComplexReturn,
+	#superclass : #CRFBindingTest,
+	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+}
+
+{ #category : #running }
+CRFBindingComplexReturn >> setUp [
+	super setUp.
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodGetMenuIcon)
+		name: #fastModel;
+		yourself.
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'getMenuIcon' ]) first
+]
+
+{ #category : #running }
+CRFBindingComplexReturn >> testBindingMethod [
+	self assert: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
+	self assert: self fastModel allFASTJavaMethodEntity first famix equals: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first.
+
+]
+
+{ #category : #running }
+CRFBindingComplexReturn >> testBindingNewExpression [
+	self assert: ((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(action,path,fileName,extension)' ]) first fast equals: (self fastModel allWithType: FASTJavaNewExpression) first.
+	self assert: ((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(action,path,fileName,extension)' ]) first equals: (self fastModel allWithType: FASTJavaNewExpression) first famix.
+]

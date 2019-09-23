@@ -205,10 +205,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 											FASTJavaInitializer}) first famix = invoc from ] ] ] ])
 		asOrderedCollection
 		ifNotEmpty: [ :collectionOfPotentialInvoc | 
-			(collectionOfPotentialInvoc
-				sort:
-					[ :invoc1 :invoc2 | invoc1 sourceAnchor startPos < invoc2 sourceAnchor startPos ])
-				first fast: aFASTJavaNewExpression ].
+			(self sortCollection: collectionOfPotentialInvoc byDistanceWith: aFASTJavaNewExpression) first fast: aFASTJavaNewExpression ].
 		super visitFASTJavaNewExpression: aFASTJavaNewExpression.
 ]
 
