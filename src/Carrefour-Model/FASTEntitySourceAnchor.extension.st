@@ -1,17 +1,18 @@
-Extension { #name : #FASTJavaMethodEntity }
+Extension { #name : #FASTEntitySourceAnchor }
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTJavaMethodEntity >> famix [
-	"Relation named: #famix type: #FASTJavaMethod opposite: #fast"
+FASTEntitySourceAnchor >> famix [
+	"Relation named: #famix type: #FAMIXMethod opposite: #fast"
 
 	<generated>
-	<MSEProperty: #famix type: #Object>
+	<derived>
+	<MSEProperty: #famix type: #FAMIXMethod opposite: #fast>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #famix ifAbsent: [ nil ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTJavaMethodEntity >> famix: anObject [
+FASTEntitySourceAnchor >> famix: anObject [
 
 	<generated>
 	(self privateState attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

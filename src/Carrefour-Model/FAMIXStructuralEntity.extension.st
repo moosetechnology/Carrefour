@@ -2,10 +2,11 @@ Extension { #name : #FAMIXStructuralEntity }
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXStructuralEntity >> fastAccesses [
-	"Relation named: #fastAccesses type: #FAMIXClassProperty opposite: #famixVariable"
+	"Relation named: #fastAccesses type: #FASTExpression opposite: #famixVariable"
 
 	<generated>
-	<MSEProperty: #fastAccesses type: #Object>
+	<derived>
+	<MSEProperty: #fastAccesses type: #FASTExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fastAccesses ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
@@ -19,10 +20,11 @@ FAMIXStructuralEntity >> fastAccesses: anObject [
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXStructuralEntity >> fastAssignement [
-	"Relation named: #fastAssignement type: #FAMIXAssignementExpression opposite: #famixVariable"
+	"Relation named: #fastAssignement type: #FASTJavaAssignementExpression opposite: #famixVariable"
 
 	<generated>
-	<MSEProperty: #fastAssignement type: #Object>
+	<derived>
+	<MSEProperty: #fastAssignement type: #FASTJavaAssignementExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fastAssignement ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
@@ -36,10 +38,11 @@ FAMIXStructuralEntity >> fastAssignement: anObject [
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXStructuralEntity >> fastDeclaration [
-	"Relation named: #fastDeclaration type: #FAMIXVariableDeclarator opposite: #famixVariable"
+	"Relation named: #fastDeclaration type: #FASTJavaVariableDeclarator opposite: #famixVariable"
 
 	<generated>
-	<MSEProperty: #fastDeclaration type: #Object>
+	<derived>
+	<MSEProperty: #fastDeclaration type: #FASTJavaVariableDeclarator opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fastDeclaration ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]

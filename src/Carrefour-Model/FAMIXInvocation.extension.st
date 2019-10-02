@@ -2,10 +2,10 @@ Extension { #name : #FAMIXInvocation }
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXInvocation >> fast [
-	"Relation named: #fast type: #FAMIXMethodInvocation opposite: #famix"
+	"Relation named: #fast type: #FASTExpression opposite: #famix"
 
 	<generated>
-	<MSEProperty: #fast type: #Object>
+	<MSEProperty: #fast type: #FASTExpression opposite: #famix>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fast ifAbsent: [ nil ]
 ]
