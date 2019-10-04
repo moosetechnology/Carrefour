@@ -29,7 +29,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName [
 	^ ((self sourceFamixEntity localVariables select: [ :localVariable | localVariable name = aVariableName ])
 		ifEmpty: [ (self sourceFamixEntity parameters select: [ :parameter | parameter name = aVariableName ])
 				ifEmpty: [ (self sourceFamixEntity implicitVariables select: [ :implicitVariable | implicitVariable name = aVariableName ])
-						ifEmpty: [ (self sourceFamixEntity atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ])
+						ifEmpty: [ (self sourceFamixEntity atAnyScope: {FAMIXParameterizedType .FAMIXClass}) first attributes select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ])
 		ifNotEmpty: [ :possibleStructuralEntities | possibleStructuralEntities first ]
 		ifEmpty: [ nil ]
 ]
@@ -45,7 +45,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 		ifEmpty: [ (aFamixMethod parameters select: [ :parameter | parameter name = aVariableName ])
 				ifEmpty: [ (aFamixMethod implicitVariables select: [ :implicitVariable | implicitVariable name = aVariableName ])
 					ifEmpty: [ ((aFASTEntity allAtScope: FASTJavaNewClassExpression) flatCollect: [:aFastJavaNewClassExpression | aFastJavaNewClassExpression famixType attributes select: [ :attribute | attribute name = aVariableName ] ])
-						ifEmpty: [ (aFamixMethod atScope: FAMIXClass) first attributes select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ] ])
+						ifEmpty: [ (aFamixMethod atAnyScope: {FAMIXParameterizedType .FAMIXClass}) first attributes select: [ :implicitVariable | implicitVariable name = aVariableName ] ] ] ] ])
 		ifNotEmpty: [ :possibleStructuralEntities | ^ possibleStructuralEntities first ] ].
 	^ nil
 ]
