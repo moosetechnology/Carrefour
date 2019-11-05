@@ -4,10 +4,10 @@ Extension { #name : #FAMIXMethod }
 FAMIXMethod >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
-	fastModel := self generateFastJava metamodel: FASTJavaMetamodelGenerator metamodel; yourself.
-	CRFBinderVisitor new
-		bindFastModel: fastModel
-		fromFamixMethodEntity: self.
+	fastModel := self generateFastJava
+		metamodel: FASTJavaModel metamodel;
+		yourself.
+	CRFBinderVisitor new bindFastModel: fastModel fromFamixMethodEntity: self.
 	^ fastModel
 ]
 
