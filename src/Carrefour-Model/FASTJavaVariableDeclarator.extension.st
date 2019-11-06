@@ -5,7 +5,7 @@ FASTJavaVariableDeclarator >> famixVariable [
 	"Relation named: #famixVariable type: #FAMIXStructuralEntity opposite: #fastDeclaration"
 
 	<generated>
-	<MSEProperty: #famixVariable type: #FAMIXStructuralEntity opposite: #fastDeclaration>
+	<FMProperty: #famixVariable type: #FAMIXStructuralEntity opposite: #fastDeclaration>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #famixVariable ifAbsent: [ nil ]
 ]

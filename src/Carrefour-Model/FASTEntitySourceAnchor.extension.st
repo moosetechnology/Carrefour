@@ -6,7 +6,7 @@ FASTEntitySourceAnchor >> famix [
 
 	<generated>
 	<derived>
-	<MSEProperty: #famix type: #FAMIXMethod opposite: #fast>
+	<FMProperty: #famix type: #FAMIXMethod opposite: #fast>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #famix ifAbsent: [ nil ]
 ]

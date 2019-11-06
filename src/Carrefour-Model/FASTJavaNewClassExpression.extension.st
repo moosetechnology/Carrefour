@@ -5,7 +5,7 @@ FASTJavaNewClassExpression >> famixType [
 	"Relation named: #famixType type: #FAMIXType opposite: #fastDeclaration"
 
 	<generated>
-	<MSEProperty: #famixType type: #FAMIXType opposite: #fastDeclaration>
+	<FMProperty: #famixType type: #FAMIXType opposite: #fastDeclaration>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #famixType ifAbsent: [ nil ]
 ]

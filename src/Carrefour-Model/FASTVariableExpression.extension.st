@@ -5,7 +5,7 @@ FASTVariableExpression >> famixVariable [
 	"Relation named: #famixVariable type: #FAMIXType opposite: #fastAccesses"
 
 	<generated>
-	<MSEProperty: #famixVariable type: #FAMIXType opposite: #fastAccesses>
+	<FMProperty: #famixVariable type: #FAMIXType opposite: #fastAccesses>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #famixVariable ifAbsent: [ nil ]
 ]

@@ -12,7 +12,7 @@ CRFModel class >> allSubmetamodelsPackagesNames [
 
 { #category : #meta }
 CRFModel class >> annotation [
-	<MSEClass: #CRFModel super: #MooseModel>
+	<FMClass: #CRFModel super: #MooseModel>
 	<package: #'Carrefour-Model'>
 	<generated>
 ]

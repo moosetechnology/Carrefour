@@ -5,7 +5,7 @@ FAMIXMethod >> fast [
 	"Relation named: #fast type: #FASTEntitySourceAnchor opposite: #famix"
 
 	<generated>
-	<MSEProperty: #fast type: #FASTEntitySourceAnchor opposite: #famix>
+	<FMProperty: #fast type: #FASTEntitySourceAnchor opposite: #famix>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fast ifAbsent: [ nil ]
 ]

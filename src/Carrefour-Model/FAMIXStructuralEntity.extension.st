@@ -6,7 +6,7 @@ FAMIXStructuralEntity >> fastAccesses [
 
 	<generated>
 	<derived>
-	<MSEProperty: #fastAccesses type: #FASTExpression opposite: #famixVariable>
+	<FMProperty: #fastAccesses type: #FASTExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fastAccesses ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
@@ -24,7 +24,7 @@ FAMIXStructuralEntity >> fastAssignement [
 
 	<generated>
 	<derived>
-	<MSEProperty: #fastAssignement type: #FASTJavaAssignementExpression opposite: #famixVariable>
+	<FMProperty: #fastAssignement type: #FASTJavaAssignementExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fastAssignement ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
@@ -42,7 +42,7 @@ FAMIXStructuralEntity >> fastDeclaration [
 
 	<generated>
 	<derived>
-	<MSEProperty: #fastDeclaration type: #FASTJavaVariableDeclarator opposite: #famixVariable>
+	<FMProperty: #fastDeclaration type: #FASTJavaVariableDeclarator opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fastDeclaration ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]

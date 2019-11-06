@@ -5,7 +5,7 @@ FAMIXInvocation >> fast [
 	"Relation named: #fast type: #FASTExpression opposite: #famix"
 
 	<generated>
-	<MSEProperty: #fast type: #FASTExpression opposite: #famix>
+	<FMProperty: #fast type: #FASTExpression opposite: #famix>
 	<package: #'Carrefour-Model'>
 	^ self privateState attributeAt: #fast ifAbsent: [ nil ]
 ]
