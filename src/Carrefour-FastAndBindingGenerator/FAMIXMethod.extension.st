@@ -5,7 +5,7 @@ FAMIXMethod >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 	fastModel := self generateFastJava
-		metamodel: FASTJavaModel metamodel;
+		metamodel: CRFModel metamodel;
 		yourself.
 	CRFBinderVisitor new bindFastModel: fastModel fromFamixMethodEntity: self.
 	^ fastModel
