@@ -7,7 +7,6 @@ Class {
 { #category : #running }
 CRFBindingTestTest >> setUp [
 	super setUp.
-
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodTestString)
 		name: #fastModel;
 		yourself.

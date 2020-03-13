@@ -44,5 +44,5 @@ CRFBindingReturnNumberTest >> testUsagesOfReturnI [
 
 	self
 		assert: (self famixModel allParameters select: [ :parameter | parameter name = 'i' ]) first fastAccesses first
-		equals: (self fastModel allWithType: FASTReturnStatement) first childrenNode first
+		equals: (self fastModel allWithType: FASTReturnStatement) first children anyOne
 ]

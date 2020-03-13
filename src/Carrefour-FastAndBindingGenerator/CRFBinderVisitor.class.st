@@ -76,7 +76,7 @@ CRFBinderVisitor >> sourceFamixEntity: anObject [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
-	^ aFASTEntity childrenNode do: [ :child | self accept: child ]
+	^ aFASTEntity children do: [ :child | self accept: child ]
 ]
 
 { #category : #visitor }
@@ -92,18 +92,16 @@ CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpr
 CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 	| classes |
 	classes := aFASTJavaVariableDeclarator type name = 'this'
-		ifFalse: [ self sourceFamixEntity mooseModel allTypes
-				select: [ :type | type name = aFASTJavaVariableDeclarator type name ] ]
+		ifFalse: [ self sourceFamixEntity mooseModel allTypes select: [ :type | type name = aFASTJavaVariableDeclarator type name ] ]
 		ifTrue: [ self sourceFamixEntity atScope: FAMIXClass ].
-	classes ifNotEmpty: [ :class |  
-	class anyOne fastAccesses add: aFASTJavaVariableDeclarator type.
-	class anyOne attributes
-		select:
-			[ :attribute | attribute name = aFASTJavaVariableDeclarator fieldName ]
-		thenDo:
-			[ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
-	
-	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
+	classes
+		ifNotEmpty: [ :class | 
+			class anyOne fastAccesses add: aFASTJavaVariableDeclarator type.
+			class anyOne attributes
+				select: [ :attribute | attribute name = aFASTJavaVariableDeclarator fieldName ]
+				thenDo: [ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
+
+	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 ]
 
 { #category : #visitor }
@@ -148,11 +146,13 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 									method sourceAnchor startPos - fromSourceAnchor startPos <= (aFASTJavaMethodEntity startPos + 1)
 										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
-				ifNotEmpty:
-					[ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
+				ifNotEmpty: [ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	(aFASTJavaMethodEntity parameters collect: #variable)
-		do: [ :parameter | self sourceFamixEntity parameters select: [ :famixParameter | famixParameter name = parameter name ] thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
+		do: [ :parameter | 
+			self sourceFamixEntity parameters
+				select: [ :famixParameter | famixParameter name = parameter name ]
+				thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
 ]
 
 { #category : #visitor }
@@ -165,16 +165,18 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 
 					invoc sourceAnchor startPos - sourceEntityAnchour startPos >= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos - sourceEntityAnchour startPos <= (aFASTJavaMethodInvocation endPos + 1) ] ]
-				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ]) and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix = invoc from ] ])
-		asOrderedCollection
-		ifNotEmpty:
-			[ :collectionOfPotentialInvoc | (collectionOfPotentialInvoc sort: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first fast: aFASTJavaMethodInvocation ].
+				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
+				and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix = invoc from ] ]) asOrderedCollection
+		ifNotEmpty: [ :collectionOfPotentialInvoc | 
+			(collectionOfPotentialInvoc sorted: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first
+				fast: aFASTJavaMethodInvocation ].
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
+
 	(self sourceFamixEntity allToScope: FamixTClass) asOrderedCollection
 		select: [ :class | 
 			class isAnonymousClass
@@ -186,7 +188,7 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 									class sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewClassExpression startPos - 1)
 										and: [ class sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression ].
-	aFASTJavaNewClassExpression childrenNode do: [ :child | self accept: child ]
+	aFASTJavaNewClassExpression children do: [ :child | self accept: child ]
 ]
 
 { #category : #visitor }
@@ -201,7 +203,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 					invoc sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewExpression startPos - 1)
 						and: [ invoc sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewExpression endPos + 1)
-								and: [ (aFASTJavaNewExpression atAnyScope: {FASTJavaMethodEntity . FASTJavaInitializer}) first famix = invoc from ] ] ] ]) asOrderedCollection
+								and: [ (aFASTJavaNewExpression atAnyScope: {FASTJavaMethodEntity . FASTJavaInitializer}) first famix = invoc from ] ] ] ])
 		ifNotEmpty: [ :collectionOfPotentialInvoc | (self sortCollection: collectionOfPotentialInvoc byDistanceWith: aFASTJavaNewExpression) first fast: aFASTJavaNewExpression ].
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
