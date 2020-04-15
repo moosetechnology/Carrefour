@@ -217,15 +217,6 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 ]
 
 { #category : #visitor }
-CRFBinderVisitor >> visitFASTNamedEntity: aFASTNamedEntity [ 
-	(self determineAttributeWithName: aFASTNamedEntity name from: aFASTNamedEntity)
-		ifNotNil:
-			[ :structuralEntity | structuralEntity fastAccesses add: aFASTNamedEntity ].
-		
-	super visitFASTNamedEntity: aFASTNamedEntity.
-]
-
-{ #category : #visitor }
 CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
 	aFASTReturnStatement expression
 		ifNotNil: [ self accept: aFASTReturnStatement expression ]
