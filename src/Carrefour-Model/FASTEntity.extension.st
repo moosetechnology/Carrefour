@@ -1,7 +1,7 @@
-Extension { #name : #FASTEntitySourceAnchor }
+Extension { #name : #FASTEntity }
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTEntitySourceAnchor >> famix [
+FASTEntity >> famix [
 	"Relation named: #famix type: #FAMIXMethod opposite: #fast"
 
 	<generated>
@@ -12,7 +12,7 @@ FASTEntitySourceAnchor >> famix [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTEntitySourceAnchor >> famix: anObject [
+FASTEntity >> famix: anObject [
 
 	<generated>
 	(self privateState attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

@@ -19,7 +19,7 @@ Class {
 		'fastJavaInitializer',
 		'fastVariableExpression',
 		'fastExpression',
-		'fastEntitySourceAnchor'
+		'fastEntity'
 	],
 	#category : #'Carrefour-Model-Generator'
 }
@@ -69,8 +69,7 @@ CRFMetamodelGenerator >> defineClasses [
 	
 	fastVariableExpression := self remoteEntity: #VariableExpression withPrefix: #FAST.
 	fastExpression := self remoteEntity: #Expression withPrefix: #FAST.
-	fastEntitySourceAnchor := self remoteEntity: #EntitySourceAnchor withPrefix: #FAST.
-	
+	fastEntity := self remoteEntity: #Entity withPrefix: #FAST.
 ]
 
 { #category : #definition }
@@ -82,22 +81,11 @@ CRFMetamodelGenerator >> defineHierarchy [
 CRFMetamodelGenerator >> defineRelations [
 	super defineRelations.
 	(famixInvocation property: #fast) - (fastExpression property: #famix).
-	(famixMethod property: #fast) - (fastEntitySourceAnchor property: #famix).
+	(famixMethod property: #fast) - (fastEntity property: #famix).
 	(famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
 	(famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable).
 	
 	(famixStructuralEntity property: #fastAccesses) -* (fastExpression property: #famixVariable).
 	(famixType property: #fastAccesses) -* (fastVariableExpression property: #famixVariable).
 	(famixType property: #fastDeclaration) -* (fastJavaNewClassExpression property: #famixType)
-]
-
-{ #category : #definition }
-CRFMetamodelGenerator >> newBuilder [
-	| mqBuilder |
-	mqBuilder := FamixMooseQueryGenerator builderWithDefinitions.
-	self adoptBuilder: mqBuilder.
-	^ mqBuilder
-		doNotGenerateCurrent;
-		generator: self;
-		yourself
 ]
