@@ -6,3 +6,14 @@
 Master: [![Master](https://travis-ci.org/badetitou/Carrefour.svg?branch=master)](https://travis-ci.org/badetitou/Carrefour/branches)
 
 Binding between Famix and FAST
+
+# Installation
+
+Last stable version is 
+
+```st
+Metacello new
+  githubUser: 'badetitou' project: 'Carrefour' commitish: 'v1.0.1' path: 'src';
+  baseline: 'Carrefour';
+  load
+```
