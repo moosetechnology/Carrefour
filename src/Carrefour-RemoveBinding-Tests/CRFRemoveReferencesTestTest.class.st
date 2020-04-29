@@ -33,8 +33,10 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveInvocationsBinding [
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
+	| method |
+	method := self fastTestMethod. 
 	self fastTestMethod removeBinding.
-	self assert: self fastTestMethod famix equals: nil.
+	self assert: method famix equals: nil.
 	self assert: self famixTestMethod fast equals: nil
 ]
 

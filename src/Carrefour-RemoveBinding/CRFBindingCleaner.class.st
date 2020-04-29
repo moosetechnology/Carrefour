@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #generated }
+CRFBindingCleaner >> fullClean: anEntity [
+	"remove this entity, the top entities, all the FAST model"
+
+	| mooseModel |
+	mooseModel := anEntity mooseModel.
+	mooseModel flushPrivateState.
+	mooseModel privateState flush.
+	self accept: anEntity.
+	mooseModel removeAll
+]
+
+{ #category : #generated }
 CRFBindingCleaner >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression [
 	aFASTJavaAssignementExpression famixVariable: nil.
 	^ super visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression
