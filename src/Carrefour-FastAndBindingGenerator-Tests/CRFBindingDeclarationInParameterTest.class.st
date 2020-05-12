@@ -24,6 +24,6 @@ CRFBindingDeclarationInParameterTest >> testParameterIsDeclaration [
 	| variableExpressions |
 	variableExpressions := (self fastModel allWithType: FASTJavaVariableExpression) asOrderedCollection sort: #startPos ascending.
 	self assert: variableExpressions first parentNode class equals: FASTJavaParameter.
-	self assert: (variableExpressions first famixVariable fastDeclaration includes: variableExpressions first).
-	self deny: (variableExpressions first famixVariable fastDeclaration includes: variableExpressions second)
+	self assert: (variableExpressions first parentNode famixVariable fastDeclaration includes: variableExpressions first parentNode).
+	self deny: (variableExpressions first parentNode famixVariable fastDeclaration includes: variableExpressions second parentNode)
 ]

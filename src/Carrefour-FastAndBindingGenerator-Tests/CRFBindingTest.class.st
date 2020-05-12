@@ -2418,7 +2418,7 @@ CRFBindingTest >> fastMethodFieldAccessInitialization [
         this.patate = "Hello World";
         this.canard = new Carrefour() {
             public void execute(boolean bb) {
-                
+
             }
         };
     }'

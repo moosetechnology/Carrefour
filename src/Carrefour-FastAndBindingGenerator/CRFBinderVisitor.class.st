@@ -16,7 +16,8 @@ CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamix
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self sourceFamixEntity: aFamixMethodEntity.
 	fastModel allFASTJavaMethodEntity select: [:methodEntity | methodEntity parentNode isNil] thenDo: [ :methodEntity | self clone accept: methodEntity ].
-	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ]
+	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ].
+	fastModel metamodel: CRFModel metamodel
 ]
 
 { #category : #visitor }
@@ -148,11 +149,7 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 										and: [ method sourceAnchor endPos - fromSourceAnchor startPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
 				ifNotEmpty: [ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
-	(aFASTJavaMethodEntity parameters collect: #variable)
-		do: [ :parameter | 
-			self sourceFamixEntity parameters
-				select: [ :famixParameter | famixParameter name = parameter name ]
-				thenDo: [ :famixParameter | famixParameter fastDeclaration add: parameter ] ]
+	aFASTJavaMethodEntity parameters do: [ :parameter | self accept: parameter ]
 ]
 
 { #category : #visitor }
@@ -206,6 +203,12 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 								and: [ (aFASTJavaNewExpression atAnyScope: {FASTJavaMethodEntity . FASTJavaInitializer}) first famix = invoc source ] ] ] ])
 		ifNotEmpty: [ :collectionOfPotentialInvoc | (self sortCollection: collectionOfPotentialInvoc byDistanceWith: aFASTJavaNewExpression) first fast: aFASTJavaNewExpression ].
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
+]
+
+{ #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaParameter: aFASTJavaParameter [
+	(self determineAttributeWithName: aFASTJavaParameter variable name from: aFASTJavaParameter)
+		ifNotNil: [ :structuralEntity | structuralEntity fastDeclaration add: aFASTJavaParameter ]
 ]
 
 { #category : #visitor }
