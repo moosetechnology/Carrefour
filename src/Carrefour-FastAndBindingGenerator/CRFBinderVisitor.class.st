@@ -16,7 +16,8 @@ CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamix
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self sourceFamixEntity: aFamixMethodEntity.
 	fastModel allFASTJavaMethodEntity select: [:methodEntity | methodEntity parentNode isNil] thenDo: [ :methodEntity | self clone accept: methodEntity ].
-	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ]
+	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ].
+	fastModel metamodel: CRFModel metamodel
 ]
 
 { #category : #visitor }
@@ -152,7 +153,7 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 		do: [ :parameter | 
 			self sourceFamixEntity parameters
 				select: [ :famixParameter | famixParameter name = parameter name ]
-				thenDo: [ :famixParameter | famixParameter fastAccesses add: parameter ] ]
+				thenDo: [ :famixParameter | famixParameter fastDeclaration add: parameter ] ]
 ]
 
 { #category : #visitor }
@@ -227,6 +228,5 @@ CRFBinderVisitor >> visitFASTVariableExpression: aFASTVariableExpression [
 	(self determineAttributeWithName: aFASTVariableExpression name from: aFASTVariableExpression)
 		ifNotNil:
 			[ :structuralEntity | structuralEntity fastAccesses add: aFASTVariableExpression ].
-		
 	super visitFASTVariableExpression: aFASTVariableExpression.
 ]
