@@ -16,8 +16,7 @@ CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamix
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self sourceFamixEntity: aFamixMethodEntity.
 	fastModel allFASTJavaMethodEntity select: [:methodEntity | methodEntity parentNode isNil] thenDo: [ :methodEntity | self clone accept: methodEntity ].
-	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ].
-	fastModel metamodel: CRFModel metamodel
+	(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self clone accept: methodEntity ]
 ]
 
 { #category : #visitor }
