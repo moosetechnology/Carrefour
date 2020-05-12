@@ -2444,7 +2444,7 @@ CRFBindingTest >> fastMethodNewAnonymousOfInnerClassString [
         supermarket.setCarrefour(new Carrefour.Oupsi() {
                 @Override
 				public void execute(boolean bb) {
-                    
+
                 }
             });
     }'

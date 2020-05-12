@@ -59,6 +59,13 @@ CRFBindingCleaner >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 ]
 
 { #category : #generated }
+CRFBindingCleaner >> visitFASTJavaParameter: aFASTJavaParameter [
+	aFASTJavaParameter famixVariable fastDeclaration remove: aFASTJavaParameter.
+	aFASTJavaParameter famixVariable: nil.
+	^ super visitFASTJavaMethodInvocation: aFASTJavaParameter
+]
+
+{ #category : #generated }
 CRFBindingCleaner >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator [
 	aFASTJavaVariableDeclarator famixVariable: nil.
 	^ super visitFASTJavaMethodInvocation: aFASTJavaVariableDeclarator
