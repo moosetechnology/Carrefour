@@ -27,29 +27,25 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
-	((aFASTEntity atAnyScope: {FASTJavaInitializer. FASTJavaMethodEntity}) first famix allAtScope:
-		 FAMIXMethod) do: [ :aFamixMethod | 
-		aFamixMethod localVariables
-			detect: [ :localVariable | localVariable name = aVariableName ]
-			ifFound: [ :found | ^ found ].
-		aFamixMethod parameters
-			detect: [ :parameter | parameter name = aVariableName ]
-			ifFound: [ :found | ^ found ].
-		aFamixMethod implicitVariables
-			detect: [ :implicitVariable | 
-			implicitVariable name = aVariableName ]
-			ifFound: [ :found | ^ found ].
-		(aFASTEntity allAtScope: FASTJavaNewClassExpression) flatCollect: [ 
-			:aFastJavaNewClassExpression | 
-			aFastJavaNewClassExpression famixType attributes
-				detect: [ :attribute | attribute name = aVariableName ]
+	((aFASTEntity atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix allAtScope: FAMIXMethod)
+		do: [ :aFamixMethod | 
+			aFamixMethod localVariables
+				detect: [ :localVariable | localVariable name = aVariableName ]
+				ifFound: [ :found | ^ found ].
+			aFamixMethod parameters
+				detect: [ :parameter | parameter name = aVariableName ]
+				ifFound: [ :found | ^ found ].
+			aFamixMethod implicitVariables
+				detect: [ :implicitVariable | implicitVariable name = aVariableName ]
+				ifFound: [ :found | ^ found ].
+			(aFASTEntity allAtScope: FASTJavaNewClassExpression)
+				flatCollect: [ :aFastJavaNewClassExpression | 
+					aFastJavaNewClassExpression famixType attributes
+						detect: [ :attribute | attribute name = aVariableName ]
+						ifFound: [ :found | ^ found ] ].
+			(aFamixMethod atAnyScope: {FAMIXParameterizedType . FAMIXClass}) first attributes
+				detect: [ :implicitVariable | implicitVariable name = aVariableName ]
 				ifFound: [ :found | ^ found ] ].
-		(aFamixMethod atAnyScope: { 
-				 FAMIXParameterizedType.
-				 FAMIXClass }) first attributes
-			detect: [ :implicitVariable | 
-			implicitVariable name = aVariableName ]
-			ifFound: [ :found | ^ found ] ].
 	^ nil
 ]
 
@@ -163,7 +159,7 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 					invoc sourceAnchor startPos - sourceEntityAnchour startPos >= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos - sourceEntityAnchour startPos <= (aFASTJavaMethodInvocation endPos + 1) ] ]
 				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
-				and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix = invoc source ] ]) asOrderedCollection
+				and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix = invoc source ] ])
 		ifNotEmpty: [ :collectionOfPotentialInvoc | 
 			(collectionOfPotentialInvoc sorted: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first
 				fast: aFASTJavaMethodInvocation ].
@@ -174,13 +170,12 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
 
-	(self sourceFamixEntity allToScope: FamixTClass) asOrderedCollection
+	(self sourceFamixEntity allToScope: FamixTClass)
 		select: [ :class | 
 			class isAnonymousClass
 				and: [ (class name includesSubstring: '(' , aFASTJavaNewClassExpression type fullName , ')')
 						and: [ class hasSourceAnchor
 								and: [ | fromSourceAnchor |
-									"fromSourceAnchor := (((class allAtScope: FAMIXMethod) select: #hasSourceAnchor) sort: [ :method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first sourceAnchor."
 									fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 									class sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewClassExpression startPos - 1)
 										and: [ class sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
