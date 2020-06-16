@@ -24,6 +24,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 		with: [ spec
 				loads: #('all');
 				repository: 'github://moosetechnology/FAST-Java:v1.x.x/src' ].
+	spec baseline: 'TinyLogger' with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ]
 ]
 
 { #category : #baselines }
@@ -32,7 +33,7 @@ BaselineOfCarrefour >> defineGroups: spec [
 		group: 'default' with: #('all');
 		group: 'all'
 			with:
-			#('Carrefour-Model-Generator' 'Carrefour-Model' 'Carrefour-FastAndBindingGenerator' 'Carrefour-FastAndBindingGenerator-Tests' 'Carrefour-Extension' 'Carrefour-RemoveBinding' 'Carrefour-RemoveBinding-Tests');
+			#('Carrefour-Model-Generator' 'Carrefour-Model' 'Carrefour-FastAndBindingGenerator' 'Carrefour-FastAndBindingGenerator-Tests' 'Carrefour-Extension' 'Carrefour-RemoveBinding' 'Carrefour-RemoveBinding-Tests' 'TinyLogger');
 		group: 'generator' with: #('Carrefour-Model-Generator')
 ]
 
