@@ -21,7 +21,7 @@ CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethod
 				thenDo: [ :methodEntity | self accept: methodEntity ].
 			(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self accept: methodEntity ].
 			fastModel metamodel: CRFModel metamodel ]
-		recordedAs: [ 'Bind ' , aFamixMethodEntity printString ]
+		recordedAs: 'Bind ' , aFamixMethodEntity printString
 ]
 
 { #category : #visitor }
