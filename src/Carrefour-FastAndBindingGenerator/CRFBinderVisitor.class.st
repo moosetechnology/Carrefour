@@ -31,7 +31,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
-	((aFASTEntity atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix allAtScope: FAMIXMethod)
+	((aFASTEntity atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) anyOne famix allAtScope: FAMIXMethod)
 		do: [ :aFamixMethod | 
 			aFamixMethod localVariables
 				detect: [ :localVariable | localVariable name = aVariableName ]
@@ -47,7 +47,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 					aFastJavaNewClassExpression famixType attributes
 						detect: [ :attribute | attribute name = aVariableName ]
 						ifFound: [ :found | ^ found ] ].
-			(aFamixMethod atAnyScope: {FAMIXParameterizedType . FAMIXClass}) first attributes
+			(aFamixMethod atAnyScope: {FAMIXParameterizedType . FAMIXClass}) anyOne attributes
 				detect: [ :implicitVariable | implicitVariable name = aVariableName ]
 				ifFound: [ :found | ^ found ] ].
 	^ nil
@@ -163,7 +163,7 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 					invoc sourceAnchor startPos - sourceEntityAnchour startPos >= (aFASTJavaMethodInvocation startPos - 1)
 						and: [ invoc sourceAnchor endPos - sourceEntityAnchour startPos <= (aFASTJavaMethodInvocation endPos + 1) ] ]
 				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ])
-				and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) first famix = invoc source ] ])
+				and: [ (aFASTJavaMethodInvocation atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) anyOne famix = invoc source ] ])
 		ifNotEmpty: [ :collectionOfPotentialInvoc | 
 			(collectionOfPotentialInvoc sorted: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first
 				fast: aFASTJavaMethodInvocation ].
@@ -199,7 +199,7 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 					fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 					invoc sourceAnchor startPos - fromSourceAnchor startPos >= (aFASTJavaNewExpression startPos - 1)
 						and: [ invoc sourceAnchor endPos - fromSourceAnchor startPos <= (aFASTJavaNewExpression endPos + 1)
-								and: [ (aFASTJavaNewExpression atAnyScope: {FASTJavaMethodEntity . FASTJavaInitializer}) first famix = invoc source ] ] ] ])
+								and: [ (aFASTJavaNewExpression atAnyScope: {FASTJavaMethodEntity . FASTJavaInitializer}) anyOne famix = invoc source ] ] ] ])
 		ifNotEmpty: [ :collectionOfPotentialInvoc | (self sortCollection: collectionOfPotentialInvoc byDistanceWith: aFASTJavaNewExpression) first fast: aFASTJavaNewExpression ].
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
