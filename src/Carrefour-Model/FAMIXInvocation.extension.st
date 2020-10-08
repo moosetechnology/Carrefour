@@ -7,19 +7,19 @@ FAMIXInvocation >> fast [
 	<generated>
 	<FMProperty: #fast type: #FASTExpression opposite: #famix>
 	<package: #'Carrefour-Model'>
-	^ self privateState attributeAt: #fast ifAbsent: [ nil ]
+	^ self attributeAt: #fast ifAbsent: [ nil ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXInvocation >> fast: anObject [
-
 	<generated>
-	(self privateState attributeAt: #fast ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self fast.
-		self privateState attributeAt: #fast put: anObject.
-		otherSide famix: nil ]
-	ifNotNil: [ 
-		self privateState attributeAt: #fast put: anObject.
-		anObject famix: self ]
+	(self attributeAt: #fast ifAbsentPut: [ nil ]) == anObject
+		ifTrue: [ ^ anObject ].
+	anObject
+		ifNil: [ | otherSide |
+			otherSide := self fast.
+			self privateState attributeAt: #fast put: anObject.
+			otherSide famix: nil ]
+		ifNotNil: [ self attributeAt: #fast put: anObject.
+			anObject famix: self ]
 ]

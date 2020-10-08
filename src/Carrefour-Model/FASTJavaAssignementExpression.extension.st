@@ -7,12 +7,18 @@ FASTJavaAssignementExpression >> famixVariable [
 	<generated>
 	<FMProperty: #famixVariable type: #FAMIXStructuralEntity opposite: #fastAssignement>
 	<package: #'Carrefour-Model'>
-	^ self privateState attributeAt: #famixVariable ifAbsent: [ nil ]
+	^ self attributeAt: #famixVariable ifAbsent: [ nil ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaAssignementExpression >> famixVariable: anObject [
-
 	<generated>
-	self privateState attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAssignement from: self famixVariable to: anObject).
+	self
+		attributeAt: #famixVariable
+		put:
+			(FMMultivalueLink
+				on: self
+				update: #fastAssignement
+				from: self famixVariable
+				to: anObject)
 ]

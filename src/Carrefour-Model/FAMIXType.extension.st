@@ -8,7 +8,9 @@ FAMIXType >> fastAccesses [
 	<derived>
 	<FMProperty: #fastAccesses type: #FASTVariableExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
-	^ self privateState attributeAt: #fastAccesses ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
+	^ self
+		attributeAt: #fastAccesses
+		ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
@@ -24,9 +26,12 @@ FAMIXType >> fastDeclaration [
 
 	<generated>
 	<derived>
-	<FMProperty: #fastDeclaration type: #FASTJavaNewClassExpression opposite: #famixType>
+	<FMProperty: #fastDeclaration type: #FASTJavaNewClassExpression
+	opposite: #famixType>
 	<package: #'Carrefour-Model'>
-	^ self privateState attributeAt: #fastDeclaration ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixType: ]
+	^ self
+		attributeAt: #fastDeclaration
+		ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixType: ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
