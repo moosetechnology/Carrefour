@@ -13,16 +13,16 @@ FASTExpression >> famix [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTExpression >> famix: anObject [
+
 	<generated>
-	(self attributeAt: #famix ifAbsentPut: [ nil ]) == anObject
-		ifTrue: [ ^ anObject ].
-	anObject
-		ifNil: [ | otherSide |
-			otherSide := self famix.
-			self privateState attributeAt: #famix put: anObject.
-			otherSide fast: nil ]
-		ifNotNil: [ self attributeAt: #famix put: anObject.
-			anObject fast: self ]
+	(self attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self famix.
+		self attributeAt: #famix put: anObject.
+		otherSide fast: nil ]
+	ifNotNil: [ 
+		self attributeAt: #famix put: anObject.
+		anObject fast: self ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
@@ -37,13 +37,7 @@ FASTExpression >> famixVariable [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTExpression >> famixVariable: anObject [
+
 	<generated>
-	self
-		attributeAt: #famixVariable
-		put:
-			(FMMultivalueLink
-				on: self
-				update: #fastAccesses
-				from: self famixVariable
-				to: anObject)
+	self attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAccesses from: self famixVariable to: anObject).
 ]

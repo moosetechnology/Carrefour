@@ -12,13 +12,7 @@ FASTVariableExpression >> famixVariable [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTVariableExpression >> famixVariable: anObject [
+
 	<generated>
-	self
-		attributeAt: #famixVariable
-		put:
-			(FMMultivalueLink
-				on: self
-				update: #fastAccesses
-				from: self famixVariable
-				to: anObject)
+	self attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAccesses from: self famixVariable to: anObject).
 ]

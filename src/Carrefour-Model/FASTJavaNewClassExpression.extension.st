@@ -12,13 +12,7 @@ FASTJavaNewClassExpression >> famixType [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaNewClassExpression >> famixType: anObject [
+
 	<generated>
-	self
-		attributeAt: #famixType
-		put:
-			(FMMultivalueLink
-				on: self
-				update: #fastDeclaration
-				from: self famixType
-				to: anObject)
+	self attributeAt: #famixType put: (FMMultivalueLink on: self update: #fastDeclaration from: self famixType to: anObject).
 ]

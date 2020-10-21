@@ -12,13 +12,7 @@ FASTJavaAssignementExpression >> famixVariable [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaAssignementExpression >> famixVariable: anObject [
+
 	<generated>
-	self
-		attributeAt: #famixVariable
-		put:
-			(FMMultivalueLink
-				on: self
-				update: #fastAssignement
-				from: self famixVariable
-				to: anObject)
+	self attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAssignement from: self famixVariable to: anObject).
 ]

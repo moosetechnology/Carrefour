@@ -12,13 +12,7 @@ FASTJavaVariableDeclarator >> famixVariable [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaVariableDeclarator >> famixVariable: anObject [
+
 	<generated>
-	self
-		attributeAt: #famixVariable
-		put:
-			(FMMultivalueLink
-				on: self
-				update: #fastDeclaration
-				from: self famixVariable
-				to: anObject)
+	self attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastDeclaration from: self famixVariable to: anObject).
 ]

@@ -12,14 +12,14 @@ FAMIXInvocation >> fast [
 
 { #category : #'*Carrefour-Model-accessing' }
 FAMIXInvocation >> fast: anObject [
+
 	<generated>
-	(self attributeAt: #fast ifAbsentPut: [ nil ]) == anObject
-		ifTrue: [ ^ anObject ].
-	anObject
-		ifNil: [ | otherSide |
-			otherSide := self fast.
-			self privateState attributeAt: #fast put: anObject.
-			otherSide famix: nil ]
-		ifNotNil: [ self attributeAt: #fast put: anObject.
-			anObject famix: self ]
+	(self attributeAt: #fast ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self fast.
+		self attributeAt: #fast put: anObject.
+		otherSide famix: nil ]
+	ifNotNil: [ 
+		self attributeAt: #fast put: anObject.
+		anObject famix: self ]
 ]
