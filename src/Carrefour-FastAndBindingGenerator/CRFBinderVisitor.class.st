@@ -50,14 +50,16 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 					aFastJavaNewClassExpression famixType attributes
 						detect: [ :attribute | attribute name = aVariableName ]
 						ifFound: [ :found | ^ found ] ].
-			(aFamixMethod
+			((aFamixMethod
 				atAnyScope:
 					{FAMIXParameterizedType.
-					FAMIXClass})
+					FAMIXClass}) flatCollect: #withSuperclassHierarchy)
 				ifNotEmpty: [ :scopes | 
-					scopes anyOne attributes
-						detect: [ :implicitVariable | implicitVariable name = aVariableName ]
-						ifFound: [ :found | ^ found ] ] ].
+					scopes
+						do: [ :scope | 
+							scope attributes
+								detect: [ :implicitVariable | implicitVariable name = aVariableName ]
+								ifFound: [ :found | ^ found ] ] ] ].
 	^ nil
 ]
 
