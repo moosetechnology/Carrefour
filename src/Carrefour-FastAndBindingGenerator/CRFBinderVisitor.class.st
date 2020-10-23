@@ -31,7 +31,10 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
-	((aFASTEntity atAnyScope: {FASTJavaInitializer . FASTJavaMethodEntity}) anyOne famix allAtScope: FAMIXMethod)
+	((aFASTEntity
+		atAnyScope:
+			{FASTJavaInitializer.
+			FASTJavaMethodEntity}) anyOne famix allAtScope: FAMIXMethod)
 		do: [ :aFamixMethod | 
 			aFamixMethod localVariables
 				detect: [ :localVariable | localVariable name = aVariableName ]
@@ -47,9 +50,14 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 					aFastJavaNewClassExpression famixType attributes
 						detect: [ :attribute | attribute name = aVariableName ]
 						ifFound: [ :found | ^ found ] ].
-			(aFamixMethod atAnyScope: {FAMIXParameterizedType . FAMIXClass}) anyOne attributes
-				detect: [ :implicitVariable | implicitVariable name = aVariableName ]
-				ifFound: [ :found | ^ found ] ].
+			(aFamixMethod
+				atAnyScope:
+					{FAMIXParameterizedType.
+					FAMIXClass})
+				ifNotEmpty: [ :scopes | 
+					scopes anyOne attributes
+						detect: [ :implicitVariable | implicitVariable name = aVariableName ]
+						ifFound: [ :found | ^ found ] ] ].
 	^ nil
 ]
 
