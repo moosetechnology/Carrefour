@@ -13,6 +13,6 @@ FAMIXClass >> generateFastAndBind [
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FAMIXClass >> generateFastIfNotDoneAndBind [
-	self fastDeclaration ifNotNil: [ ^ self fastDeclaration mooseModel ].
+	self fastDeclaration ifNotEmpty: [ ^ self fastDeclaration mooseModel ].
 	^ self generateFastAndBind 
 ]
