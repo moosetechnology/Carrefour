@@ -13,6 +13,23 @@ CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamix
 ]
 
 { #category : #api }
+CRFBinderVisitor >> bindFastModel: fastModel fromEntity: aFamixMethodEntity [
+	aFamixMethodEntity bindFastModel: fastModel usingBinder: self
+]
+
+{ #category : #api }
+CRFBinderVisitor >> bindFastModel: fastModel fromFamixClassEntity: aFamixMethodEntity [
+	self
+		execute: [ self sourceFamixEntity: aFamixMethodEntity.
+			fastModel allFASTJavaMethodEntity
+				select: [ :methodEntity | methodEntity parentNode isNil ]
+				thenDo: [ :methodEntity | self accept: methodEntity ].
+			(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self accept: methodEntity ].
+			fastModel metamodel: CRFModel metamodel ]
+		recordedAs: 'Bind ' , aFamixMethodEntity mooseName printString
+]
+
+{ #category : #api }
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self
 		execute: [ self sourceFamixEntity: aFamixMethodEntity.

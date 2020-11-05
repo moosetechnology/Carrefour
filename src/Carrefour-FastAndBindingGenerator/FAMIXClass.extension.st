@@ -1,7 +1,7 @@
-Extension { #name : #FAMIXMethod }
+Extension { #name : #FAMIXClass }
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
-FAMIXMethod >> generateFastAndBind [
+FAMIXClass >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 	fastModel := self generateFastJava
@@ -12,7 +12,7 @@ FAMIXMethod >> generateFastAndBind [
 ]
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
-FAMIXMethod >> generateFastIfNotDoneAndBind [
-	self fast ifNotNil: [ ^ self fast mooseModel ].
+FAMIXClass >> generateFastIfNotDoneAndBind [
+	self fastDeclaration ifNotNil: [ ^ self fastDeclaration mooseModel ].
 	^ self generateFastAndBind 
 ]
