@@ -26,7 +26,7 @@ CRFBindingTest >> famixModel: anObject [
 	famixModel := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> famixModelString [ 
 	"A famix model to test the binder.
 	The source code can be found in #fastString"
@@ -2235,7 +2235,7 @@ CRFBindingTest >> famixModelString [
 		(superclass (ref: 90))))'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodBuildLienSimple [
 	^ '@ShowroomSource
     private void buildLienSimple() {
@@ -2260,21 +2260,21 @@ CRFBindingTest >> fastMethodBuildLienSimple [
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodClassPropertyAccess [
 	^ 'private void classPropertyAccess(){
         call(Hello.classProperty);
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodDeclarationInParameter [
 	^ 'private void decla(int i){
         hello(i);
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodDoubleAffectation [
 	^ 'private int doubleAffectation(){
         Label i = new Label();
@@ -2282,7 +2282,7 @@ CRFBindingTest >> fastMethodDoubleAffectation [
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodDoubleInsideMethod [
 	^ '@Override
     public void doubleInsideMethod() {
@@ -2301,7 +2301,7 @@ CRFBindingTest >> fastMethodDoubleInsideMethod [
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodFieldAccess [
 	^ 'private void fieldAccess(){
 	call(this.classProperty);
@@ -2309,7 +2309,7 @@ CRFBindingTest >> fastMethodFieldAccess [
 }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodFieldAccessInitialization [
 	^ 'private void useThisForFieldAccess(){
         this.patate = "Hello World";
@@ -2321,21 +2321,21 @@ CRFBindingTest >> fastMethodFieldAccessInitialization [
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodGetMenuIcon [
 	^ 'private static ImageButton getMenuIcon(final int action, final String path, final String fileName, final String extension) {
         return Util.getInstance().new ImageButtonTreeUtils(i18n.confirmGroupRemoval(), path, fileName, i18n.confirmGroupRemoval());
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodMainString [
 	^ 'public static void main(String[] args) {
         new Hello();
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodNewAnonymousOfInnerClassString [
 	^ 'private void newAnonymousOfInnerClass(){
         supermarket.setCarrefour(new Carrefour.Oupsi() {
@@ -2347,7 +2347,7 @@ CRFBindingTest >> fastMethodNewAnonymousOfInnerClassString [
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodNewMultiline [
 	^ 'public void multiLineNew() {
 			_llNbPoste = new BLLabel(
@@ -2355,28 +2355,28 @@ CRFBindingTest >> fastMethodNewMultiline [
 	}'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodOnInternalMethodClick [
 	^ 'public void onInternalMethod(final ClickEvent event) {
                 System.out.println(someLocalVariableDefineInExternalScope);
             }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodReturnNumberString [
 	^ 'private int returnNumber(int i){
         return i;
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodStaticInitialization [
 	^ 'static {
     	label = "Banana split";
     }'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastMethodTestString [
 	^ 'public int test() {
         hello = returnNumber(5);
@@ -2411,7 +2411,7 @@ CRFBindingTest >> fastModel: anObject [
 	fastModel := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CRFBindingTest >> fastString [ 
 	^ 'package hello;
 
