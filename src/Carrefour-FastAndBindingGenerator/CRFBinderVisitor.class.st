@@ -47,15 +47,25 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
+	aVariableName ifNil: [ ^ nil ].
 	(aFASTEntity
 		atAnyScope:
 			{FASTJavaInitializer.
-			FASTJavaMethodEntity}) ifNotEmpty: [:collectionOfMethods | (collectionOfMethods anyOne famix allAtScope: FamixTMethod)
-		do: [ :aFamixMethod | 
-			(self
-				determineAttributeWithName: aVariableName
-				ofFamixMethod: aFamixMethod
-				for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ].
+			FASTJavaMethodEntity})
+		ifNotEmpty: [ :collectionOfMethods | 
+			(collectionOfMethods anyOne famix allAtScope: FamixTMethod)
+				do: [ :aFamixMethod | 
+					(self
+						determineAttributeWithName: aVariableName
+						ofFamixMethod: aFamixMethod
+						for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
+		ifEmpty:
+			[ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
+			ifNone it is probably the name of a type... so we do not care
+			"
+			self sourceFamixEntity attributes
+				detect: [ :attribute | attribute name = aVariableName ]
+				ifFound: [ :attribute | ^ attribute ] ].
 	^ nil
 ]
 
