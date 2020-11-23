@@ -220,19 +220,21 @@ CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
+
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
 
 	(self sourceFamixEntity allToScope: FamixTClass)
 		select: [ :class | 
-			class isAnonymousClass
-				and: [ (class name includesSubstring: '(' , aFASTJavaNewClassExpression type fullName , ')')
-						and: [ class hasSourceAnchor
-								and: [ | sourceStartPos |
-									sourceStartPos := self sourceFamixEntityStartPo.
-									class sourceAnchor startPos - sourceStartPos >= (aFASTJavaNewClassExpression startPos - 1)
-										and: [ class sourceAnchor endPos - sourceStartPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
+			class isAnonymousClass and: [ 
+				(class name includesSubstring: '(' , aFASTJavaNewClassExpression type fullName , ')') and: [ 
+					class hasSourceAnchor and: [ 
+						| sourceStartPos |
+						sourceStartPos := self sourceFamixEntityStartPo.
+						class sourceAnchor startPos - sourceStartPos >= (aFASTJavaNewClassExpression startPos - 1) and: [ 
+							class sourceAnchor endPos - sourceStartPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
 		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression ].
-	aFASTJavaNewClassExpression children do: [ :child | self accept: child ]
+	"aFASTJavaNewClassExpression are kind og FASTJavaNewExpression, so execute also its visitor"
+	self visitFASTJavaNewExpression: aFASTJavaNewClassExpression
 ]
 
 { #category : #visitor }

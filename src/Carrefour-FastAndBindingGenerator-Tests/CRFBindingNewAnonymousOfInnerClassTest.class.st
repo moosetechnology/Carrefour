@@ -16,5 +16,12 @@ CRFBindingNewAnonymousOfInnerClassTest >> setUp [
 { #category : #running }
 CRFBindingNewAnonymousOfInnerClassTest >> testBindingClassCarrefour [
 	self assert: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne famixType equals: (self famixModel allModelClasses select: [ :class | class name = '_Anonymous(Carrefour.Oupsi)' ]) anyOne.
-	self assert: (self famixModel allModelClasses select: [ :class | class name = '_Anonymous(Carrefour.Oupsi)' ]) anyOne fastDeclaration anyOne equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne 
+	self assert: (self famixModel allModelClasses select: [ :class | class name = '_Anonymous(Carrefour.Oupsi)' ]) anyOne fastDeclaration anyOne equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne
+]
+
+{ #category : #running }
+CRFBindingNewAnonymousOfInnerClassTest >> testBindingNewClassInvocationCarrefour [
+	self assert: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne famix equals: ((self famixModel allWithType: FAMIXInvocation) detect: [ :invocation | invocation signature = '_Anonymous(Carrefour.Oupsi)()' ]).
+	
+	self assert: ((self famixModel allWithType: FAMIXInvocation) detect: [ :invocation | invocation signature = '_Anonymous(Carrefour.Oupsi)()' ]) fast equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne
 ]
