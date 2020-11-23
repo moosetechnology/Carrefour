@@ -11,10 +11,15 @@ Class {
 CRFBindingAttributeInitialisationTest >> setUp [
 	super setUp.
 	helloClass := (self famixModel allModelClasses detect: [:class | class name = #'Hello']).
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeString: helloClass sourceAnchor sourceText)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeString: (self sourceCodeOfClass: helloClass))
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor new bindFastModel: self fastModel fromEntity: helloClass
+]
+
+{ #category : #running }
+CRFBindingAttributeInitialisationTest >> sourceCodeOfClass: aClass [
+	^ self fastString copyFrom: aClass sourceAnchor startPos to: aClass sourceAnchor endPos  
 ]
 
 { #category : #running }
