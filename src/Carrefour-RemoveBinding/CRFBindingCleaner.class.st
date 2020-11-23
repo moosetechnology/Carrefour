@@ -6,12 +6,13 @@ Class {
 
 { #category : #generated }
 CRFBindingCleaner >> fullClean: anEntity [
+
 	"remove this entity, the top entities, all the FAST model"
 
 	| mooseModel |
 	mooseModel := anEntity mooseModel.
 	mooseModel flushPrivateState.
-	mooseModel privateState flush.
+	mooseModel flush.
 	self accept: anEntity.
 	mooseModel removeAll
 ]
