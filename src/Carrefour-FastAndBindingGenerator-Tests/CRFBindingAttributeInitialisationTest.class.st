@@ -24,7 +24,7 @@ CRFBindingAttributeInitialisationTest >> sourceCodeOfClass: aClass [
 
 { #category : #running }
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeAreBound [
-	self assert: helloClass attributes size equals: 7.
+	self assert: helloClass attributes size equals: 9.
 	helloClass attributes do: [ :attribute |
 		self assert: attribute fastDeclaration isNotEmpty ]
 ]
@@ -33,7 +33,7 @@ CRFBindingAttributeInitialisationTest >> testAllFamixAttributeAreBound [
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeInitializationAreBound [
 	| invocationsFamix invocationsFast |
 	invocationsFamix := (((self famixModel allWithType: FAMIXInvocation)
-		select: [ :invoc | invoc signature = #'Canard()' ])
+		select: [ :invoc | invoc signature beginsWith: #'Canard(' ])
 		asOrderedCollection
 		sorted:
 			[ :invocA :invocB | invocA sourceAnchor startPos < invocB sourceAnchor startPos ]).

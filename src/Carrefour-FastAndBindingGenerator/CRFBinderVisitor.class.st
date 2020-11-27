@@ -48,10 +48,10 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
 	aVariableName ifNil: [ ^ nil ].
-	(aFASTEntity
+	((aFASTEntity
 		atAnyScope:
 			{FASTJavaInitializer.
-			FASTJavaMethodEntity})
+			FASTJavaMethodEntity}) reject: [ :fastElement | fastElement famix isNil ])
 		ifNotEmpty: [ :collectionOfMethods | 
 			(collectionOfMethods anyOne famix allAtScope: FamixTMethod)
 				do: [ :aFamixMethod | 
