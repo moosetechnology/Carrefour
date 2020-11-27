@@ -21,7 +21,7 @@ CRFBinderVisitor >> bindFastModel: fastModel fromEntity: aFamixMethodEntity [
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixClassEntity: aFamixClassEntity [
 	self
 		execute: [ self sourceFamixEntity: aFamixClassEntity.
-			(fastModel allWithType: FASTJavaClassDeclaration)
+			(fastModel allWithType: FASTJavaClassDeclaration) asOrderedCollection
 				select: [ :classDeclaration | classDeclaration parentNode isNil ]
 				thenDo: [ :classDeclaration | self accept: classDeclaration ].
 			fastModel metamodel: CRFModel metamodel ]
