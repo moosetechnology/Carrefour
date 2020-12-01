@@ -6,5 +6,11 @@ SmalltalkCISpec {
       #load : [ 'all' ],
       #platforms : [ #pharo ]
     }
-  ]
+  ],
+  #testing : {
+    #coverage : {
+      #packages : [ 'Carrefour.*' ],
+      #format : #lcov
+    }
+  }
 }
