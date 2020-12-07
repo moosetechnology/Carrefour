@@ -2,10 +2,10 @@ Extension { #name : #FASTVariableExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTVariableExpression >> famixVariable [
-	"Relation named: #famixVariable type: #FAMIXType opposite: #fastAccesses"
+	"Relation named: #famixVariable type: #FamixTType opposite: #fastAccesses"
 
 	<generated>
-	<FMProperty: #famixVariable type: #FAMIXType opposite: #fastAccesses>
+	<FMProperty: #famixVariable type: #FamixTType opposite: #fastAccesses>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #famixVariable ifAbsent: [ nil ]
 ]

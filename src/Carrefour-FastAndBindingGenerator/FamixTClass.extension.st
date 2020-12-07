@@ -4,3 +4,20 @@ Extension { #name : #FamixTClass }
 FamixTClass >> bindFastModel: fastModel usingBinder: binder [
 	binder bindFastModel: fastModel fromFamixClassEntity: self
 ]
+
+{ #category : #'*Carrefour-FastAndBindingGenerator' }
+FamixTClass >> generateFastAndBind [
+	| fastModel |
+	self assert: self sourceAnchor isNotNil.
+	fastModel := self generateFastJava
+		metamodel: CRFModel metamodel;
+		yourself.
+	self bindFastModel: fastModel usingBinder: CRFBinderVisitor new.
+	^ fastModel
+]
+
+{ #category : #'*Carrefour-FastAndBindingGenerator' }
+FamixTClass >> generateFastIfNotDoneAndBind [
+	self fastDeclaration ifNotEmpty: [ ^ self fastDeclaration mooseModel ].
+	^ self generateFastAndBind 
+]

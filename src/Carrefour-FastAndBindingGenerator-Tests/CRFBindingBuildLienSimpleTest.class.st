@@ -17,8 +17,8 @@ CRFBindingBuildLienSimpleTest >> setUp [
 CRFBindingBuildLienSimpleTest >> testBindingClassBLAbstractLienSimple [
 		
 	self
-		assert:  (self famixModel allModelClasses select: [ :class |  class name = '_Anonymous(BLAbstractLienSimple)' ]) anyOne fastDeclaration anyOne
-		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) select: [ :variableExpression | variableExpression type fullName = 'BLAbstractLienSimple' ]) anyOne
+		assert:  (self famixModel allModelClasses detect: [ :class |  class name = '_Anonymous(BLAbstractLienSimple)' ]) fastDeclaration anyOne
+		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) detect: [ :variableExpression | variableExpression type fullName = 'BLAbstractLienSimple' ])
 ]
 
 { #category : #tests }

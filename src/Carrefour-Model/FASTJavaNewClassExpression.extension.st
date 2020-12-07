@@ -2,10 +2,10 @@ Extension { #name : #FASTJavaNewClassExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTJavaNewClassExpression >> famixType [
-	"Relation named: #famixType type: #FAMIXType opposite: #fastDeclaration"
+	"Relation named: #famixType type: #FamixTType opposite: #fastDeclaration"
 
 	<generated>
-	<FMProperty: #famixType type: #FAMIXType opposite: #fastDeclaration>
+	<FMProperty: #famixType type: #FamixTType opposite: #fastDeclaration>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #famixType ifAbsent: [ nil ]
 ]

@@ -25,12 +25,6 @@ Class {
 }
 
 { #category : #accessing }
-CRFMetamodelGenerator class >> modifyMetamodel: aMetamodel [
-	super modifyMetamodel: aMetamodel.
-	self fixRemoteMetamodelRelationsIn: aMetamodel
-]
-
-{ #category : #accessing }
 CRFMetamodelGenerator class >> packageName [
 	<ignoreForCoverage>
 	^ 'Carrefour-Model'
@@ -46,23 +40,24 @@ CRFMetamodelGenerator class >> prefix [
 CRFMetamodelGenerator class >> submetamodels [
 	^ {FASTMetamodelGenerator.
 	FASTJavaMetamodelGenerator.
-	FamixCompatibilityGenerator}
+	FamixJavaGenerator.
+	FamixGenerator }
 ]
 
 { #category : #definition }
 CRFMetamodelGenerator >> defineClasses [
 	super defineClasses.
-	famixMethod := self remoteEntity: #Method withPrefix: #FAMIX.
+	famixMethod := self remoteEntity: #Method withPrefix: #FamixJava.
 	fastJavaMethodEntity := self remoteEntity: #MethodEntity withPrefix: #FASTJava.
-	famixInvocation := self remoteEntity: #Invocation withPrefix: #FAMIX.
+	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixJava.
 	fastJavaMethodInvocation := self remoteEntity: #MethodInvocation withPrefix: #FASTJava.
 	fastJavaNew := self remoteEntity: #NewExpression withPrefix: #FASTJava.
-	famixStructuralEntity := self remoteEntity: #StructuralEntity withPrefix: #FAMIX.
+	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #'Famix'.
 	fastJavaAssignementExpression := self remoteEntity: #AssignementExpression withPrefix: #FASTJava.
 	fastJavaVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTJava.
 	fastJavaClassProperty := self remoteEntity: #ClassProperty withPrefix: #FASTJava.
 	fastJavaIdentifier := self remoteEntity: #Identifier withPrefix: #FASTJava.
-	famixType := self remoteEntity: #Type withPrefix: #FAMIX.
+	famixType := self remoteTrait: #TType withPrefix: #'Famix'.
 	fastJavaNewClassExpression := self remoteEntity: #NewClassExpression withPrefix: #FASTJava.
 	fastJavaFieldAccess := self remoteEntity: #FieldAccess withPrefix: #FASTJava.
 	fastJavaInitializer := self remoteEntity: #Initializer withPrefix: #FASTJava.

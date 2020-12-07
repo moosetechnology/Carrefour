@@ -6,12 +6,13 @@ Class {
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> famixTestMethod [
-	^ (self famixModel allMethods select: [ :method | method name = 'test' ]) first
+
+	^ self famixModel allMethods detect: [ :method | method name = 'test' ]
 ]
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> fastTestMethod [
-	^ (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first
+	^ self fastModel allFASTJavaMethodEntity detect: [ :method | method name = 'test' ]
 ]
 
 { #category : #running }
@@ -43,7 +44,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveStructuralEntityBinding [
 	| structuralEntities |
-	structuralEntities := (self famixModel allWithSubTypesOf: FAMIXStructuralEntity).
+	structuralEntities := (self famixModel allUsing: FamixTStructuralEntity).
 	"we check the value at the beginning to avoid breaking the tests"
 	self assert: (structuralEntities flatCollect: #fastDeclaration) size equals: 4.
 	self assert: (structuralEntities flatCollect: #fastAccesses) size equals: 16.

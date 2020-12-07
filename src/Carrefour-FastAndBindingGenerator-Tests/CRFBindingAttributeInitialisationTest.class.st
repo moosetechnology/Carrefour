@@ -32,7 +32,7 @@ CRFBindingAttributeInitialisationTest >> testAllFamixAttributeAreBound [
 { #category : #running }
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeInitializationAreBound [
 	| invocationsFamix invocationsFast |
-	invocationsFamix := (((self famixModel allWithType: FAMIXInvocation)
+	invocationsFamix := (((self famixModel allUsing: FamixTInvocation)
 		select: [ :invoc | invoc signature beginsWith: #'Canard(' ])
 		asOrderedCollection
 		sorted:
@@ -46,5 +46,5 @@ CRFBindingAttributeInitialisationTest >> testAllFamixAttributeInitializationAreB
 		| invocationFast |
 		invocationFast := invocationsFast at: index.
 		self assert: invocationFamix fast equals: invocationFast.
-		self assert: invocationFast famix equals: invocationFamix ]
+		self assert: invocationFast famix equals: invocationFamix ].
 ]

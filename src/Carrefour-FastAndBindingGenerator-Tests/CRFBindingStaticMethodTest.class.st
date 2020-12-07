@@ -16,6 +16,6 @@ CRFBindingStaticMethodTest >> setUp [
 
 { #category : #tests }
 CRFBindingStaticMethodTest >> testBindingStaticInitialization [
-	self assert: (self famixModel allMethods select: [ :method | method name = '<Initializer>' and: [ method parentType isAnonymousClass not ] ]) first fast equals: (self fastModel allWithType: FASTJavaInitializer) first.
-	self assert: (self fastModel allWithType: FASTJavaInitializer) first famix equals: (self famixModel allMethods select: [ :method | method name = '<Initializer>' and: [ method parentType isAnonymousClass not ] ]) first
+	self assert: (self famixModel allMethods detect: [ :method | method name = '<Initializer>' and: [ method parentType isAnonymousClass not ] ]) fast equals: (self fastModel allWithType: FASTJavaInitializer) first.
+	self assert: (self fastModel allWithType: FASTJavaInitializer) first famix equals: (self famixModel allMethods detect: [ :method | method name = '<Initializer>' and: [ method parentType isAnonymousClass not ] ])
 ]

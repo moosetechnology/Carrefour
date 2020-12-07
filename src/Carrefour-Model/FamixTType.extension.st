@@ -1,7 +1,7 @@
-Extension { #name : #FAMIXType }
+Extension { #name : #FamixTType }
 
 { #category : #'*Carrefour-Model-accessing' }
-FAMIXType >> fastAccesses [
+FamixTType >> fastAccesses [
 	"Relation named: #fastAccesses type: #FASTVariableExpression opposite: #famixVariable"
 
 	<generated>
@@ -12,14 +12,14 @@ FAMIXType >> fastAccesses [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FAMIXType >> fastAccesses: anObject [
+FamixTType >> fastAccesses: anObject [
 
 	<generated>
 	self fastAccesses value: anObject
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FAMIXType >> fastDeclaration [
+FamixTType >> fastDeclaration [
 	"Relation named: #fastDeclaration type: #FASTJavaNewClassExpression opposite: #famixType"
 
 	<generated>
@@ -30,7 +30,7 @@ FAMIXType >> fastDeclaration [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FAMIXType >> fastDeclaration: anObject [
+FamixTType >> fastDeclaration: anObject [
 
 	<generated>
 	self fastDeclaration value: anObject

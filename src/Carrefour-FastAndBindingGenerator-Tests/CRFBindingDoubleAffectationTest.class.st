@@ -26,7 +26,7 @@ CRFBindingDoubleAffectationTest >> testBindingMethod [
 { #category : #running }
 CRFBindingDoubleAffectationTest >> testBindingSameClassAffectation [
 	self 
-		assertCollection:  ((self famixModel allWithType: FAMIXLocalVariable) select: [ :localVariable | localVariable parentBehaviouralEntity name = 'doubleAffectation' ])  
+		assertCollection:  ((self famixModel allUsing: FamixTLocalVariable) select: [ :localVariable | localVariable parentBehaviouralEntity name = 'doubleAffectation' ])  
 		hasSameElements: ((self fastModel allWithType: FASTJavaVariableDeclarator) collect: #famixVariable).
 
 ]
