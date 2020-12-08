@@ -7,10 +7,15 @@ Class {
 { #category : #running }
 CRFBindingBuildLienSimpleTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodBuildLienSimple)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodBuildLienSimple)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'buildLienSimple' ]) first
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'buildLienSimple' ])
 ]
 
 { #category : #tests }

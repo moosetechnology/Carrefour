@@ -42,20 +42,26 @@ CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethod
 
 { #category : #'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity [
-
 	"I do a lookup for a variable in the famix code with the name = aVariableName 
 	 I return the variable if found nil else
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
 	aVariableName ifNil: [ ^ nil ].
-	((aFASTEntity atAnyScope: { 
-			  FASTJavaInitializer.
-			  FASTJavaMethodEntity }) reject: [ :fastElement | fastElement famix isNil ])
+	((aFASTEntity
+		atAnyScope:
+			{FASTJavaInitializer.
+			FASTJavaMethodEntity})
+		reject: [ :fastElement | fastElement famix isNil ])
 		ifNotEmpty: [ :collectionOfMethods | 
-			(collectionOfMethods anyOne famix allAtScope: FamixTMethod) do: [ :aFamixMethod | 
-				(self determineAttributeWithName: aVariableName ofFamixMethod: aFamixMethod for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
-		ifEmpty: [ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
+			(collectionOfMethods anyOne famix allAtScope: FamixTMethod)
+				do: [ :aFamixMethod | 
+					(self
+						determineAttributeWithName: aVariableName
+						ofFamixMethod: aFamixMethod
+						for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
+		ifEmpty:
+			[ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
 			ifNone it is probably the name of a type... so we do not care
 			"
 			self sourceFamixEntity attributes

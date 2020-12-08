@@ -23,7 +23,7 @@ CRFFullCleanTest >> setUp [
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodTestString)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'test' ]) first.
+	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods detect: [ :method | method name = 'test' ])
 ]
 
 { #category : #running }

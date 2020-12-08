@@ -18,16 +18,21 @@ CRFRemoveReferencesTestTest >> fastTestMethod [
 { #category : #running }
 CRFRemoveReferencesTestTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodTestString)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodTestString)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'test' ]) first.
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'test' ])
 ]
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveInvocationsBinding [
 	self fastTestMethod removeBinding.
-	self assert: self famixTestMethod queryAllOutgoingInvocations size equals: 8.
+	self assert: self famixTestMethod queryAllOutgoingInvocations size equals: 10.
 	self famixTestMethod queryAllOutgoingInvocations do: [ :invocation | 
 		self assert: invocation fast equals: nil ].
 ]

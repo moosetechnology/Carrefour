@@ -8,12 +8,14 @@ Class {
 CRFBindingMultilineTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
-		parseCodeMethodString: self fastMethodNewMultiline )
+		parseCodeMethodString: self fastMethodNewMultiline)
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'multiLineNew' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'multiLineNew' ])
 ]
 
 { #category : #running }

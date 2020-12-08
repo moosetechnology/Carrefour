@@ -29,12 +29,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 
 { #category : #baselines }
 BaselineOfCarrefour >> defineGroups: spec [
-	spec
-		group: 'default' with: #('all');
-		group: 'all'
-			with:
-			#('Carrefour-Model-Generator' 'Carrefour-Model' 'Carrefour-FastAndBindingGenerator' 'Carrefour-FastAndBindingGenerator-Tests' 'Carrefour-Extension' 'Carrefour-RemoveBinding' 'Carrefour-RemoveBinding-Tests' 'TinyLogger');
-		group: 'generator' with: #('Carrefour-Model-Generator')
+	spec group: 'generator' with: #('Carrefour-Model-Generator')
 ]
 
 { #category : #baselines }
@@ -42,10 +37,19 @@ BaselineOfCarrefour >> definePackages: spec [
 	spec
 		repository: 'https://github.com/badetitou/Carrefour';
 		package: 'Carrefour-Model' with: [ spec requires: #('FASTJava') ];
-		package: 'Carrefour-Model-Generator' with: [ spec requires: #('FASTJava') ];
-		package: 'Carrefour-FastAndBindingGenerator' with: [ spec requires: #('FASTJava') ];
-		package: 'Carrefour-FastAndBindingGenerator-Tests' with: [ spec requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator') ];
-		package: 'Carrefour-Extension' with: [ spec requires: #('FASTJava') ];
-		package: 'Carrefour-RemoveBinding' with: [ spec requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator') ];
-		package: 'Carrefour-RemoveBinding-Tests' with: [ spec requires: #('Carrefour-RemoveBinding') ]
+		package: 'Carrefour-Model-Generator'
+			with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-FastAndBindingGenerator'
+			with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-Tests'
+			with: [ spec requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator') ];
+		package: 'Carrefour-FastAndBindingGenerator-Tests'
+			with: [ spec
+				requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator' 'Carrefour-Tests') ];
+		package: 'Carrefour-Extension'
+			with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-RemoveBinding'
+			with: [ spec requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator') ];
+		package: 'Carrefour-RemoveBinding-Tests'
+			with: [ spec requires: #('Carrefour-RemoveBinding' 'Carrefour-Tests') ]
 ]

@@ -8,12 +8,14 @@ Class {
 CRFBindingMainTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
-		parseCodeMethodString: self fastMethodMainString )
+		parseCodeMethodString: self fastMethodMainString)
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'main' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'main' ])
 ]
 
 { #category : #tests }

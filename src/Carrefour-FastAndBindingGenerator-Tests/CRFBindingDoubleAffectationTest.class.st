@@ -13,7 +13,9 @@ CRFBindingDoubleAffectationTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'doubleAffectation' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'doubleAffectation' ]) 
 ]
 
 { #category : #running }

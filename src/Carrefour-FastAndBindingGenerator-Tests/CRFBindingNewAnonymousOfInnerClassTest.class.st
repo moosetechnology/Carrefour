@@ -7,10 +7,15 @@ Class {
 { #category : #running }
 CRFBindingNewAnonymousOfInnerClassTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodNewAnonymousOfInnerClassString)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodNewAnonymousOfInnerClassString)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'newAnonymousOfInnerClass' ]) first
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'newAnonymousOfInnerClass' ])
 ]
 
 { #category : #running }

@@ -13,7 +13,9 @@ CRFBindingClassPropertyAccessTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'classPropertyAccess' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'classPropertyAccess' ])
 ]
 
 { #category : #tests }

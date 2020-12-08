@@ -7,11 +7,17 @@ Class {
 { #category : #running }
 CRFBindingStaticMethodTest >> setUp [
 	super setUp.
-
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodStaticInitialization)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodStaticInitialization)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allMethods select: [ :method | method name = '<Initializer>' and: [ method parentType isAnonymousClass not ] ]) first 
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity:
+			(self famixModel allMethods
+				detect: [ :method | 
+					method name = '<Initializer>'
+						and: [ method parentType isAnonymousClass not ] ])
 ]
 
 { #category : #tests }
