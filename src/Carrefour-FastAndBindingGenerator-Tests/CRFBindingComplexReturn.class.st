@@ -13,7 +13,9 @@ CRFBindingComplexReturn >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'getMenuIcon' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'getMenuIcon' ])
 ]
 
 { #category : #running }

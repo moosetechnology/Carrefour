@@ -18,8 +18,8 @@ CRFBindingTestStringOnClickTest >> setUp [
 	CRFBinderVisitor
 		bindFastModel: self fastModel
 		fromFamixMethodEntity:
-			(self famixModel allModelMethods select: [ :method | 
-				 method name = 'onInternalMethod' ]) first.
+			(self famixModel allModelMethods detect: [ :method | 
+				 method name = 'onInternalMethod' ]).
 	self fastModel metamodel: CRFModel metamodel.
 ]
 

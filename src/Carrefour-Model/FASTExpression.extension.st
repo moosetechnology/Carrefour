@@ -2,11 +2,11 @@ Extension { #name : #FASTExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTExpression >> famix [
-	"Relation named: #famix type: #FAMIXInvocation opposite: #fast"
+	"Relation named: #famix type: #FamixJavaInvocation opposite: #fast"
 
 	<generated>
 	<derived>
-	<FMProperty: #famix type: #FAMIXInvocation opposite: #fast>
+	<FMProperty: #famix type: #FamixJavaInvocation opposite: #fast>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #famix ifAbsent: [ nil ]
 ]
@@ -27,10 +27,10 @@ FASTExpression >> famix: anObject [
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTExpression >> famixVariable [
-	"Relation named: #famixVariable type: #FAMIXStructuralEntity opposite: #fastAccesses"
+	"Relation named: #famixVariable type: #FamixTStructuralEntity opposite: #fastAccesses"
 
 	<generated>
-	<FMProperty: #famixVariable type: #FAMIXStructuralEntity opposite: #fastAccesses>
+	<FMProperty: #famixVariable type: #FamixTStructuralEntity opposite: #fastAccesses>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #famixVariable ifAbsent: [ nil ]
 ]

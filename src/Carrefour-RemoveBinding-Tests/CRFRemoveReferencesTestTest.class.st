@@ -6,27 +6,33 @@ Class {
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> famixTestMethod [
-	^ (self famixModel allMethods select: [ :method | method name = 'test' ]) first
+
+	^ self famixModel allMethods detect: [ :method | method name = 'test' ]
 ]
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> fastTestMethod [
-	^ (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first
+	^ self fastModel allFASTJavaMethodEntity detect: [ :method | method name = 'test' ]
 ]
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodTestString)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodTestString)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'test' ]) first.
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'test' ])
 ]
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveInvocationsBinding [
 	self fastTestMethod removeBinding.
-	self assert: self famixTestMethod queryAllOutgoingInvocations size equals: 8.
+	self assert: self famixTestMethod queryAllOutgoingInvocations size equals: 10.
 	self famixTestMethod queryAllOutgoingInvocations do: [ :invocation | 
 		self assert: invocation fast equals: nil ].
 ]
@@ -43,7 +49,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveStructuralEntityBinding [
 	| structuralEntities |
-	structuralEntities := (self famixModel allWithSubTypesOf: FAMIXStructuralEntity).
+	structuralEntities := (self famixModel allUsing: FamixTStructuralEntity).
 	"we check the value at the beginning to avoid breaking the tests"
 	self assert: (structuralEntities flatCollect: #fastDeclaration) size equals: 4.
 	self assert: (structuralEntities flatCollect: #fastAccesses) size equals: 16.

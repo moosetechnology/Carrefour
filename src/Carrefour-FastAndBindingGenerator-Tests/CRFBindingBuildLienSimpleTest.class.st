@@ -7,18 +7,23 @@ Class {
 { #category : #running }
 CRFBindingBuildLienSimpleTest >> setUp [
 	super setUp.
-	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodBuildLienSimple)
+	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
+		parseCodeMethodString: self fastMethodBuildLienSimple)
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'buildLienSimple' ]) first
+	CRFBinderVisitor
+		bindFastModel: self fastModel
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'buildLienSimple' ])
 ]
 
 { #category : #tests }
 CRFBindingBuildLienSimpleTest >> testBindingClassBLAbstractLienSimple [
 		
 	self
-		assert:  (self famixModel allModelClasses select: [ :class |  class name = '_Anonymous(BLAbstractLienSimple)' ]) anyOne fastDeclaration anyOne
-		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) select: [ :variableExpression | variableExpression type fullName = 'BLAbstractLienSimple' ]) anyOne
+		assert:  (self famixModel allModelClasses detect: [ :class |  class name = '_Anonymous(BLAbstractLienSimple)' ]) fastDeclaration anyOne
+		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) detect: [ :variableExpression | variableExpression type fullName = 'BLAbstractLienSimple' ])
 ]
 
 { #category : #tests }

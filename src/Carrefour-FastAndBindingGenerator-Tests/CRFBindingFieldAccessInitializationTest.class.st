@@ -13,7 +13,9 @@ CRFBindingFieldAccessInitializationTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'useThisForFieldAccess' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'useThisForFieldAccess' ])
 ]
 
 { #category : #tests }

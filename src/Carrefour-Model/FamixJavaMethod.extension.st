@@ -1,7 +1,7 @@
-Extension { #name : #FAMIXMethod }
+Extension { #name : #FamixJavaMethod }
 
 { #category : #'*Carrefour-Model-accessing' }
-FAMIXMethod >> fast [
+FamixJavaMethod >> fast [
 	"Relation named: #fast type: #FASTEntity opposite: #famix"
 
 	<generated>
@@ -11,7 +11,7 @@ FAMIXMethod >> fast [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FAMIXMethod >> fast: anObject [
+FamixJavaMethod >> fast: anObject [
 
 	<generated>
 	(self attributeAt: #fast ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

@@ -51,7 +51,8 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	((aFASTEntity
 		atAnyScope:
 			{FASTJavaInitializer.
-			FASTJavaMethodEntity}) reject: [ :fastElement | fastElement famix isNil ])
+			FASTJavaMethodEntity})
+		reject: [ :fastElement | fastElement famix isNil ])
 		ifNotEmpty: [ :collectionOfMethods | 
 			(collectionOfMethods anyOne famix allAtScope: FamixTMethod)
 				do: [ :aFamixMethod | 
@@ -144,7 +145,7 @@ CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 	| classes |
 	classes := aFASTJavaVariableDeclarator type name = 'this'
 		ifFalse: [ self sourceFamixEntity mooseModel allTypes select: [ :type | type name = aFASTJavaVariableDeclarator type name ] ]
-		ifTrue: [ self sourceFamixEntity atScope: FAMIXClass ].
+		ifTrue: [ self sourceFamixEntity atScope: FamixTClass ].
 	classes
 		ifNotEmpty: [ :class | 
 			class anyOne fastAccesses add: aFASTJavaVariableDeclarator type.
@@ -166,14 +167,15 @@ CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
-	(self determineAttributeWithName: aFASTJavaIdentifier name from: aFASTJavaIdentifier) ifNotNil: [ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaIdentifier ].
-	super visitFASTJavaIdentifier: aFASTJavaIdentifier.
-	
+
+	(self determineAttributeWithName: aFASTJavaIdentifier name from: aFASTJavaIdentifier) ifNotNil: [ :structuralEntity | 
+		structuralEntity fastAccesses add: aFASTJavaIdentifier ].
+	super visitFASTJavaIdentifier: aFASTJavaIdentifier
 ]
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
-	(self sourceFamixEntity allToScope: FAMIXMethod)
+	(self sourceFamixEntity allToScope: FamixTMethod)
 		select: [ :method | 
 			method name = '<Initializer>' and: [ method hasSourceAnchor
 				and: [ | sourceStartPos |

@@ -2,11 +2,11 @@ Extension { #name : #FASTEntity }
 
 { #category : #'*Carrefour-Model-accessing' }
 FASTEntity >> famix [
-	"Relation named: #famix type: #FAMIXMethod opposite: #fast"
+	"Relation named: #famix type: #FamixJavaMethod opposite: #fast"
 
 	<generated>
 	<derived>
-	<FMProperty: #famix type: #FAMIXMethod opposite: #fast>
+	<FMProperty: #famix type: #FamixJavaMethod opposite: #fast>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #famix ifAbsent: [ nil ]
 ]

@@ -8,12 +8,14 @@ Class {
 CRFBindingDoubleInsideMethodTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
-		parseCodeMethodString: self fastMethodDoubleInsideMethod )
+		parseCodeMethodString: self fastMethodDoubleInsideMethod)
 		name: #fastModel;
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'doubleInsideMethod' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'doubleInsideMethod' ])
 ]
 
 { #category : #tests }

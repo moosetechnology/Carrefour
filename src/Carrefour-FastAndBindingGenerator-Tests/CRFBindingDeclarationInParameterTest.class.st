@@ -16,7 +16,9 @@ CRFBindingDeclarationInParameterTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: (self famixModel allModelMethods select: [ :method | method name = 'decla' ]) first
+		fromFamixMethodEntity:
+			(self famixModel allModelMethods
+				detect: [ :method | method name = 'decla' ]) 
 ]
 
 { #category : #running }
