@@ -139,16 +139,16 @@ CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpr
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
+
 	| classes |
 	classes := aFASTJavaVariableDeclarator type name = 'this'
-		ifFalse: [ self sourceFamixEntity mooseModel allTypes select: [ :type | type name = aFASTJavaVariableDeclarator type name ] ]
-		ifTrue: [ self sourceFamixEntity atScope: FamixTClass ].
-	classes
-		ifNotEmpty: [ :class | 
-			class anyOne fastAccesses add: aFASTJavaVariableDeclarator type.
-			class anyOne attributes
-				select: [ :attribute | attribute name = aFASTJavaVariableDeclarator fieldName ]
-				thenDo: [ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
+		           ifFalse: [ self sourceFamixEntity mooseModel allClasses select: [ :class | (class name = aFASTJavaVariableDeclarator type name) ] ]
+		           ifTrue: [ self sourceFamixEntity atScope: FamixTClass ].
+	classes ifNotEmpty: [ :class | 
+		class anyOne fastAccesses add: aFASTJavaVariableDeclarator type.
+		class anyOne attributes 
+			select: [ :attribute | attribute name = aFASTJavaVariableDeclarator fieldName ]
+			thenDo: [ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
 
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 ]
