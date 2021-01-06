@@ -72,6 +72,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 
 { #category : #'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFamixMethod for: aFastEntity [
+
 	aFamixMethod localVariables
 		detect: [ :localVariable | localVariable name = aVariableName ]
 		ifFound: [ :found | ^ found ].
@@ -81,21 +82,17 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 	aFamixMethod implicitVariables
 		detect: [ :implicitVariable | implicitVariable name = aVariableName ]
 		ifFound: [ :found | ^ found ].
-	(aFastEntity allAtScope: FASTJavaNewClassExpression)
-		flatCollect: [ :aFastJavaNewClassExpression | 
-			aFastJavaNewClassExpression famixType attributes
-				detect: [ :attribute | attribute name = aVariableName ]
-				ifFound: [ :found | ^ found ] ].
-	((aFamixMethod
-		atAnyScope:
-			{FamixTParameterizedType.
-			FamixTClass}) flatCollect: #withSuperclassHierarchy)
-		ifNotEmpty: [ :scopes | 
-			scopes
-				do: [ :scope | 
-					scope attributes
-						detect: [ :implicitVariable | implicitVariable name = aVariableName ]
-						ifFound: [ :found | ^ found ] ] ].
+	(aFastEntity allAtScope: FASTJavaNewClassExpression) flatCollect: [ :aFastJavaNewClassExpression | 
+		aFastJavaNewClassExpression famixType attributes
+			detect: [ :attribute | attribute name = aVariableName ]
+			ifFound: [ :found | ^ found ] ].
+	(((aFamixMethod atAnyScope: { 
+			  FamixTParameterizedType.
+			  FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass  ]) ifNotEmpty: [ :scopes | 
+		scopes do: [ :scope | 
+			scope attributes
+				detect: [ :implicitVariable | implicitVariable name = aVariableName ]
+				ifFound: [ :found | ^ found ] ] ].
 	^ nil
 ]
 
