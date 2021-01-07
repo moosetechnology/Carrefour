@@ -31,6 +31,7 @@ CRFRemoveReferencesTestTest >> setUp [
 
 { #category : #running }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveInvocationsBinding [
+
 	self fastTestMethod removeBinding.
 	self assert: self famixTestMethod queryAllOutgoingInvocations size equals: 10.
 	self famixTestMethod queryAllOutgoingInvocations do: [ :invocation | 

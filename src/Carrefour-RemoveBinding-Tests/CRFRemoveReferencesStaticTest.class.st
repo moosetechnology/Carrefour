@@ -30,7 +30,14 @@ CRFRemoveReferencesStaticTest >> setUp [
 
 { #category : #running }
 CRFRemoveReferencesStaticTest >> testFromFASTRemoveStaticInitializerBinding [
+	| weakArray |
+	weakArray := WeakArray new: 1.
+	weakArray at: 1 put: self fastTestMethod.
+
 	self fastTestMethod removeBinding.
-	self assert: self fastTestMethod famix equals: nil.
-	self assert: self famixTestMethod fast equals: nil
+	fastModel := nil.
+	
+	Smalltalk garbageCollect.	
+
+	self assert: weakArray first equals: nil.
 ]
