@@ -21,7 +21,7 @@ CRFBindingComplexReturn >> setUp [
 { #category : #running }
 CRFBindingComplexReturn >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
-	self assert: self fastModel allFASTJavaMethodEntity first famix equals: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first.
+	self assert: self fastModel allFASTJavaMethodEntity first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first.
 
 ]
 
@@ -36,5 +36,5 @@ CRFBindingComplexReturn >> testBindingNewExpression [
 		assert:
 			((self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first outgoingInvocations
 				select: [ :invoc | invoc signature = 'ImageButtonTreeUtils(i18n.confirmGroupRemoval(),path,fileName,i18n.confirmGroupRemoval())' ]) first
-		equals: (self fastModel allWithType: FASTJavaNewExpression) first famix
+		equals: (self fastModel allWithType: FASTJavaNewExpression) first famixInvocation
 ]

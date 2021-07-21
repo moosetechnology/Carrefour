@@ -2,10 +2,10 @@ Extension { #name : #FamixJavaInvocation }
 
 { #category : #'*Carrefour-Model-accessing' }
 FamixJavaInvocation >> fast [
-	"Relation named: #fast type: #FASTExpression opposite: #famix"
+	"Relation named: #fast type: #FASTTExpression opposite: #famixInvocation"
 
 	<generated>
-	<FMProperty: #fast type: #FASTExpression opposite: #famix>
+	<FMProperty: #fast type: #FASTTExpression opposite: #famixInvocation>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #fast ifAbsent: [ nil ]
 ]
@@ -18,8 +18,8 @@ FamixJavaInvocation >> fast: anObject [
 	anObject ifNil: [ | otherSide |
 		otherSide :=  self fast.
 		self attributeAt: #fast put: anObject.
-		otherSide famix: nil ]
+		otherSide famixInvocation: nil ]
 	ifNotNil: [ 
 		self attributeAt: #fast put: anObject.
-		anObject famix: self ]
+		anObject famixInvocation: self ]
 ]

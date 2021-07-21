@@ -20,6 +20,6 @@ CRFBindingMultilineTest >> setUp [
 
 { #category : #running }
 CRFBindingMultilineTest >> testMultiline [
-	self assert: (fastModel allWithType: FASTJavaNewExpression) anyOne famix equals: (self famixModel allMethods select: [ :method | method name = 'multiLineNew' ]) first outgoingInvocations first.
+	self assert: (fastModel allWithType: FASTJavaNewExpression) anyOne famixInvocation equals: (self famixModel allMethods select: [ :method | method name = 'multiLineNew' ]) first outgoingInvocations first.
 	self assert: (fastModel allWithType: FASTJavaNewExpression) anyOne equals: (self famixModel allMethods select: [ :method | method name = 'multiLineNew' ]) first outgoingInvocations first fast
 ]

@@ -43,7 +43,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
 	| method |
 	method := self fastTestMethod. 
 	self fastTestMethod removeBinding.
-	self assert: method famix equals: nil.
+	self assert: method famixMethod equals: nil.
 	self assert: self famixTestMethod fast equals: nil
 ]
 

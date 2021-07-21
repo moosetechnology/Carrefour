@@ -1,7 +1,7 @@
 Class {
 	#name : #CRFModel,
 	#superclass : #MooseModel,
-	#category : #'Carrefour-Model'
+	#category : #'Carrefour-Model-Model'
 }
 
 { #category : #accessing }

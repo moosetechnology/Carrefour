@@ -2,11 +2,11 @@ Extension { #name : #FamixTStructuralEntity }
 
 { #category : #'*Carrefour-Model-accessing' }
 FamixTStructuralEntity >> fastAccesses [
-	"Relation named: #fastAccesses type: #FASTExpression opposite: #famixVariable"
+	"Relation named: #fastAccesses type: #FASTTExpression opposite: #famixVariable"
 
 	<generated>
 	<derived>
-	<FMProperty: #fastAccesses type: #FASTExpression opposite: #famixVariable>
+	<FMProperty: #fastAccesses type: #FASTTExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
 	^ self attributeAt: #fastAccesses ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]

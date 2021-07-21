@@ -24,6 +24,6 @@ CRFBindingMainTest >> testBindingMethod [
 		assert: (self famixModel allMethods select: [ :method | method name = 'main' ]) first fast
 		equals: self fastModel allFASTJavaMethodEntity first.
 	self
-		assert: self fastModel allFASTJavaMethodEntity first famix
+		assert: self fastModel allFASTJavaMethodEntity first famixMethod
 		equals: (self famixModel allMethods select: [ :method | method name = 'main' ]) first
 ]

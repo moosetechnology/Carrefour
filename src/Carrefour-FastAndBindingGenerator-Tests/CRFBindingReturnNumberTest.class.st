@@ -21,7 +21,7 @@ CRFBindingReturnNumberTest >> setUp [
 { #category : #running }
 CRFBindingReturnNumberTest >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'returnNumber' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
-	self assert: self fastModel allFASTJavaMethodEntity first famix equals: (self famixModel allMethods select: [ :method | method name = 'returnNumber' ]) first.
+	self assert: self fastModel allFASTJavaMethodEntity first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'returnNumber' ]) first.
 
 ]
 
@@ -46,5 +46,5 @@ CRFBindingReturnNumberTest >> testUsagesOfReturnI [
 
 	self
 		assert: (self famixModel allParameters detect: [ :parameter | parameter mooseName = #'hello::Hello.returnNumber(int).i' ]) fastAccesses first
-		equals: (self fastModel allWithType: FASTReturnStatement) first children anyOne
+		equals: (self fastModel allWithType: FASTJavaReturnStatement) first children anyOne
 ]

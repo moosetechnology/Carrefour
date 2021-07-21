@@ -33,7 +33,7 @@ CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 				first
 		equals:
 			((self fastModel allWithType: FASTJavaMethodInvocation)
-				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first famix
+				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first famixInvocation
 ]
 
 { #category : #tests }
@@ -43,7 +43,7 @@ CRFBindingTestTest >> testBindingMethodInvocationPrintLN [
 		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'test' ] ])  first.
 	self
 		assert: ((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(patate + hello)' ]) first
-		equals:((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'test' ] ]) first famix
+		equals:((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'test' ] ]) first famixInvocation
 ]
 
 { #category : #tests }
@@ -57,7 +57,7 @@ CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 		assert:
 			((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations
 				select: [ :invocation | invocation signature = 'returnNumber(5)' ]) first
-		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [:fastMethodInvocation | fastMethodInvocation name = 'returnNumber' ]) first famix 
+		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [:fastMethodInvocation | fastMethodInvocation name = 'returnNumber' ]) first famixInvocation
 ]
 
 { #category : #tests }
@@ -66,21 +66,21 @@ CRFBindingTestTest >> testBindingMethodOnClick [
 		assert: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fast
 		equals: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) first.
 	self
-		assert: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) first famix
+		assert: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) first famixMethod
 		equals: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first.
 		
 	self
 		assert: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second fast
 		equals: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) second.
 	self
-		assert: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) second famix
+		assert: ((self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'onClick' ])sort: [:method1 :method2 | method1 startPos < method2 startPos ]) second famixMethod
 		equals: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second.
 ]
 
 { #category : #tests }
 CRFBindingTestTest >> testBindingMethodTest [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'test' ]) first fast equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first.
-	self assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first famix equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
+	self assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
 ]
 
 { #category : #tests }

@@ -1,7 +1,7 @@
-Extension { #name : #FASTVariableExpression }
+Extension { #name : #FASTTVariableExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTVariableExpression >> famixVariable [
+FASTTVariableExpression >> famixVariable [
 	"Relation named: #famixVariable type: #FamixTType opposite: #fastAccesses"
 
 	<generated>
@@ -11,7 +11,7 @@ FASTVariableExpression >> famixVariable [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTVariableExpression >> famixVariable: anObject [
+FASTTVariableExpression >> famixVariable: anObject [
 
 	<generated>
 	self attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAccesses from: self famixVariable to: anObject).

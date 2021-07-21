@@ -46,5 +46,5 @@ CRFBindingAttributeInitialisationTest >> testAllFamixAttributeInitializationAreB
 		| invocationFast |
 		invocationFast := invocationsFast at: index.
 		self assert: invocationFamix fast equals: invocationFast.
-		self assert: invocationFast famix equals: invocationFamix ].
+		self assert: invocationFast famixInvocation equals: invocationFamix ].
 ]

@@ -62,9 +62,9 @@ CRFMetamodelGenerator >> defineClasses [
 	fastJavaFieldAccess := self remoteEntity: #FieldAccess withPrefix: #FASTJava.
 	fastJavaInitializer := self remoteEntity: #Initializer withPrefix: #FASTJava.
 	
-	fastVariableExpression := self remoteEntity: #VariableExpression withPrefix: #FAST.
-	fastExpression := self remoteEntity: #Expression withPrefix: #FAST.
-	fastEntity := self remoteEntity: #Entity withPrefix: #FAST.
+	fastVariableExpression := self remoteTrait: #TVariableExpression withPrefix: #FAST.
+	fastExpression := self remoteTrait: #TExpression withPrefix: #FAST.
+	fastEntity := self remoteTrait: #TEntity withPrefix: #FAST.
 ]
 
 { #category : #definition }
@@ -75,8 +75,8 @@ CRFMetamodelGenerator >> defineHierarchy [
 { #category : #definition }
 CRFMetamodelGenerator >> defineRelations [
 	super defineRelations.
-	(famixInvocation property: #fast) - (fastExpression property: #famix).
-	(famixMethod property: #fast) - (fastEntity property: #famix).
+	(famixInvocation property: #fast) - (fastExpression property: #famixInvocation).
+	(famixMethod property: #fast) - (fastEntity property: #famixMethod).
 	(famixStructuralEntity property: #fastAssignement) -* (fastJavaAssignementExpression property: #famixVariable).
 	(famixStructuralEntity property: #fastDeclaration) -* (fastJavaVariableDeclarator property: #famixVariable).
 	

@@ -21,7 +21,7 @@ CRFBindingDoubleAffectationTest >> setUp [
 { #category : #running }
 CRFBindingDoubleAffectationTest >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'doubleAffectation' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
-	self assert: self fastModel allFASTJavaMethodEntity first famix equals: (self famixModel allMethods select: [ :method | method name = 'doubleAffectation' ]) first.
+	self assert: self fastModel allFASTJavaMethodEntity first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'doubleAffectation' ]) first.
 
 ]
 

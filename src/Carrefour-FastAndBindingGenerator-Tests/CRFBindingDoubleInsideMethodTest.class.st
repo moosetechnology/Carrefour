@@ -21,7 +21,7 @@ CRFBindingDoubleInsideMethodTest >> setUp [
 { #category : #tests }
 CRFBindingDoubleInsideMethodTest >> testLabel41Binding [
 	self
-		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label41' ]) anyOne parentNode expression famix
+		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label41' ]) anyOne parentNode expression famixInvocation
 		equals: ((famixModel allUsing: FamixTInvocation) select: [ :invoc | invoc signature = 'BLLabel("inside ")' ]) anyOne.
 	self
 		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label41' ]) anyOne parentNode expression
@@ -31,7 +31,7 @@ CRFBindingDoubleInsideMethodTest >> testLabel41Binding [
 { #category : #tests }
 CRFBindingDoubleInsideMethodTest >> testLabel42Binding [
 	self
-		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label42' ]) anyOne parentNode expression famix
+		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label42' ]) anyOne parentNode expression famixInvocation
 		equals: ((famixModel allUsing: FamixTInvocation) select: [ :invoc | invoc signature = 'BLLabel("inside inside")' ]) anyOne.
 	self
 		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label42' ]) anyOne parentNode expression
@@ -41,7 +41,7 @@ CRFBindingDoubleInsideMethodTest >> testLabel42Binding [
 { #category : #tests }
 CRFBindingDoubleInsideMethodTest >> testLabelBinding [
 	self
-		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label' ]) anyOne parentNode expression famix
+		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label' ]) anyOne parentNode expression famixInvocation
 		equals: ((famixModel allUsing: FamixTInvocation) select: [ :invoc | invoc signature = 'BLLabel("out")' ]) anyOne.
 	self
 		assert: ((fastModel allWithType: FASTJavaVariableExpression) select: [ :varExpre | varExpre name = 'label' ]) anyOne parentNode expression

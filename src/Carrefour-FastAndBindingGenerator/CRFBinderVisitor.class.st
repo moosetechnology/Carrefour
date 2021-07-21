@@ -52,9 +52,9 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 		atAnyScope:
 			{FASTJavaInitializer.
 			FASTJavaMethodEntity})
-		reject: [ :fastElement | fastElement famix isNil ])
+		reject: [ :fastElement | fastElement famixMethod isNil ])
 		ifNotEmpty: [ :collectionOfMethods | 
-			(collectionOfMethods anyOne famix allAtScope: FamixTMethod)
+			(collectionOfMethods anyOne famixMethod allAtScope: FamixTMethod)
 				do: [ :aFamixMethod | 
 					(self
 						determineAttributeWithName: aVariableName
@@ -273,15 +273,15 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 ]
 
 { #category : #visitor }
-CRFBinderVisitor >> visitFASTReturnStatement: aFASTReturnStatement [
+CRFBinderVisitor >> visitFASTTReturnStatement: aFASTReturnStatement [
 	aFASTReturnStatement expression
 		ifNotNil: [ self accept: aFASTReturnStatement expression ]
 ]
 
 { #category : #visitor }
-CRFBinderVisitor >> visitFASTVariableExpression: aFASTVariableExpression [
+CRFBinderVisitor >> visitFASTTVariableExpression: aFASTVariableExpression [
 	(self determineAttributeWithName: aFASTVariableExpression name from: aFASTVariableExpression)
 		ifNotNil:
 			[ :structuralEntity | structuralEntity fastAccesses add: aFASTVariableExpression ].
-	super visitFASTVariableExpression: aFASTVariableExpression.
+	super visitFASTTVariableExpression: aFASTVariableExpression.
 ]

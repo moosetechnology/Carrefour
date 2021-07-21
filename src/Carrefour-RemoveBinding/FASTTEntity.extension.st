@@ -1,11 +1,11 @@
-Extension { #name : #FASTEntity }
+Extension { #name : #FASTTEntity }
 
 { #category : #'*Carrefour-RemoveBinding' }
-FASTEntity >> fullClean [
+FASTTEntity >> fullClean [
 	CRFBindingCleaner new fullClean: self
 ]
 
 { #category : #'*Carrefour-RemoveBinding' }
-FASTEntity >> removeBinding [
+FASTTEntity >> removeBinding [
 	CRFBindingCleaner new accept: self
 ]

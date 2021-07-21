@@ -1,32 +1,32 @@
-Extension { #name : #FASTExpression }
+Extension { #name : #FASTTExpression }
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTExpression >> famix [
-	"Relation named: #famix type: #FamixJavaInvocation opposite: #fast"
+FASTTExpression >> famixInvocation [
+	"Relation named: #famixInvocation type: #FamixJavaInvocation opposite: #fast"
 
 	<generated>
 	<derived>
-	<FMProperty: #famix type: #FamixJavaInvocation opposite: #fast>
+	<FMProperty: #famixInvocation type: #FamixJavaInvocation opposite: #fast>
 	<package: #'Carrefour-Model'>
-	^ self attributeAt: #famix ifAbsent: [ nil ]
+	^ self attributeAt: #famixInvocation ifAbsent: [ nil ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTExpression >> famix: anObject [
+FASTTExpression >> famixInvocation: anObject [
 
 	<generated>
-	(self attributeAt: #famix ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	(self attributeAt: #famixInvocation ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
 	anObject ifNil: [ | otherSide |
-		otherSide :=  self famix.
-		self attributeAt: #famix put: anObject.
+		otherSide :=  self famixInvocation.
+		self attributeAt: #famixInvocation put: anObject.
 		otherSide fast: nil ]
 	ifNotNil: [ 
-		self attributeAt: #famix put: anObject.
+		self attributeAt: #famixInvocation put: anObject.
 		anObject fast: self ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTExpression >> famixVariable [
+FASTTExpression >> famixVariable [
 	"Relation named: #famixVariable type: #FamixTStructuralEntity opposite: #fastAccesses"
 
 	<generated>
@@ -36,7 +36,7 @@ FASTExpression >> famixVariable [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FASTExpression >> famixVariable: anObject [
+FASTTExpression >> famixVariable: anObject [
 
 	<generated>
 	self attributeAt: #famixVariable put: (FMMultivalueLink on: self update: #fastAccesses from: self famixVariable to: anObject).

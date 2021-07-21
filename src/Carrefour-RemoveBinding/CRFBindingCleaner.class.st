@@ -31,19 +31,19 @@ CRFBindingCleaner >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 
 { #category : #generated }
 CRFBindingCleaner >> visitFASTJavaInitializer: aFASTJavaInitializer [
-	aFASTJavaInitializer famix: nil.
-	^ super visitFASTVariableExpression: aFASTJavaInitializer
+	aFASTJavaInitializer famixMethod: nil.
+	^ super visitFASTTVariableExpression: aFASTJavaInitializer
 ]
 
 { #category : #generated }
 CRFBindingCleaner >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
-	aFASTJavaMethodEntity famix: nil.
+	aFASTJavaMethodEntity famixMethod: nil.
 	^ super visitFASTJavaMethodEntity: aFASTJavaMethodEntity
 ]
 
 { #category : #generated }
 CRFBindingCleaner >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
-	aFASTJavaMethodInvocation famix: nil.
+	aFASTJavaMethodInvocation famixInvocation: nil.
 	^ super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation
 ]
 
@@ -55,7 +55,7 @@ CRFBindingCleaner >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpressio
 
 { #category : #generated }
 CRFBindingCleaner >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
-	aFASTJavaNewExpression famix: nil.
+	aFASTJavaNewExpression famixInvocation: nil.
 	^ super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
 
@@ -73,7 +73,7 @@ CRFBindingCleaner >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarato
 ]
 
 { #category : #generated }
-CRFBindingCleaner >> visitFASTVariableExpression: aFASTVariableExpression [
+CRFBindingCleaner >> visitFASTTVariableExpression: aFASTVariableExpression [
 	aFASTVariableExpression famixVariable: nil.
-	^ super visitFASTVariableExpression: aFASTVariableExpression
+	^ super visitFASTTVariableExpression: aFASTVariableExpression
 ]
