@@ -164,7 +164,6 @@ CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
-
 	(self determineAttributeWithName: aFASTJavaIdentifier name from: aFASTJavaIdentifier) ifNotNil: [ :structuralEntity | 
 		structuralEntity fastAccesses add: aFASTJavaIdentifier ].
 	super visitFASTJavaIdentifier: aFASTJavaIdentifier
