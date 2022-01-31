@@ -19,5 +19,6 @@ FamixTClass >> generateFastAndBind [
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FamixTClass >> generateFastIfNotDoneAndBind [
 	self fastDeclaration ifNotEmpty: [ ^ self fastDeclaration mooseModel ].
+	self fastTypeDefinition ifNotNil: [ ^ self fastTypeDefinition mooseModel ].
 	^ self generateFastAndBind 
 ]

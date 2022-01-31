@@ -35,3 +35,27 @@ FamixTType >> fastDeclaration: anObject [
 	<generated>
 	self fastDeclaration value: anObject
 ]
+
+{ #category : #'*Carrefour-Model-accessing' }
+FamixTType >> fastTypeDefinition [
+	"Relation named: #fastTypeDefinition type: #FASTJavaClassDeclaration opposite: #famixTypeDefinition"
+
+	<generated>
+	<FMProperty: #fastTypeDefinition type: #FASTJavaClassDeclaration opposite: #famixTypeDefinition>
+	<package: #'Carrefour-Model'>
+	^ self attributeAt: #fastTypeDefinition ifAbsent: [ nil ]
+]
+
+{ #category : #'*Carrefour-Model-accessing' }
+FamixTType >> fastTypeDefinition: anObject [
+
+	<generated>
+	(self attributeAt: #fastTypeDefinition ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self fastTypeDefinition.
+		self attributeAt: #fastTypeDefinition put: anObject.
+		otherSide famixTypeDefinition: nil ]
+	ifNotNil: [ 
+		self attributeAt: #fastTypeDefinition put: anObject.
+		anObject famixTypeDefinition: self ]
+]

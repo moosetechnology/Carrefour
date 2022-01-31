@@ -82,16 +82,20 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 	aFamixMethod implicitVariables
 		detect: [ :implicitVariable | implicitVariable name = aVariableName ]
 		ifFound: [ :found | ^ found ].
-	(aFastEntity allAtScope: FASTJavaNewClassExpression) do: [ :aFastJavaNewClassExpression | 
+	(aFastEntity allAtScope: FASTJavaNewClassExpression) do: [ 
+		:aFastJavaNewClassExpression | 
 		aFastJavaNewClassExpression famixType attributes
 			detect: [ :attribute | attribute name = aVariableName ]
 			ifFound: [ :found | ^ found ] ].
 	(((aFamixMethod atAnyScope: { 
-			  FamixTParameterizedType.
-			  FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass  ]) ifNotEmpty: [ :scopes | 
+			   FamixTParameterizedType.
+			   FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
+		 :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) ifNotEmpty: [ 
+		:scopes | 
 		scopes do: [ :scope | 
 			scope attributes
-				detect: [ :implicitVariable | implicitVariable name = aVariableName ]
+				detect: [ :implicitVariable | 
+				implicitVariable name = aVariableName ]
 				ifFound: [ :found | ^ found ] ] ].
 	^ nil
 ]
@@ -138,17 +142,39 @@ CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpr
 ]
 
 { #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration [
+
+	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
+
+	(self sourceFamixEntity allToScope: FamixTClass)
+		select: [ :class | 
+			class isAnonymousClass not and: [ 
+				class name = aFASTJavaClassDeclaration name ] ]
+		thenDo: [ :aJavaClassDeclaration | 
+			aFASTJavaClassDeclaration famixTypeDefinition: aJavaClassDeclaration ].
+	"aFASTJavaNewClassExpression are kind og FASTJavaNewExpression, so execute also its visitor"
+	super visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration
+]
+
+{ #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 
 	| classes |
 	classes := aFASTJavaVariableDeclarator type name = 'this'
-		           ifFalse: [ self sourceFamixEntity mooseModel allClasses select: [ :class | (class name = aFASTJavaVariableDeclarator type name) ] ]
+		           ifFalse: [ 
+			           self sourceFamixEntity mooseModel allClasses
+				           detect: [ :class | 
+				           class name = aFASTJavaVariableDeclarator type name ]
+				           ifFound: [ :class | { class } ]
+				           ifNone: [ {  } ] ]
 		           ifTrue: [ self sourceFamixEntity atScope: FamixTClass ].
 	classes ifNotEmpty: [ :class | 
 		class anyOne fastAccesses add: aFASTJavaVariableDeclarator type.
-		class anyOne attributes 
-			select: [ :attribute | attribute name = aFASTJavaVariableDeclarator fieldName ]
-			thenDo: [ :attribute | attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
+		class anyOne attributes
+			select: [ :attribute | 
+			attribute name = aFASTJavaVariableDeclarator fieldName ]
+			thenDo: [ :attribute | 
+				attribute fastAccesses add: aFASTJavaVariableDeclarator ] ].
 
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 ]
