@@ -147,10 +147,10 @@ CRFBinderVisitor >> visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration [
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
 
 	(self sourceFamixEntity allToScope: FamixTClass)
-		select: [ :class | 
+		detect: [ :class | 
 			class isAnonymousClass not and: [ 
 				class name = aFASTJavaClassDeclaration name ] ]
-		thenDo: [ :aJavaClassDeclaration | 
+		ifFound: [ :aJavaClassDeclaration | 
 			aFASTJavaClassDeclaration famixTypeDefinition: aJavaClassDeclaration ].
 	"aFASTJavaNewClassExpression are kind og FASTJavaNewExpression, so execute also its visitor"
 	super visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration
@@ -198,13 +198,13 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 	(self sourceFamixEntity allToScope: FamixTMethod)
-		select: [ :method | 
+		detect: [ :method | 
 			method name = '<Initializer>' and: [ method hasSourceAnchor
 				and: [ | sourceStartPos |
 					sourceStartPos := self sourceFamixEntityStartPo.
 					method sourceAnchor startPos - sourceStartPos <= (aFASTJavaInitializer startPos + 1)
 						and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaInitializer endPos - 1) ] ] ] ]
-		thenDo: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
+		ifFound: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
 	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ]
 ]
 
