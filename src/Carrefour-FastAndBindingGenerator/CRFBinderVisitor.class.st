@@ -21,7 +21,7 @@ CRFBinderVisitor >> bindFastModel: fastModel fromEntity: aFamixMethodEntity [
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixClassEntity: aFamixClassEntity [
 	self
 		execute: [ self sourceFamixEntity: aFamixClassEntity.
-			(fastModel allWithType: FASTJavaClassDeclaration) asOrderedCollection
+			(fastModel allWithSubTypesOfAny: {FASTJavaClassDeclaration. FASTJavaInterfaceDeclaration}) asOrderedCollection
 				select: [ :classDeclaration | classDeclaration parentNode isNil ]
 				thenDo: [ :classDeclaration | self accept: classDeclaration ].
 			fastModel metamodel: CRFModel metamodel ]
@@ -42,26 +42,25 @@ CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethod
 
 { #category : #'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity [
+
 	"I do a lookup for a variable in the famix code with the name = aVariableName 
 	 I return the variable if found nil else
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
 
 	aVariableName ifNil: [ ^ nil ].
-	((aFASTEntity
-		atAnyScope:
-			{FASTJavaInitializer.
-			FASTJavaMethodEntity})
-		reject: [ :fastElement | fastElement famixMethod isNil ])
+	((aFASTEntity atAnyScope: { 
+			  FASTJavaInitializer.
+			  FASTJavaMethodEntity }) reject: [ :fastElement | 
+		 fastElement famixMethod isNil ])
 		ifNotEmpty: [ :collectionOfMethods | 
-			(collectionOfMethods anyOne famixMethod allAtScope: FamixTMethod)
+			(collectionOfMethods anyOne famixMethod allAtScope: FamixTMethod) 
 				do: [ :aFamixMethod | 
 					(self
-						determineAttributeWithName: aVariableName
-						ofFamixMethod: aFamixMethod
-						for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
-		ifEmpty:
-			[ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
+						 determineAttributeWithName: aVariableName
+						 ofFamixMethod: aFamixMethod
+						 for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
+		ifEmpty: [ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
 			ifNone it is probably the name of a type... so we do not care
 			"
 			self sourceFamixEntity attributes
@@ -144,15 +143,13 @@ CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpr
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration [
 
-	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
-
 	(self sourceFamixEntity allToScope: FamixTClass)
 		detect: [ :class | 
 			class isAnonymousClass not and: [ 
 				class name = aFASTJavaClassDeclaration name ] ]
 		ifFound: [ :aJavaClassDeclaration | 
 			aFASTJavaClassDeclaration famixTypeDefinition: aJavaClassDeclaration ].
-	"aFASTJavaNewClassExpression are kind og FASTJavaNewExpression, so execute also its visitor"
+	
 	super visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration
 ]
 
@@ -206,6 +203,21 @@ CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 						and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaInitializer endPos - 1) ] ] ] ]
 		ifFound: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
 	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ]
+]
+
+{ #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclaration [
+
+	(self sourceFamixEntity allToScope: FamixTClass)
+		detect: [ :class | 
+			class isAnonymousClass not and: [ 
+				class name = aFASTJavaInterfaceDeclaration name ] ]
+		ifFound: [ :aJavaClassDeclaration | 
+			aFASTJavaInterfaceDeclaration famixTypeDefinition:
+				aJavaClassDeclaration ].
+
+	super visitFASTJavaInterfaceDeclaration:
+		aFASTJavaInterfaceDeclaration
 ]
 
 { #category : #visitor }

@@ -31,20 +31,22 @@ CRFBindingAttributeInitialisationTest >> testAllFamixAttributeAreBound [
 
 { #category : #running }
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeInitializationAreBound [
+
 	| invocationsFamix invocationsFast |
-	invocationsFamix := (((self famixModel allUsing: FamixTInvocation)
-		select: [ :invoc | invoc signature beginsWith: #'Canard(' ])
-		asOrderedCollection
-		sorted:
-			[ :invocA :invocB | invocA sourceAnchor startPos < invocB sourceAnchor startPos ]).
-	invocationsFast := (((self fastModel allWithType: FASTJavaNewExpression)
-		select:
-			[ :newClassExpression | newClassExpression type typeName name = #Canard ])
-		asOrderedCollection
-		sorted: #startPos ascending).
-	invocationsFamix doWithIndex: [ :invocationFamix :index |
+	invocationsFamix := ((self famixModel allUsing: FamixTInvocation) 
+		                     select: [ :invoc | 
+		                     invoc signature beginsWith: #'Canard(' ])
+		                    asOrderedCollection sorted: [ :invocA :invocB | 
+		                    invocA sourceAnchor startPos
+		                    < invocB sourceAnchor startPos ].
+	invocationsFast := ((self fastModel allWithType:
+		                     FASTJavaNewExpression) select: [ 
+		                    :newClassExpression | 
+		                    newClassExpression type typeName name = #Canard ])
+		                   asOrderedCollection sorted: #startPos ascending.
+	invocationsFamix doWithIndex: [ :invocationFamix :index | 
 		| invocationFast |
 		invocationFast := invocationsFast at: index.
 		self assert: invocationFamix fast equals: invocationFast.
-		self assert: invocationFast famixInvocation equals: invocationFamix ].
+		self assert: invocationFast famixInvocation equals: invocationFamix ]
 ]
