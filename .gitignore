@@ -4,6 +4,9 @@
 # system image
 *.image
 
+# test generated mse
+*.mse
+
 # Pharo Smalltalk Debug log file
 PharoDebug.log
 

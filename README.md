@@ -1,6 +1,5 @@
 # Carrefour
 
-
 [![Moose version](https://img.shields.io/badge/Moose-8-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
 [![Moose version](https://img.shields.io/badge/Moose-9-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
 ![Build Info](https://github.com/badetitou/Carrefour/workflows/CI/badge.svg)
@@ -8,13 +7,26 @@
 
 Binding between Famix and FAST
 
-# Installation
+## Installation
 
-Last stable version is 
+The last stable version is
 
 ```st
 Metacello new
   githubUser: 'badetitou' project: 'Carrefour' commitish: 'v3' path: 'src';
   baseline: 'Carrefour';
   load
+```
+
+## Developers
+
+### Update tests
+
+To update the tests, you will need to rerun [VerveineJ](https://modularmoose.org/moose-wiki/Developers/Parsers/VerveineJ
+) on the testing resources.
+This command should produce the .mse file.
+
+```sh
+cd testing
+& 'D:\Path\To\VerveineJ\verveinej.bat' -format mse -o testing.mse -anchor assoc -autocp './src' './src'
 ```
