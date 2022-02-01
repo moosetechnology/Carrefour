@@ -23,6 +23,13 @@ CRFBindingInterfaceDefinitionTest >> sourceCodeOfClass: aClass [
 ]
 
 { #category : #running }
+CRFBindingInterfaceDefinitionTest >> testAttributesOfInterfaceAreBinded [
+	self assert: helloClass attributes size equals: 1.
+	helloClass attributes do: [ :attribute |
+		self assert: attribute fastDeclaration isNotEmpty ]
+]
+
+{ #category : #running }
 CRFBindingInterfaceDefinitionTest >> testInterfaceDefinitionIsBinded [
 	self assert: helloClass fastTypeDefinition equals: (fastModel allWithType: FASTJavaInterfaceDeclaration) anyOne.
 	self assert: helloClass equals: (fastModel allWithType: FASTJavaInterfaceDeclaration) anyOne famixTypeDefinition.
