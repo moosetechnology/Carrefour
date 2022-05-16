@@ -1,7 +1,7 @@
 # Carrefour
 
-[![Moose version](https://img.shields.io/badge/Moose-8-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
 [![Moose version](https://img.shields.io/badge/Moose-9-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
+[![Moose version](https://img.shields.io/badge/Moose-10-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
 ![Build Info](https://github.com/badetitou/Carrefour/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/badetitou/Carrefour/badge.svg?branch=v3)](https://coveralls.io/github/badetitou/Carrefour?branch=v3)
 
@@ -28,5 +28,5 @@ This command should produce the .mse file.
 
 ```sh
 cd testing
-& 'D:\Path\To\VerveineJ\verveinej.bat' -format mse -o testing.mse -anchor assoc -autocp './src' './src'
+& 'D:\Path\To\VerveineJ\verveinej.bat' -format json -o testing.json -anchor assoc -autocp './src' './src'
 ```
