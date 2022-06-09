@@ -275,23 +275,28 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
+
 	"We base the selection on sourceAnchor because it is the the most precise thing we have
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
 
-	(self sourceFamixEntity queryAllOutgoingInvocations
-		select: [ :invoc | 
-			invoc hasSourceAnchor
-				and: [ | sourceStartPos |
-					sourceStartPos := self sourceFamixEntityStartPo.
-					invoc sourceAnchor startPos - sourceStartPos
-						>= (aFASTJavaNewExpression startPos - 1)
-						and: [ invoc sourceAnchor endPos - sourceStartPos
-								<= (aFASTJavaNewExpression endPos + 1) ] ] ])
-		ifNotEmpty: [ :collectionOfPotentialInvoc | 
-			(self
-				sortCollection: collectionOfPotentialInvoc
-				byDistanceWith: aFASTJavaNewExpression) first
-				fast: aFASTJavaNewExpression ].
+	(self sourceFamixEntity queryAllOutgoingInvocations select: [ :invoc | 
+		 invoc candidates anyOne isConstructor and: [ 
+			 invoc hasSourceAnchor and: [ 
+				 | sourceStartPos |
+				 sourceStartPos := self sourceFamixEntityStartPo.
+				 invoc sourceAnchor startPos - sourceStartPos
+				 >= (aFASTJavaNewExpression startPos - 1) and: [ 
+					 invoc sourceAnchor endPos - sourceStartPos
+					 <= (aFASTJavaNewExpression endPos + 1) ] ] ] ]) ifNotEmpty: [ 
+		:collectionOfPotentialInvoc | 
+		| sortedPotentialInvoc |
+		sortedPotentialInvoc := self
+			                        sortCollection: collectionOfPotentialInvoc
+			                        byDistanceWith: aFASTJavaNewExpression.
+		((aFASTJavaNewExpression isKindOf: FASTJavaNewClassExpression)
+			 ifTrue: [ sortedPotentialInvoc first ]
+			 ifFalse: [ sortedPotentialInvoc last ]) fast:
+			aFASTJavaNewExpression ].
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
 
