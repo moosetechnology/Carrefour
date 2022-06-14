@@ -293,9 +293,13 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 		sortedPotentialInvoc := self
 			                        sortCollection: collectionOfPotentialInvoc
 			                        byDistanceWith: aFASTJavaNewExpression.
-		((aFASTJavaNewExpression isKindOf: FASTJavaNewClassExpression)
-			 ifTrue: [ sortedPotentialInvoc first ]
-			 ifFalse: [ sortedPotentialInvoc last ]) fast:
+		(((aFASTJavaNewExpression isKindOf: FASTJavaNewExpression) 
+			  and: [
+				  aFASTJavaNewExpression receiverOwner isNotNil and: [ 
+					  aFASTJavaNewExpression receiverOwner isKindOf:
+						  FASTJavaNewExpression ] ])
+			 ifTrue: [ sortedPotentialInvoc last.  ]
+			 ifFalse: [ sortedPotentialInvoc first ]) fast:
 			aFASTJavaNewExpression ].
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
