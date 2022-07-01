@@ -18,6 +18,8 @@ public class Hello {
     int hello;
     String label;
     private Carrefour canard;
+
+    private String externalAttribute;
     
     private static final Map<String, String> aMap = new HashMap<String, String>();
     static {
@@ -190,6 +192,13 @@ public class Hello {
                 System.out.println("Hello stupid code");
             }
         };
+    }
+
+    public class InnerHello {
+        
+        public void innerHelloMethod() {
+            externalAttribute = "hello";
+        }
     }
 
 }
