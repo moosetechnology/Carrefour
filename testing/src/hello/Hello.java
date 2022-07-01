@@ -8,6 +8,7 @@ import bl.BLFieldSetPanel;
 import bl.BLAbstractLienSimple;
 import bl.QuicksearchExempleREL;
 import badetitou.Carrefour;
+import badetitou.InnerAtt;
 import click.ClickHandler;
 
 import java.util.Map;
@@ -195,6 +196,8 @@ public class Hello {
     }
 
     public class InnerHello {
+
+        InnerAtt _InnerAtt = new InnerAtt("Période de validité");
         
         public void innerHelloMethod() {
             externalAttribute = "hello";
