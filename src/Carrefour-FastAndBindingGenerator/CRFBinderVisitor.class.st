@@ -46,7 +46,8 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	"I do a lookup for a variable in the famix code with the name = aVariableName 
 	 I return the variable if found nil else
 	
-	It should have only one variable possible for one identifier (if the lookup is done correctly)".
+	It should have only one variable possible for one identifier (if the lookup is done correctly)"
+
 	aVariableName ifNil: [ ^ nil ].
 	((aFASTEntity atAnyScope: { 
 			  FASTJavaInitializer.
@@ -62,9 +63,31 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 		ifEmpty: [ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
 			ifNone it is probably the name of a type... so we do not care
 			"
+			(self
+				 determineAttributeWithName: aVariableName
+				 fromFamixEntity:
+					 (aFASTEntity atAnyScope: {FASTJavaInterfaceDeclaration . FASTJavaClassDeclaration}) anyOne
+						 famixTypeDefinition) ifNotNil: [ :found | ^ found ].
+			
 			self sourceFamixEntity attributes
 				detect: [ :attribute | attribute name = aVariableName ]
 				ifFound: [ :attribute | ^ attribute ] ].
+	^ nil
+]
+
+{ #category : #'private - action' }
+CRFBinderVisitor >> determineAttributeWithName: aVariableName fromFamixEntity: aFamixEntity [
+
+	(((aFamixEntity allAtAnyScope: { 
+			   FamixTParameterizedType.
+			   FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
+		 :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) 
+		ifNotEmpty: [ :scopes | 
+			scopes do: [ :scope | 
+				scope attributes
+					detect: [ :implicitVariable | 
+					implicitVariable name = aVariableName ]
+					ifFound: [ :found | ^ found ] ] ].
 	^ nil
 ]
 
@@ -85,7 +108,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 		aFastJavaNewClassExpression famixType attributes
 			detect: [ :attribute | attribute name = aVariableName ]
 			ifFound: [ :found | ^ found ] ].
-	(((aFamixMethod allAtAnyScope: { 
+	"(((aFamixMethod allAtAnyScope: { 
 			   FamixTParameterizedType.
 			   FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
 		 :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) ifNotEmpty: [ 
@@ -94,7 +117,10 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 			scope attributes
 				detect: [ :implicitVariable | 
 				implicitVariable name = aVariableName ]
-				ifFound: [ :found | ^ found ] ] ].
+				ifFound: [ :found | ^ found ] ] ]."
+	(self
+		 determineAttributeWithName: aVariableName
+		 fromFamixEntity: aFamixMethod) ifNotNil: [ :found | ^ found ].
 	^ nil
 ]
 

@@ -40,3 +40,21 @@ CRFBindingExternalAttributeTest >> testAccessOfExternalAttribute [
 		assert: externalAttributeVarFast famixVariable
 		equals: externalAttributeVarFamix
 ]
+
+{ #category : #initialization }
+CRFBindingExternalAttributeTest >> testBindInnerAttribute [
+
+	| externalAttributeVarFast externalAttributeVarFamix |
+	externalAttributeVarFast := (((self fastModel allWithType:
+		                               FASTJavaClassDeclaration) detect: [ :cc | 
+		                              cc name = #InnerHello ]) 
+		                             toScope: FASTJavaVariableDeclarator) 
+		                            detect: [ :var | 
+		                            var variable name = #_InnerAtt ].
+	externalAttributeVarFamix := (self famixModel allWithType:
+		                              FamixJavaAttribute) detect: [ :att | 
+		                             att name = #_InnerAtt ].
+	self
+		assert: externalAttributeVarFast famixVariable
+		equals: externalAttributeVarFamix
+]
