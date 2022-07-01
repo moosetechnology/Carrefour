@@ -46,8 +46,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	"I do a lookup for a variable in the famix code with the name = aVariableName 
 	 I return the variable if found nil else
 	
-	It should have only one variable possible for one identifier (if the lookup is done correctly)"
-
+	It should have only one variable possible for one identifier (if the lookup is done correctly)".
 	aVariableName ifNil: [ ^ nil ].
 	((aFASTEntity atAnyScope: { 
 			  FASTJavaInitializer.
@@ -86,7 +85,7 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 		aFastJavaNewClassExpression famixType attributes
 			detect: [ :attribute | attribute name = aVariableName ]
 			ifFound: [ :found | ^ found ] ].
-	(((aFamixMethod atAnyScope: { 
+	(((aFamixMethod allAtAnyScope: { 
 			   FamixTParameterizedType.
 			   FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
 		 :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) ifNotEmpty: [ 

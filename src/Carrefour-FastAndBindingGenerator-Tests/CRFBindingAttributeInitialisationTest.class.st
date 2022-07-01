@@ -24,7 +24,7 @@ CRFBindingAttributeInitialisationTest >> sourceCodeOfClass: aClass [
 
 { #category : #running }
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeAreBound [
-	self assert: helloClass attributes size equals: 9.
+	self assert: helloClass attributes size equals: 10.
 	helloClass attributes do: [ :attribute |
 		self assert: attribute fastDeclaration isNotEmpty ]
 ]
