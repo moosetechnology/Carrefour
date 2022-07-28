@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #api }
+CRFBinderVisitor class >> bindFastModel: fastModel fromEntity: aFamixEntity [
+	^ self new bindFastModel: fastModel fromEntity: aFamixEntity
+]
+
+{ #category : #api }
 CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity [
 	^ self new bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity
 ]
