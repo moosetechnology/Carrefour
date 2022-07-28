@@ -4,8 +4,8 @@ SmalltalkCISpec {
       #baseline : 'Carrefour',
       #directory : 'src',
       #platforms : [ #pharo ],
-      #usernameEnvVar : 'GITHUB_USER',                    // Environment variable containing the username used for authentication
-      #passwordEnvVar : 'GITHUB_TOKEN',                   // Environment variable containing the password used for authentication
+      #usernameEnvVar : 'GITHUB_USER',
+      #passwordEnvVar : 'GITHUB_TOKEN'
     }
   ],
   #testing : {
