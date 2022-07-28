@@ -3,7 +3,9 @@ SmalltalkCISpec {
     SCIMetacelloLoadSpec {
       #baseline : 'Carrefour',
       #directory : 'src',
-      #platforms : [ #pharo ]
+      #platforms : [ #pharo ],
+      #usernameEnvVar : 'GITHUB_USER',                    // Environment variable containing the username used for authentication
+      #passwordEnvVar : 'GITHUB_TOKEN',                   // Environment variable containing the password used for authentication
     }
   ],
   #testing : {
