@@ -239,7 +239,7 @@ CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclaration [
 
-	(self sourceFamixEntity allToScope: FamixTClass)
+	(self sourceFamixEntity allToAnyScope: {FamixTClass . FamixJavaInterface})
 		detect: [ :class | 
 			class isAnonymousClass not and: [ 
 				class name = aFASTJavaInterfaceDeclaration name ] ]

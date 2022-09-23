@@ -10,7 +10,7 @@ Class {
 { #category : #running }
 CRFBindingInterfaceDefinitionTest >> setUp [
 	super setUp.
-	helloClass := (self famixModel allModelClasses detect: [:class | class name = #'MyInterface']).
+	helloClass := ((self famixModel allWithType: FamixJavaInterface) detect: [:class | class name = #'MyInterface']).
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeString: (self sourceCodeOfClass: helloClass))
 		name: #fastModel;
 		yourself.
