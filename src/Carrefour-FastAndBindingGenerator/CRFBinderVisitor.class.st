@@ -52,7 +52,6 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	 I return the variable if found nil else
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
-
 	aVariableName ifNil: [ ^ nil ].
 	((aFASTEntity atAnyScope: { 
 			  FASTJavaInitializer.
@@ -83,10 +82,12 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 { #category : #'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName fromFamixEntity: aFamixEntity [
 
-	(((aFamixEntity allAtAnyScope: { 
-			   FamixTParameterizedType.
-			   FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
-		 :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) 
+	((((aFamixEntity allAtAnyScope: { 
+			    FamixTParameterizedType.
+			    FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
+		  :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) 
+		 sorted: [ :classA :classB | 
+			 classA superclassHierarchy size > classB superclassHierarchy size ]) 
 		ifNotEmpty: [ :scopes | 
 			scopes do: [ :scope | 
 				scope attributes
@@ -252,6 +253,7 @@ CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclara
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
+
 	(aFASTJavaMethodEntity parentNode isNil and: [ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
 		ifTrue: [ "The current node is the root of the analysis" self sourceFamixEntity fast: aFASTJavaMethodEntity ]
 		ifFalse: [ "The method is declared inside the root, so we need to use the sourceAnchor to be sure of the binding"
