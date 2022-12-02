@@ -18,7 +18,17 @@ FamixTClass >> generateFastAndBind [
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FamixTClass >> generateFastIfNotDoneAndBind [
-	self fastDeclaration ifNotEmpty: [ ^ self fastDeclaration anyOne mooseModel ].
-	self fastTypeDefinition ifNotNil: [ ^ self fastTypeDefinition mooseModel ].
-	^ self generateFastAndBind 
+
+	self fastDeclaration ifNotEmpty: [ 
+		^ self fastDeclaration anyOne mooseModel ].
+	self fastTypeDefinition ifNotNil: [ 
+		^ self fastTypeDefinition mooseModel ].
+	^ self isAnonymousClass
+		  ifFalse: [ self generateFastAndBind ]
+		  ifTrue: [ 
+			  ((self
+				    allAtScope: FamixTClass
+				    until: [ :c | 
+				    (c isKindOf: FamixJavaClass) and: [ c isAnonymousClass not ] ])
+				   asOrderedCollection \ { self }) anyOne generateFastAndBind ]
 ]
