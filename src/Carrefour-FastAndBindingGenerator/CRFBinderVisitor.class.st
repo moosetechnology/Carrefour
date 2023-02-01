@@ -350,6 +350,11 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
 ]
 
+{ #category : #generated }
+CRFBinderVisitor >> visitFASTJavaVariableExpression: aFASTJavaVariableExpression [
+	^self visitFASTTVariableExpression: aFASTJavaVariableExpression
+]
+
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTTReturnStatement: aFASTReturnStatement [
 	aFASTReturnStatement expression
