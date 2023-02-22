@@ -21,7 +21,8 @@ Class {
 		'fastExpression',
 		'fastEntity',
 		'fastJavaClassDeclaration',
-		'fastJavaInterfaceDeclaration'
+		'fastJavaInterfaceDeclaration',
+		'fastJavaTypeParameter'
 	],
 	#category : #'Carrefour-Model-Generator'
 }
@@ -58,6 +59,7 @@ CRFMetamodelGenerator >> defineClasses [
 	fastJavaAssignementExpression := self remoteEntity: #AssignementExpression withPrefix: #FASTJava.
 	fastJavaVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTJava.
 	fastJavaClassProperty := self remoteEntity: #ClassProperty withPrefix: #FASTJava.
+	fastJavaTypeParameter := self remoteEntity: #TypeParameterExpression withPrefix: #FASTJava.
 	fastJavaIdentifier := self remoteEntity: #Identifier withPrefix: #FASTJava.
 	famixType := self remoteTrait: #TType withPrefix: #'Famix'.
 	fastJavaNewClassExpression := self remoteEntity: #NewClassExpression withPrefix: #FASTJava.
@@ -88,5 +90,7 @@ CRFMetamodelGenerator >> defineRelations [
 	(famixType property: #fastAccesses) -* (fastVariableExpression property: #famixVariable).
 	(famixType property: #fastDeclaration) -* (fastJavaNewClassExpression property: #famixType).
 	(famixType property: #fastTypeDefinition) - (fastJavaClassDeclaration property: #famixTypeDefinition).
-	(famixType property: #fastTypeDefinition) - (fastJavaInterfaceDeclaration property: #famixTypeDefinition)
+	(famixType property: #fastTypeDefinition) - (fastJavaInterfaceDeclaration property: #famixTypeDefinition).
+	(famixType property: #fastTypeDefinition) - (fastJavaTypeParameter property: #famixTypeDefinition)
+	
 ]

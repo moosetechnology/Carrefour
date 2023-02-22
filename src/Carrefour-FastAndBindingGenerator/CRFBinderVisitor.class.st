@@ -267,7 +267,8 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 										and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
 				ifNotEmpty: [ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
-	aFASTJavaMethodEntity parameters do: [ :parameter | self accept: parameter ]
+	aFASTJavaMethodEntity parameters do: [ :parameter | self accept: parameter ].
+	aFASTJavaMethodEntity typeParameters  do: [ :typeParameter | self accept: typeParameter ].	
 ]
 
 { #category : #visitor }
@@ -340,6 +341,14 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 CRFBinderVisitor >> visitFASTJavaParameter: aFASTJavaParameter [
 	(self determineAttributeWithName: aFASTJavaParameter variable name from: aFASTJavaParameter)
 		ifNotNil: [ :structuralEntity | structuralEntity fastDeclaration add: aFASTJavaParameter ]
+]
+
+{ #category : #visitor }
+CRFBinderVisitor >> visitFASTJavaTypeParameter: aFASTJavaTypeParameter [
+
+	(self sourceFamixEntity allToScope: FamixTType)
+		detect: [ :type | type name = aFASTJavaTypeParameter name ]
+		ifOne: [ :type | type fastTypeDefinition: aFASTJavaTypeParameter ]
 ]
 
 { #category : #visitor }

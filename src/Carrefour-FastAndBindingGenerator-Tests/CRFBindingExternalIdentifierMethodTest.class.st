@@ -10,18 +10,22 @@ Class {
 { #category : #running }
 CRFBindingExternalIdentifierMethodTest >> setUp [
 
+	| onClickMethod |
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new 
 		              parseCodeMethodString:
 			              self fastMethodExternalIdentifierMethod)
 		             name: #fastModel;
 		             yourself.
+	onClickMethod := ((self famixModel allMethods select: [ :method | 
+		                   method name = 'onClick' ]) sort: [ 
+		                  :method1 
+		                  :method2 | 
+		                  method1 sourceAnchor startPos
+		                  < method2 sourceAnchor startPos ]) last.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity:
-			((self famixModel allModelMethods detect: [ :method | 
-				  method name = 'externalIdentifierMethod' ]) clientBehaviours 
-				 detect: [ :client | client name = 'onClick' ])
+		fromFamixMethodEntity: onClickMethod
 ]
 
 { #category : #running }
