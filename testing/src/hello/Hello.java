@@ -204,4 +204,8 @@ public class Hello {
         }
     }
 
+    public <T extends Canard> T methodWithTypeParameter(T helloT) {
+        return helloT;
+    }
+
 }
