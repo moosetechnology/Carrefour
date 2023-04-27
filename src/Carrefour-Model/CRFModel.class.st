@@ -16,9 +16,3 @@ CRFModel class >> annotation [
 	<package: #'Carrefour-Model'>
 	<generated>
 ]
-
-{ #category : #testing }
-CRFModel class >> canBeImportedFromFile [
-	<generated>
-	^true
-]

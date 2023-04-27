@@ -163,12 +163,12 @@ CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
 ]
 
 { #category : #visitor }
-CRFBinderVisitor >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression [
-	(self determineAttributeWithName: aFASTJavaAssignementExpression variable name from: aFASTJavaAssignementExpression)
+CRFBinderVisitor >> visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpression [
+	(self determineAttributeWithName: aFASTJavaAssignmentExpression variable name from: aFASTJavaAssignmentExpression)
 		ifNotNil:
-			[ :structuralEntity | structuralEntity fastAssignement add: aFASTJavaAssignementExpression ].
+			[ :structuralEntity | structuralEntity fastAssignment add: aFASTJavaAssignmentExpression ].
 	
-	super visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression.
+	super visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpression.
 ]
 
 { #category : #visitor }
@@ -213,7 +213,7 @@ CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 		ifNotNil:
 			[ :structuralEntity | structuralEntity fastAccesses add: aFASTJavaFieldAccess ].
 		
-	super visitFASTJavaAssignementExpression: aFASTJavaFieldAccess.
+	super visitFASTJavaAssignmentExpression: aFASTJavaFieldAccess.
 ]
 
 { #category : #visitor }

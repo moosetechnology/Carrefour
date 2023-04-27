@@ -19,21 +19,21 @@ FamixTStructuralEntity >> fastAccesses: anObject [
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FamixTStructuralEntity >> fastAssignement [
-	"Relation named: #fastAssignement type: #FASTJavaAssignementExpression opposite: #famixVariable"
+FamixTStructuralEntity >> fastAssignment [
+	"Relation named: #fastAssignment type: #FASTJavaAssignmentExpression opposite: #famixVariable"
 
 	<generated>
 	<derived>
-	<FMProperty: #fastAssignement type: #FASTJavaAssignementExpression opposite: #famixVariable>
+	<FMProperty: #fastAssignment type: #FASTJavaAssignmentExpression opposite: #famixVariable>
 	<package: #'Carrefour-Model'>
-	^ self attributeAt: #fastAssignement ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
+	^ self attributeAt: #fastAssignment ifAbsentPut: [ FMMultivalueLink on: self opposite: #famixVariable: ]
 ]
 
 { #category : #'*Carrefour-Model-accessing' }
-FamixTStructuralEntity >> fastAssignement: anObject [
+FamixTStructuralEntity >> fastAssignment: anObject [
 
 	<generated>
-	self fastAssignement value: anObject
+	self fastAssignment value: anObject
 ]
 
 { #category : #'*Carrefour-Model-accessing' }

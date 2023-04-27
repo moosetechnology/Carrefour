@@ -54,11 +54,11 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveStructuralEntityBinding [
 	"we check the value at the beginning to avoid breaking the tests"
 	self assert: (structuralEntities flatCollect: #fastDeclaration) size equals: 4.
 	self assert: (structuralEntities flatCollect: #fastAccesses) size equals: 16.
-	self assert: (structuralEntities flatCollect: #fastAssignement) size equals: 2.
+	self assert: (structuralEntities flatCollect: #fastAssignment) size equals: 2.
 	self fastTestMethod removeBinding.
 	self assert: (structuralEntities flatCollect: #fastAccesses) size equals: 0.
 	self assert: (structuralEntities flatCollect: #fastDeclaration) size equals: 0.
-	self assert: (structuralEntities flatCollect: #fastAssignement) size equals: 0.
+	self assert: (structuralEntities flatCollect: #fastAssignment) size equals: 0.
 ]
 
 { #category : #running }

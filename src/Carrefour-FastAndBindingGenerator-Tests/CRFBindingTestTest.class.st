@@ -89,7 +89,7 @@ CRFBindingTestTest >> testHelloUsages [
 ]
 
 { #category : #tests }
-CRFBindingTestTest >> testNewInnerAssignement [
+CRFBindingTestTest >> testNewInnerAssignment [
 	self
 		assert: (self famixModel allLocalVariables select: [ :localVariable | localVariable name = 'innertButton' ]) anyOne fastDeclaration anyOne
 		equals: ((self fastModel allWithType: FASTJavaVariableDeclarator) select: [:variableDeclarator | variableDeclarator variable name = 'innertButton' ]) anyOne. 
@@ -152,9 +152,9 @@ CRFBindingTestTest >> testTypeAccessTest [
 { #category : #tests }
 CRFBindingTestTest >> testVariableDeclarator [
 	self
-		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first fastAssignement first
-		equals: (self fastModel allWithType: FASTJavaAssignementExpression) first.
+		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first fastAssignment first
+		equals: (self fastModel allWithType: FASTJavaAssignmentExpression) first.
 	self
 		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first
-		equals: (self fastModel allWithType: FASTJavaAssignementExpression) first famixVariable 
+		equals: (self fastModel allWithType: FASTJavaAssignmentExpression) first famixVariable 
 ]

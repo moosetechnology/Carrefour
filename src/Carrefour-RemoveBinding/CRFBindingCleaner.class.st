@@ -18,9 +18,9 @@ CRFBindingCleaner >> fullClean: anEntity [
 ]
 
 { #category : #generated }
-CRFBindingCleaner >> visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression [
-	aFASTJavaAssignementExpression famixVariable: nil.
-	^ super visitFASTJavaAssignementExpression: aFASTJavaAssignementExpression
+CRFBindingCleaner >> visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpression [
+	aFASTJavaAssignmentExpression famixVariable: nil.
+	^ super visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpression
 ]
 
 { #category : #generated }
