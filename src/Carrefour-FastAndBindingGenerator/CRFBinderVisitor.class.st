@@ -1,3 +1,8 @@
+"
+Binds FAST nodes to their corresponding FamixEntities
+
+Visit the F-AST and create binding between variable accesses (`FASTJavaFieldAccess`, `FASTJavaAssignementExpression`, `FASTJavaIdentifier`, ...) or method invocations (`FASTJavaMethodInvocation`) and their Famix counter-part (`FamixTStructuralEntity`, `FamixTInvocation`, ...)
+"
 Class {
 	#name : #CRFBinderVisitor,
 	#superclass : #FASTJavaVisitor,

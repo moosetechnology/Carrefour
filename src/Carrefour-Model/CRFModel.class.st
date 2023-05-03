@@ -1,3 +1,7 @@
+"
+MetaModel of Carrefour.
+Does not define any entity, but ""imports"" entities from Famix and FAST and add relations between them
+"
 Class {
 	#name : #CRFModel,
 	#superclass : #MooseModel,
