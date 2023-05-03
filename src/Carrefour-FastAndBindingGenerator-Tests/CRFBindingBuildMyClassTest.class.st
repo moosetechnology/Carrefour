@@ -23,7 +23,7 @@ CRFBindingBuildMyClassTest >> testAStringIsCorrectlyBind [
 
 	self
 		assert:
-			(self fastModel allWithType: FASTJavaAssignementExpression) anyOne
+			(self fastModel allWithType: FASTJavaAssignmentExpression) anyOne
 				famixVariable
 		equals:
 			((self famixModel allWithType: FamixJavaAttribute) detect: [ :att | 
