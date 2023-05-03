@@ -1,3 +1,8 @@
+"
+This is the opposite of `CRFBinderVisitor`, it un-binds FAST entities and Famix entities.
+
+Puts `nil` in the FAST/Famix relations so that FAST objects can be garbage collected (also empties the CarrefourModel)
+"
 Class {
 	#name : #CRFBindingCleaner,
 	#superclass : #FASTJavaVisitor,
