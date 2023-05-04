@@ -32,8 +32,3 @@ FamixJavaInterface >> generateFastIfNotDoneAndBind [
 				    (c isKindOf: FamixJavaClass) and: [ c isAnonymousClass not ] ])
 				   asOrderedCollection \ { self }) anyOne generateFastAndBind ]
 ]
-
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
-FamixJavaInterface >> generateFastJava [
-	^ JavaSmaCCProgramNodeImporterVisitor new parseCodeString: self sourceAnchor sourceText
-]
