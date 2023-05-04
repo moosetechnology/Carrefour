@@ -3,19 +3,11 @@ Class {
 	#superclass : #FamixMetamodelGenerator,
 	#instVars : [
 		'famixInvocation',
-		'javaMethodInvocation',
-		'fastJavaMethodInvocation',
 		'famixMethod',
-		'fastJavaMethodEntity',
 		'famixStructuralEntity',
 		'fastJavaVariableDeclarator',
-		'fastJavaClassProperty',
 		'famixType',
-		'fastJavaIdentifier',
 		'fastJavaNewClassExpression',
-		'fastJavaFieldAccess',
-		'fastJavaNew',
-		'fastJavaInitializer',
 		'fastVariableExpression',
 		'fastExpression',
 		'fastEntity',
@@ -51,20 +43,13 @@ CRFMetamodelGenerator class >> submetamodels [
 CRFMetamodelGenerator >> defineClasses [
 	super defineClasses.
 	famixMethod := self remoteEntity: #Method withPrefix: #FamixJava.
-	fastJavaMethodEntity := self remoteEntity: #MethodEntity withPrefix: #FASTJava.
 	famixInvocation := self remoteEntity: #Invocation withPrefix: #FamixJava.
-	fastJavaMethodInvocation := self remoteEntity: #MethodInvocation withPrefix: #FASTJava.
-	fastJavaNew := self remoteEntity: #NewExpression withPrefix: #FASTJava.
 	famixStructuralEntity := self remoteTrait: #TStructuralEntity withPrefix: #'Famix'.
 	fastJavaAssignmentExpression := self remoteEntity: #AssignmentExpression withPrefix: #FASTJava.
 	fastJavaVariableDeclarator := self remoteEntity: #VariableDeclarator withPrefix: #FASTJava.
-	fastJavaClassProperty := self remoteEntity: #ClassProperty withPrefix: #FASTJava.
 	fastJavaTypeParameter := self remoteEntity: #TypeParameterExpression withPrefix: #FASTJava.
-	fastJavaIdentifier := self remoteEntity: #Identifier withPrefix: #FASTJava.
 	famixType := self remoteTrait: #TType withPrefix: #'Famix'.
 	fastJavaNewClassExpression := self remoteEntity: #NewClassExpression withPrefix: #FASTJava.
-	fastJavaFieldAccess := self remoteEntity: #FieldAccess withPrefix: #FASTJava.
-	fastJavaInitializer := self remoteEntity: #Initializer withPrefix: #FASTJava.
 	fastJavaClassDeclaration := self remoteEntity: #ClassDeclaration withPrefix: #FASTJava.
 	fastJavaInterfaceDeclaration := self remoteEntity: #InterfaceDeclaration withPrefix: #FASTJava.
 	
