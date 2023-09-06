@@ -14,7 +14,7 @@ CRFBindingClassDefinitionTest >> setUp [
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeString: (self sourceCodeOfClass: helloClass))
 		name: #fastModel;
 		yourself.
-	CRFBinderVisitor new bindFastModel: self fastModel fromEntity: helloClass
+	CRFBinderVisitor bindFastModel: self fastModel toFamixEntity: helloClass
 ]
 
 { #category : #running }

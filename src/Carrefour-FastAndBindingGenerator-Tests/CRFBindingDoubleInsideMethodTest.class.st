@@ -13,7 +13,7 @@ CRFBindingDoubleInsideMethodTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity:
+		toFamixEntity:
 			(self famixModel allModelMethods
 				detect: [ :method | method name = 'doubleInsideMethod' ])
 ]

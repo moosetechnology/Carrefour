@@ -25,7 +25,7 @@ CRFBindingExternalIdentifierMethodTest >> setUp [
 		                  < method2 sourceAnchor startPos ]) last.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity: onClickMethod
+		toFamixEntity: onClickMethod
 ]
 
 { #category : #running }

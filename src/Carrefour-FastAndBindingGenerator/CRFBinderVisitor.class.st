@@ -13,41 +13,13 @@ Class {
 }
 
 { #category : #api }
-CRFBinderVisitor class >> bindFastModel: fastModel fromEntity: aFamixEntity [
-	^ self new bindFastModel: fastModel fromEntity: aFamixEntity
+CRFBinderVisitor class >> bindFastModel: fastModel toFamixEntity: aFamixEntity [
+	^aFamixEntity bindFastModel: fastModel
 ]
 
 { #category : #api }
-CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity [
-	^ self new bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity
-]
-
-{ #category : #api }
-CRFBinderVisitor >> bindFastModel: fastModel fromEntity: aFamixMethodEntity [
-	aFamixMethodEntity bindFastModel: fastModel usingBinder: self
-]
-
-{ #category : #api }
-CRFBinderVisitor >> bindFastModel: fastModel fromFamixClassEntity: aFamixClassEntity [
-	self
-		execute: [ self sourceFamixEntity: aFamixClassEntity.
-			(fastModel allWithSubTypesOfAny: {FASTJavaClassDeclaration. FASTJavaInterfaceDeclaration}) asOrderedCollection
-				select: [ :classDeclaration | classDeclaration parentNode isNil ]
-				thenDo: [ :classDeclaration | self accept: classDeclaration ].
-			fastModel metamodel: CRFModel metamodel ]
-		recordedAs: 'Bind ' , aFamixClassEntity mooseName printString
-]
-
-{ #category : #api }
-CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
-	self
-		execute: [ self sourceFamixEntity: aFamixMethodEntity.
-			fastModel allFASTJavaMethodEntity
-				select: [ :methodEntity | methodEntity parentNode isNil ]
-				thenDo: [ :methodEntity | self accept: methodEntity ].
-			(fastModel allWithType: FASTJavaInitializer) do: [ :methodEntity | self accept: methodEntity ].
-			fastModel metamodel: CRFModel metamodel ]
-		recordedAs: 'Bind ' , aFamixMethodEntity mooseName printString
+CRFBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixMethodEntity [
+	self subclassResponsibility 
 ]
 
 { #category : #'private - action' }

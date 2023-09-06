@@ -1,18 +1,20 @@
 Extension { #name : #FamixTMethod }
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
-FamixTMethod >> bindFastModel: fastModel usingBinder: binder [
-	binder bindFastModel: fastModel fromFamixMethodEntity: self
+FamixTMethod >> bindFastModel: fastModel [
+	CRFMethodBinderVisitor new
+		bindFastModel: fastModel toFamixEntity: self
 ]
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FamixTMethod >> generateFastAndBind [
+
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 	fastModel := self getFASTModel
-		metamodel: CRFModel metamodel;
-		yourself.
-	self bindFastModel: fastModel usingBinder: CRFBinderVisitor new.
+		             metamodel: CRFModel metamodel;
+		             yourself.
+	self bindFastModel: fastModel.
 	^ fastModel
 ]
 

@@ -1,18 +1,20 @@
 Extension { #name : #FamixJavaInterface }
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
-FamixJavaInterface >> bindFastModel: fastModel usingBinder: binder [
-	binder bindFastModel: fastModel fromFamixClassEntity: self
+FamixJavaInterface >> bindFastModel: fastModel [
+	CRFClassBinderVisitor new
+		bindFastModel: fastModel toFamixEntity: self
 ]
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FamixJavaInterface >> generateFastAndBind [
+
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
 	fastModel := self getFASTModel
-		metamodel: CRFModel metamodel;
-		yourself.
-	self bindFastModel: fastModel usingBinder: CRFBinderVisitor new.
+		             metamodel: CRFModel metamodel;
+		             yourself.
+	self bindFastModel: fastModel.
 	^ fastModel
 ]
 

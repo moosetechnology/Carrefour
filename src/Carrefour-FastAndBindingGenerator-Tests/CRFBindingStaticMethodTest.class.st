@@ -13,7 +13,7 @@ CRFBindingStaticMethodTest >> setUp [
 		yourself.
 	CRFBinderVisitor
 		bindFastModel: self fastModel
-		fromFamixMethodEntity:
+		toFamixEntity:
 			(self famixModel allMethods
 				detect: [ :method | 
 					method name = '<Initializer>'
