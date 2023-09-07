@@ -2,7 +2,7 @@ Extension { #name : #FamixJavaInterface }
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FamixJavaInterface >> bindFastModel: fastModel [
-	CRFClassBinderVisitor new
+	CRFJavaClassBinderVisitor new
 		bindFastModel: fastModel toFamixEntity: self
 ]
 

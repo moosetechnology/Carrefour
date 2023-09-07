@@ -1,11 +1,11 @@
 Class {
-	#name : #CRFMethodBinderVisitor,
+	#name : #CRFJavaMethodBinderVisitor,
 	#superclass : #CRFBinderVisitor,
 	#category : #'Carrefour-FastAndBindingGenerator'
 }
 
 { #category : #api }
-CRFMethodBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixMethodEntity [
+CRFJavaMethodBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixMethodEntity [
 
 	self
 		execute: [ self sourceFamixEntity: aFamixMethodEntity.

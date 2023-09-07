@@ -1,11 +1,11 @@
 Class {
-	#name : #CRFClassBinderVisitor,
+	#name : #CRFJavaClassBinderVisitor,
 	#superclass : #CRFBinderVisitor,
 	#category : #'Carrefour-FastAndBindingGenerator'
 }
 
 { #category : #api }
-CRFClassBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixClassEntity [
+CRFJavaClassBinderVisitor >> bindFastModel: fastModel toFamixEntity: aFamixClassEntity [
 	self
 		execute: [ self sourceFamixEntity: aFamixClassEntity.
 			(fastModel allWithSubTypesOfAny: {FASTJavaClassDeclaration. FASTJavaInterfaceDeclaration}) asOrderedCollection

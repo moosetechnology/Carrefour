@@ -231,18 +231,27 @@ CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclara
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 
-	(aFASTJavaMethodEntity parentNode isNil and: [ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
-		ifTrue: [ "The current node is the root of the analysis" self sourceFamixEntity fast: aFASTJavaMethodEntity ]
-		ifFalse: [ "The method is declared inside the root, so we need to use the sourceAnchor to be sure of the binding"
+	(aFASTJavaMethodEntity parentNode isNil and:
+	[ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
+		ifTrue: [ "The current node is the root of the analysis"
+			self sourceFamixEntity fast: aFASTJavaMethodEntity ]
+		ifFalse: [ "The method is declared inside the root,
+			so we need to use the sourceAnchor to be sure of the binding"
 			((self sourceFamixEntity allToScope: FamixTMethod)
 				select: [ :method | 
 					method name = aFASTJavaMethodEntity name
-						and: [ method hasSourceAnchor
-								and: [ | sourceStartPos |
-									sourceStartPos := self sourceFamixEntityStartPo.
-									method sourceAnchor startPos - sourceStartPos <= (aFASTJavaMethodEntity startPos + 1)
-										and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
-				ifNotEmpty: [ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
+					and: [ method hasSourceAnchor
+					and: [ | sourceStartPos |
+						sourceStartPos := self sourceFamixEntityStartPo.
+						method sourceAnchor startPos - sourceStartPos <= (aFASTJavaMethodEntity startPos + 1)
+					and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ]
+				])
+				ifNotEmpty: [ :methodsWithCorrectName |
+					(self
+						sortCollection: methodsWithCorrectName
+						byDistanceWith: aFASTJavaMethodEntity) first
+						fast: aFASTJavaMethodEntity ]
+			].
 	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
 	aFASTJavaMethodEntity parameters do: [ :parameter | self accept: parameter ].
 	aFASTJavaMethodEntity typeParameters  do: [ :typeParameter | self accept: typeParameter ].	
@@ -336,7 +345,7 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
 ]
 
-{ #category : #generated }
+{ #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaVariableExpression: aFASTJavaVariableExpression [
 	^self visitFASTTVariableExpression: aFASTJavaVariableExpression
 ]

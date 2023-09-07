@@ -2,7 +2,7 @@ Extension { #name : #FamixTMethod }
 
 { #category : #'*Carrefour-FastAndBindingGenerator' }
 FamixTMethod >> bindFastModel: fastModel [
-	CRFMethodBinderVisitor new
+	CRFJavaMethodBinderVisitor new
 		bindFastModel: fastModel toFamixEntity: self
 ]
 
