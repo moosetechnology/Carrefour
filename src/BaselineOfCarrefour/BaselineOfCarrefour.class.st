@@ -18,13 +18,25 @@ BaselineOfCarrefour >> baseline: spec [
 ]
 
 { #category : #baselines }
+BaselineOfCarrefour >> customProjectAttributes [
+
+	^ RPackageOrganizer default packages
+		  detect: [ :package | package name = 'BaselineOfTinyLogger' ]
+		  ifFound: [ #(  ) ]
+		  ifNone: [ #( #NeedsTinyLogger ) ]
+]
+
+{ #category : #baselines }
 BaselineOfCarrefour >> defineDependencies: spec [
-	spec
-		baseline: 'FASTJava'
-		with: [ spec
-				loads: #('all');
-				repository: 'github://moosetechnology/FAST-Java:v3/src' ].
-	spec baseline: 'TinyLogger' with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ]
+
+	spec baseline: 'FASTJava' with: [ 
+		spec
+			loads: #( 'all' );
+			repository: 'github://moosetechnology/FAST-Java:v3/src' ].
+	spec for: #NeedsTinyLogger do: [ 
+		spec
+			baseline: 'TinyLogger'
+			with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ] ]
 ]
 
 { #category : #baselines }
