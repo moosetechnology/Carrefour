@@ -24,7 +24,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 		with: [ spec
 				loads: #('all');
 				repository: 'github://moosetechnology/FAST-Java:v3/src' ].
-	spec baseline: 'TinyLogger' with: [ spec repository: 'github://jecisc/TinyLogger:v1.3.1/src' ]
+	spec baseline: 'TinyLogger' with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ]
 ]
 
 { #category : #baselines }
