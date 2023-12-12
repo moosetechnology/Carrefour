@@ -32,7 +32,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 	spec baseline: 'FASTJava' with: [ 
 		spec
 			loads: #( 'all' );
-			repository: 'github://moosetechnology/FAST-Java:v3.0.2/src' ].
+			repository: 'github://moosetechnology/FAST-Java:v3.0.3/src' ].
 	spec for: #NeedsTinyLogger do: [ 
 		spec
 			baseline: 'TinyLogger'
