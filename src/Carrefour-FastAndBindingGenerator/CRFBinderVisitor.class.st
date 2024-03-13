@@ -278,17 +278,23 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 
 { #category : #visitor }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
-	(self sourceFamixEntity queryAllOutgoingInvocations
-		select: [ :invoc | 
-			(invoc hasSourceAnchor
-				ifTrue: [ | sourceStartPos |
-					sourceStartPos := self sourceFamixEntityStartPo.
-					invoc sourceAnchor startPos - sourceStartPos >= (aFASTJavaMethodInvocation startPos - 1)
-						and: [ invoc sourceAnchor endPos - sourceStartPos <= (aFASTJavaMethodInvocation endPos + 1) ] ]
-				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ]) ])
-		ifNotEmpty: [ :collectionOfPotentialInvoc | 
-					(collectionOfPotentialInvoc sorted: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first
-				fast: aFASTJavaMethodInvocation ].
+
+	(self sourceFamixEntity queryAllOutgoingInvocations select: [ :invoc |
+		 invoc hasSourceAnchor
+			 ifTrue: [
+				 | sourceStartPos |
+				 sourceStartPos := self sourceFamixEntityStartPo.
+				 invoc sourceAnchor startPos - sourceStartPos
+				 >= (aFASTJavaMethodInvocation startPos - 1) and: [
+					 invoc sourceAnchor endPos - sourceStartPos
+					 <= (aFASTJavaMethodInvocation endPos + 1) ] ]
+			 ifFalse: [
+			 invoc target first name beginsWith: aFASTJavaMethodInvocation name ] ])
+		ifNotEmpty: [ :collectionOfPotentialInvoc |
+			(collectionOfPotentialInvoc sorted: [ :invoc1 :invoc2 |
+				 invoc1 sourceAnchor intervalAsCharPos size
+				 > invoc2 sourceAnchor intervalAsCharPos size ]) first fast:
+				aFASTJavaMethodInvocation ].
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation
 ]
 

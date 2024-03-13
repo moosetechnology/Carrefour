@@ -5,6 +5,8 @@ Does not define any entity, but ""imports"" entities from Famix and FAST and add
 Class {
 	#name : #CRFModel,
 	#superclass : #MooseModel,
+	#traits : 'FASTJavaTEntityCreator + FASTTEntityCreator + FamixJavaTEntityCreator',
+	#classTraits : 'FASTJavaTEntityCreator classTrait + FASTTEntityCreator classTrait + FamixJavaTEntityCreator classTrait',
 	#category : #'Carrefour-Model-Model'
 }
 
