@@ -311,6 +311,8 @@ CRFTest >> fastModel: anObject [
 
 { #category : #resources }
 CRFTest >> fastMyInterfaceString [ 
+	"part of the source code used to create the JSON model in #famixModelString"
+
 	^ 'package hello;
 
 public interface MyInterface {
@@ -322,6 +324,8 @@ public interface MyInterface {
 
 { #category : #resources }
 CRFTest >> fastString [ 
+	"part of the source code used to create the JSON model in #famixModelString"
+
 	^ 'package hello;
 
 import com.Button;
