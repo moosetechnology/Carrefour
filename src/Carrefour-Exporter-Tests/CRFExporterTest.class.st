@@ -53,7 +53,6 @@ CRFExporterTest >> testExportOneClassWithOneMethodBinded [
 		                aClass accept: exporter ].
 	self assert: resultString equals: 'public class DemoClass {
 
-
     int aMethod() {
         return 1;
     }
@@ -78,7 +77,6 @@ CRFExporterTest >> testExportOneClassWithOneMethodNotBinded [
 		                exporter currentStream: stream.
 		                aClass accept: exporter ].
 	self assert: resultString equals: 'public class DemoClass {
-
 
     int aMethod() {
 
