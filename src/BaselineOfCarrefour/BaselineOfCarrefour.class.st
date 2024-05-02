@@ -46,22 +46,33 @@ BaselineOfCarrefour >> defineGroups: spec [
 
 { #category : #baselines }
 BaselineOfCarrefour >> definePackages: spec [
+
 	spec
-		repository: 'https://github.com/badetitou/Carrefour';
-		package: 'Carrefour-Model' with: [ spec requires: #('FASTJava') ];
+		package: 'Carrefour-Model' with: [ spec requires: #( 'FASTJava' ) ];
 		package: 'Carrefour-Model-Generator'
-			with: [ spec requires: #('FASTJava') ];
+		with: [ spec requires: #( 'FASTJava' ) ];
 		package: 'Carrefour-FastAndBindingGenerator'
-			with: [ spec requires: #('FASTJava') ];
+		with: [ spec requires: #( 'FASTJava' ) ];
 		package: 'Carrefour-Tests'
-			with: [ spec requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator') ];
-		package: 'Carrefour-FastAndBindingGenerator-Tests'
-			with: [ spec
-				requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator' 'Carrefour-Tests') ];
+		with: [
+			spec requires: #( 'FASTJava' 'Carrefour-FastAndBindingGenerator' ) ];
+		package: 'Carrefour-FastAndBindingGenerator-Tests' with: [
+			spec requires: #( 'FASTJava' 'Carrefour-FastAndBindingGenerator'
+					   'Carrefour-Tests' ) ];
 		package: 'Carrefour-Extension'
-			with: [ spec requires: #('FASTJava') ];
+		with: [ spec requires: #( 'FASTJava' ) ];
 		package: 'Carrefour-RemoveBinding'
-			with: [ spec requires: #('FASTJava' 'Carrefour-FastAndBindingGenerator') ];
+		with: [
+			spec requires: #( 'FASTJava' 'Carrefour-FastAndBindingGenerator' ) ];
 		package: 'Carrefour-RemoveBinding-Tests'
-			with: [ spec requires: #('Carrefour-RemoveBinding' 'Carrefour-Tests') ]
+		with: [
+			spec requires: #( 'Carrefour-RemoveBinding'
+				   'Carrefour-Tests' ) ].
+	"Exporter"
+	spec
+		package: 'Carrefour-Exporter'
+		with: [ spec requires: #( 'Carrefour-Model' ) ].
+	spec
+		package: 'Carrefour-Exporter-Tests'
+		with: [ spec requires: #( 'Carrefour-Exporter' ) ]
 ]
