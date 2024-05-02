@@ -29,11 +29,15 @@ BaselineOfCarrefour >> customProjectAttributes [
 { #category : #baselines }
 BaselineOfCarrefour >> defineDependencies: spec [
 
-	spec baseline: 'FASTJava' with: [ 
+	spec baseline: 'FASTJava' with: [
 		spec
 			loads: #( 'all' );
 			repository: 'github://moosetechnology/FAST-Java:v3.0.5/src' ].
-	spec for: #NeedsTinyLogger do: [ 
+	spec
+		baseline: 'FAMIX2Java'
+		with: [
+		spec repository: 'github://moosetechnology/FAMIX2Java:v4/src' ].
+	spec for: #NeedsTinyLogger do: [
 		spec
 			baseline: 'TinyLogger'
 			with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ] ]
@@ -71,7 +75,7 @@ BaselineOfCarrefour >> definePackages: spec [
 	"Exporter"
 	spec
 		package: 'Carrefour-Exporter'
-		with: [ spec requires: #( 'Carrefour-Model' ) ].
+		with: [ spec requires: #( 'Carrefour-Model' 'FAMIX2Java' ) ].
 	spec
 		package: 'Carrefour-Exporter-Tests'
 		with: [ spec requires: #( 'Carrefour-Exporter' ) ]
