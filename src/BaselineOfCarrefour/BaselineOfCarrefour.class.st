@@ -34,7 +34,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 			loads: #( 'all' );
 			repository: 'github://moosetechnology/FAST-Java:v3.0.5/src' ].
 	spec
-		baseline: 'FAMIX2Java'
+		baseline: 'Famix2Java'
 		with: [
 		spec repository: 'github://moosetechnology/FAMIX2Java:v4/src' ].
 	spec for: #NeedsTinyLogger do: [
@@ -75,7 +75,7 @@ BaselineOfCarrefour >> definePackages: spec [
 	"Exporter"
 	spec
 		package: 'Carrefour-Exporter'
-		with: [ spec requires: #( 'Carrefour-Model' 'FAMIX2Java' ) ].
+		with: [ spec requires: #( 'Carrefour-Model' 'Famix2Java' ) ].
 	spec
 		package: 'Carrefour-Exporter-Tests'
 		with: [ spec requires: #( 'Carrefour-Exporter' ) ]
