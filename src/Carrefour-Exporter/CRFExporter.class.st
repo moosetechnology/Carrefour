@@ -50,13 +50,21 @@ CRFExporter >> visitMethod: aMethod [
 		 aMethod isAbstract isNotNil and: [ aMethod isAbstract ] ])
 		ifTrue: [ self <<< ';' ]
 		ifFalse: [
-			aMethod fast ifNotNil: [ :fastMethod |
-				| fastJavaExporterVisitor |
-				fastJavaExporterVisitor := FASTJavaExportVisitor new
-					                           outputStream: self currentStream;
-					                           indentSize: tabulationSize;
-					                           yourself.
-				self <<< ' '.
-				1 to: tabs do: [ :tab | fastJavaExporterVisitor indent ].
-				fastMethod statementBlock accept: fastJavaExporterVisitor ] ]
+			aMethod fast
+				ifNotNil: [ :fastMethod |
+					| fastJavaExporterVisitor |
+					fastJavaExporterVisitor := FASTJavaExportVisitor new
+						                           outputStream: self currentStream;
+						                           indentSize: tabulationSize;
+						                           yourself.
+					self <<< ' '.
+					1 to: tabs do: [ :tab | fastJavaExporterVisitor indent ].
+					fastMethod statementBlock accept: fastJavaExporterVisitor ]
+				ifNil: [
+					currentStream << ' {'.
+					self eol.
+					self <<< aMethod bodySourceText.
+					self
+						eol;
+						<< '}' ] ]
 ]

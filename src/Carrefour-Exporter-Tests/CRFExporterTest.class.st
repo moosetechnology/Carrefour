@@ -61,3 +61,28 @@ CRFExporterTest >> testExportOneClassWithOneMethodBinded [
 
 }'
 ]
+
+{ #category : #tests }
+CRFExporterTest >> testExportOneClassWithOneMethodNotBinded [
+
+	| model resultString aClass method primitiveInt |
+	model := FamixJavaModel new.
+	aClass := model newClassNamed: 'DemoClass'.
+	method := model newMethodNamed: 'aMethod'.
+	primitiveInt := model newPrimitiveTypeNamed: 'int'.
+	method declaredType: primitiveInt.
+	aClass addMethod: method.
+	
+	
+	resultString := String streamContents: [ :stream |
+		                exporter currentStream: stream.
+		                aClass accept: exporter ].
+	self assert: resultString equals: 'public class DemoClass {
+
+
+    int aMethod() {
+
+    }
+
+}'
+]
