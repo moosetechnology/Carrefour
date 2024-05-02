@@ -36,7 +36,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 	spec
 		baseline: 'Famix2Java'
 		with: [
-		spec repository: 'github://moosetechnology/FAMIX2Java:v4/src' ].
+		spec repository: 'github://moosetechnology/FAMIX2Java:v5/src' ].
 	spec for: #NeedsTinyLogger do: [
 		spec
 			baseline: 'TinyLogger'
