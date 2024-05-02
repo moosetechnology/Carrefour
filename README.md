@@ -13,7 +13,7 @@ The last stable version is
 
 ```st
 Metacello new
-  githubUser: 'moosetechnology' project: 'Carrefour' commitish: 'v4' path: 'src';
+  githubUser: 'moosetechnology' project: 'Carrefour' commitish: 'v5' path: 'src';
   baseline: 'Carrefour';
   load
 ```
