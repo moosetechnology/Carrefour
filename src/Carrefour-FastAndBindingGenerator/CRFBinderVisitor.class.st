@@ -195,7 +195,7 @@ CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 	| classes |
 	classes := aFASTJavaVariableDeclarator type name = 'this'
 		           ifFalse: [ 
-			           self sourceFamixEntity mooseModel allClasses
+			           self sourceFamixEntity mooseModel allClasses asOrderedCollection
 				           detect: [ :class | 
 				           class name = aFASTJavaVariableDeclarator type name ]
 				           ifFound: [ :class | { class } ]
