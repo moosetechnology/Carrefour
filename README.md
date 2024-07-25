@@ -25,27 +25,24 @@ It is composed of 2 parts:
 - Binder
 
 Steps:
-1. Generate the FAST model of a Famix entity (eg. a FamixMethod)
-2. Bind the nodes in the FAST model to entities in the Famix model with method `#bindFASTModel`
+1. Generate the FAST model of a Famix entity (eg. a FamixMethod) with  `#getFASTModel`
+2. Bind the nodes in the FAST model to entities in the Famix model with `bindFASTModel:`
 
 ### Carrefour meta-model
 
-Does not do much, "import" entities from *language dependent* Famix meta-model and *language dependent* FAST meta-model and adds relations between them.
+Does not do much, adds relations between (language dependent) Famix entities and (language dependent) FAST entities.
 
 ### Generating the FAST model
 
 Done by a *language dependent* parser.
-Each FamixEntity should know how to do it by implementing `#getFASTModel`
+Each concerned FamixEntity should know how to do it by implementing `#getFASTModel`.
+For example in Java, this method is implemented by `FamixJavaMethod` and all the "strucutred types" (`FamixJavaClass`, `FamixJavaEnum`, `FamixJavaException`). 
 
 ### Binding
 
 Done by visiting the FAST model (an AST).
 Again needs a *language dependent* visitor.
-
-For Java, there are 2 methods:
-- `#bindFastModel:fromFamixMethodEntity:` that visit root *method* of the FAST model
-- `#bindFastModel:fromFamixClassEntity:` that visit root *class* of the FAST model
-
+It is implemented in `bindFASTModel:`
 
 ## Developers
 
