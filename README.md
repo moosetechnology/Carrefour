@@ -44,6 +44,11 @@ Done by visiting the FAST model (an AST).
 Again needs a *language dependent* visitor.
 It is implemented in `bindFASTModel:`
 
+Bindings need to be created between (class names are only indicative, they do not really exist in any Famix or FAST meta-model):
+- FamixMethod and FASTBehaviouralEntity
+- FamixStructuralEntity and FASTVariableDeclarator + FASTExpression + FASTAssignement
+- FamixInvocation and FASTExpression
+
 ## Developers
 
 ### Update tests
