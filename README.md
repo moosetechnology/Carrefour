@@ -22,32 +22,30 @@ Metacello new
 Carrefour links entities in a FAST model to entities in a Famix model.
 It is composed of 2 parts:
 - Carrefour meta-model
-- Binder
-
-Steps:
-1. Generate the FAST model of a Famix entity (eg. a FamixMethod) with  `#getFASTModel`
-2. Bind the nodes in the FAST model to entities in the Famix model with `bindFASTModel:`
+- Binder with two main steps involved:
+  1. Generate the FAST model of a Famix entity (eg. a FamixMethod) with  `#getFASTModel`
+  2. Bind the nodes in the FAST model to entities in the Famix model with `bindFASTModel:`
 
 ### Carrefour meta-model
 
-Does not do much, adds relations between (language dependent) Famix entities and (language dependent) FAST entities.
+Represents relations between Famix entities and FAST entities.
+
+The relations are typically between:
+- FamixMethod and FASTBehaviouralEntity
+- FamixStructuralEntity and FASTVariableDeclarator, FASTExpression, or FASTAssignement
+- FamixInvocation and FASTFunctionCall or FASTMessageSend
+Note: *class names are only indicative, they do not really exist in any Famix or FAST meta-model*
 
 ### Generating the FAST model
 
 Done by a *language dependent* parser.
 Each concerned FamixEntity should know how to do it by implementing `#getFASTModel`.
-For example in Java, this method is implemented by `FamixJavaMethod` and all the "strucutred types" (`FamixJavaClass`, `FamixJavaEnum`, `FamixJavaException`). 
+For example in Java, this method is implemented by `FamixJavaMethod` and all the main "structured types" (`FamixJavaClass`, `FamixJavaEnum`, `FamixJavaException`). 
 
 ### Binding
 
-Done by visiting the FAST model (an AST).
-Again needs a *language dependent* visitor.
+Done by visiting the FAST model (an AST) and looking for corresponding Famix entities to each FAST entity.
 It is implemented in `bindFASTModel:`
-
-Bindings need to be created between (class names are only indicative, they do not really exist in any Famix or FAST meta-model):
-- FamixMethod and FASTBehaviouralEntity
-- FamixStructuralEntity and FASTVariableDeclarator + FASTExpression + FASTAssignement
-- FamixInvocation and FASTExpression
 
 ## Developers
 
