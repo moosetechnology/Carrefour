@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfCarrefour,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfCarrefour
+	#name : 'BaselineOfCarrefour',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfCarrefour',
+	#package : 'BaselineOfCarrefour'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefour >> baseline: spec [
 	<baseline>
 	spec
@@ -17,7 +18,7 @@ BaselineOfCarrefour >> baseline: spec [
 			self defineGroups: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefour >> customProjectAttributes [
 
 	^ RPackageOrganizer default packages
@@ -26,13 +27,13 @@ BaselineOfCarrefour >> customProjectAttributes [
 		  ifNone: [ #( #NeedsTinyLogger ) ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefour >> defineDependencies: spec [
 
 	spec baseline: 'FASTJava' with: [
 		spec
 			loads: #( 'all' );
-			repository: 'github://moosetechnology/FAST-Java:v3.0.5/src' ].
+			repository: 'github://moosetechnology/FAST-Java:v3.0.7/src' ].
 	spec
 		baseline: 'Famix2Java'
 		with: [
@@ -43,12 +44,12 @@ BaselineOfCarrefour >> defineDependencies: spec [
 			with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ] ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefour >> defineGroups: spec [
 	spec group: 'generator' with: #('Carrefour-Model-Generator')
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCarrefour >> definePackages: spec [
 
 	spec
