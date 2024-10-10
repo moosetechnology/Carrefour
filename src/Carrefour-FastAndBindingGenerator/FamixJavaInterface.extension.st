@@ -1,11 +1,11 @@
-Extension { #name : #FamixJavaInterface }
+Extension { #name : 'FamixJavaInterface' }
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixJavaInterface >> bindFastModel: fastModel usingBinder: binder [
 	binder bindFastModel: fastModel fromFamixClassEntity: self
 ]
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixJavaInterface >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
@@ -16,7 +16,7 @@ FamixJavaInterface >> generateFastAndBind [
 	^ fastModel
 ]
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixJavaInterface >> generateFastIfNotDoneAndBind [
 
 	self fastDeclaration ifNotEmpty: [ 

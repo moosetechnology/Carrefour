@@ -1,11 +1,11 @@
-Extension { #name : #FamixTMethod }
+Extension { #name : 'FamixTMethod' }
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixTMethod >> bindFastModel: fastModel usingBinder: binder [
 	binder bindFastModel: fastModel fromFamixMethodEntity: self
 ]
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixTMethod >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
@@ -16,7 +16,7 @@ FamixTMethod >> generateFastAndBind [
 	^ fastModel
 ]
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixTMethod >> generateFastIfNotDoneAndBind [
 	self fast ifNotNil: [ ^ self fast mooseModel ].
 	^ self generateFastAndBind 
