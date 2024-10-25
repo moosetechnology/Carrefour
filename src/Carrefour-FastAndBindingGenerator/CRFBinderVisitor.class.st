@@ -4,30 +4,31 @@ Binds FAST nodes to their corresponding FamixEntities
 Visit the F-AST and create binding between variable accesses (`FASTJavaFieldAccess`, `FASTJavaAssignementExpression`, `FASTJavaIdentifier`, ...) or method invocations (`FASTJavaMethodInvocation`) and their Famix counter-part (`FamixTStructuralEntity`, `FamixTInvocation`, ...)
 "
 Class {
-	#name : #CRFBinderVisitor,
-	#superclass : #FASTJavaVisitor,
+	#name : 'CRFBinderVisitor',
+	#superclass : 'FASTJavaVisitor',
 	#instVars : [
 		'sourceFamixEntity'
 	],
-	#category : #'Carrefour-FastAndBindingGenerator'
+	#category : 'Carrefour-FastAndBindingGenerator',
+	#package : 'Carrefour-FastAndBindingGenerator'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 CRFBinderVisitor class >> bindFastModel: fastModel fromEntity: aFamixEntity [
 	^ self new bindFastModel: fastModel fromEntity: aFamixEntity
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CRFBinderVisitor class >> bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity [
 	^ self new bindFastModel: fastModel fromFamixMethodEntity: aFamixEntity
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CRFBinderVisitor >> bindFastModel: fastModel fromEntity: aFamixMethodEntity [
 	aFamixMethodEntity bindFastModel: fastModel usingBinder: self
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixClassEntity: aFamixClassEntity [
 	self
 		execute: [ self sourceFamixEntity: aFamixClassEntity.
@@ -38,7 +39,7 @@ CRFBinderVisitor >> bindFastModel: fastModel fromFamixClassEntity: aFamixClassEn
 		recordedAs: 'Bind ' , aFamixClassEntity mooseName printString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethodEntity [
 	self
 		execute: [ self sourceFamixEntity: aFamixMethodEntity.
@@ -50,7 +51,7 @@ CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethod
 		recordedAs: 'Bind ' , aFamixMethodEntity mooseName printString
 ]
 
-{ #category : #'private - action' }
+{ #category : 'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity [
 
 	"I do a lookup for a variable in the famix code with the name = aVariableName 
@@ -84,25 +85,25 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity 
 	^ nil
 ]
 
-{ #category : #'private - action' }
+{ #category : 'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName fromFamixEntity: aFamixEntity [
 
-	((((aFamixEntity allAtAnyScope: { 
-			    FamixTParameterizedType.
-			    FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
-		  :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ]) 
-		 sorted: [ :classA :classB | 
-			 classA superclassHierarchy size > classB superclassHierarchy size ]) 
-		ifNotEmpty: [ :scopes | 
-			scopes do: [ :scope | 
+	((((aFamixEntity allAtAnyScope: { FamixTClass }) flatCollect:
+		   #withSuperclassHierarchy) select: [ :hierarchyElement |
+		  hierarchyElement isKindOf: FamixJavaClass ]) sorted: [
+		 :classA
+		 :classB |
+		 classA superclassHierarchy size > classB superclassHierarchy size ])
+		ifNotEmpty: [ :scopes |
+			scopes do: [ :scope |
 				scope attributes
-					detect: [ :implicitVariable | 
+					detect: [ :implicitVariable |
 					implicitVariable name = aVariableName ]
 					ifFound: [ :found | ^ found ] ] ].
 	^ nil
 ]
 
-{ #category : #'private - action' }
+{ #category : 'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFamixMethod for: aFastEntity [
 
 	aFamixMethod localVariables
@@ -135,39 +136,39 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 	^ nil
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CRFBinderVisitor >> distanceOf: element1 with: baseElement [
 	| fromSourceAnchor |
 	fromSourceAnchor := self sourceFamixEntity sourceAnchor.
 	^ (baseElement startPos + fromSourceAnchor startPos - element1 startPos) abs + (baseElement endPos + fromSourceAnchor startPos - element1 endPos) abs
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CRFBinderVisitor >> sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity [
 	^ methodsWithCorrectName sorted: [ :element1 :element2 | (self distanceOf: element1 sourceAnchor with: aFASTJavaMethodEntity) < (self distanceOf: element2 sourceAnchor with: aFASTJavaMethodEntity) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CRFBinderVisitor >> sourceFamixEntity [
 	^ sourceFamixEntity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CRFBinderVisitor >> sourceFamixEntity: anObject [
 	sourceFamixEntity := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CRFBinderVisitor >> sourceFamixEntityStartPo [
 	^ self sourceFamixEntity sourceAnchor startPos
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
 	^ aFASTEntity children do: [ :child | self accept: child ]
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpression [
 	(self determineAttributeWithName: aFASTJavaAssignmentExpression variable name from: aFASTJavaAssignmentExpression)
 		ifNotNil:
@@ -176,7 +177,7 @@ CRFBinderVisitor >> visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpres
 	super visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpression.
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration [
 
 	(self sourceFamixEntity allToScope: FamixTClass)
@@ -189,7 +190,7 @@ CRFBinderVisitor >> visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration [
 	super visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 
 	| classes |
@@ -212,7 +213,7 @@ CRFBinderVisitor >> visitFASTJavaClassProperty: aFASTJavaVariableDeclarator [
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 	(self determineAttributeWithName: aFASTJavaFieldAccess fieldName from: aFASTJavaFieldAccess)
 		ifNotNil:
@@ -221,14 +222,14 @@ CRFBinderVisitor >> visitFASTJavaFieldAccess: aFASTJavaFieldAccess [
 	super visitFASTJavaAssignmentExpression: aFASTJavaFieldAccess.
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 	(self determineAttributeWithName: aFASTJavaIdentifier name from: aFASTJavaIdentifier) ifNotNil: [ :structuralEntity | 
 		structuralEntity fastAccesses add: aFASTJavaIdentifier ].
 	super visitFASTJavaIdentifier: aFASTJavaIdentifier
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 	(self sourceFamixEntity allToScope: FamixTMethod)
 		detect: [ :method | 
@@ -241,7 +242,7 @@ CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
 	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ]
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclaration [
 
 	(self sourceFamixEntity allToAnyScope: {FamixTClass . FamixJavaInterface})
@@ -256,7 +257,7 @@ CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclara
 		aFASTJavaInterfaceDeclaration
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 
 	(aFASTJavaMethodEntity parentNode isNil and: [ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
@@ -276,23 +277,30 @@ CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 	aFASTJavaMethodEntity typeParameters  do: [ :typeParameter | self accept: typeParameter ].	
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
-	(self sourceFamixEntity queryAllOutgoingInvocations
-		select: [ :invoc | 
-			(invoc hasSourceAnchor
-				ifTrue: [ | sourceStartPos |
-					sourceStartPos := self sourceFamixEntityStartPo.
-					invoc sourceAnchor startPos - sourceStartPos >= (aFASTJavaMethodInvocation startPos - 1)
-						and: [ invoc sourceAnchor endPos - sourceStartPos <= (aFASTJavaMethodInvocation endPos + 1) ] ]
-				ifFalse: [ invoc to first name beginsWith: aFASTJavaMethodInvocation name ]) ])
-		ifNotEmpty: [ :collectionOfPotentialInvoc | 
-					(collectionOfPotentialInvoc sorted: [ :invoc1 :invoc2 | invoc1 sourceAnchor intervalAsCharPos size > invoc2 sourceAnchor intervalAsCharPos size ]) first
-				fast: aFASTJavaMethodInvocation ].
+
+	(self sourceFamixEntity queryAllOutgoingInvocations select: [ :invoc |
+		 invoc hasSourceAnchor
+			 ifTrue: [
+				 | sourceStartPos |
+				 sourceStartPos := self sourceFamixEntityStartPo.
+				 invoc sourceAnchor startPos - sourceStartPos
+				 >= (aFASTJavaMethodInvocation startPos - 1) and: [
+					 invoc sourceAnchor endPos - sourceStartPos
+					 <= (aFASTJavaMethodInvocation endPos + 1) ] ]
+			 ifFalse: [
+			 invoc target first name beginsWith: aFASTJavaMethodInvocation name ] ])
+		ifNotEmpty: [ :collectionOfPotentialInvoc |
+			(collectionOfPotentialInvoc sorted: [ :invoc |
+				 invoc sourceAnchor
+					 ifNil: [ 0 ]
+					 ifNotNil: [ :sourceAnchor | sourceAnchor intervalAsCharPos size ] ]
+					 descending) first fast: aFASTJavaMethodInvocation ].
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
 
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
@@ -311,7 +319,7 @@ CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression
 	self visitFASTJavaNewExpression: aFASTJavaNewClassExpression
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 
 	"We base the selection on sourceAnchor because it is the the most precise thing we have
@@ -342,13 +350,13 @@ CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaParameter: aFASTJavaParameter [
 	(self determineAttributeWithName: aFASTJavaParameter variable name from: aFASTJavaParameter)
 		ifNotNil: [ :structuralEntity | structuralEntity fastDeclaration add: aFASTJavaParameter ]
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaTypeParameter: aFASTJavaTypeParameter [
 
 	(self sourceFamixEntity allToScope: FamixTType)
@@ -356,7 +364,7 @@ CRFBinderVisitor >> visitFASTJavaTypeParameter: aFASTJavaTypeParameter [
 		ifOne: [ :type | type fastTypeDefinition: aFASTJavaTypeParameter ]
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator [
 	(self determineAttributeWithName: aFASTJavaVariableDeclarator variable name from: aFASTJavaVariableDeclarator)
 		ifNotNil:
@@ -364,18 +372,18 @@ CRFBinderVisitor >> visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator
 	super visitFASTJavaVariableDeclarator: aFASTJavaVariableDeclarator.
 ]
 
-{ #category : #generated }
+{ #category : 'generated' }
 CRFBinderVisitor >> visitFASTJavaVariableExpression: aFASTJavaVariableExpression [
 	^self visitFASTTVariableExpression: aFASTJavaVariableExpression
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTTReturnStatement: aFASTReturnStatement [
 	aFASTReturnStatement expression
 		ifNotNil: [ self accept: aFASTReturnStatement expression ]
 ]
 
-{ #category : #visitor }
+{ #category : 'visitor' }
 CRFBinderVisitor >> visitFASTTVariableExpression: aFASTVariableExpression [
 	(self determineAttributeWithName: aFASTVariableExpression name from: aFASTVariableExpression)
 		ifNotNil:

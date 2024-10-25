@@ -1,11 +1,11 @@
-Extension { #name : #FamixTClass }
+Extension { #name : 'FamixTClass' }
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixTClass >> bindFastModel: fastModel usingBinder: binder [
 	binder bindFastModel: fastModel fromFamixClassEntity: self
 ]
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixTClass >> generateFastAndBind [
 	| fastModel |
 	self assert: self sourceAnchor isNotNil.
@@ -16,7 +16,7 @@ FamixTClass >> generateFastAndBind [
 	^ fastModel
 ]
 
-{ #category : #'*Carrefour-FastAndBindingGenerator' }
+{ #category : '*Carrefour-FastAndBindingGenerator' }
 FamixTClass >> generateFastIfNotDoneAndBind [
 
 	self fastDeclaration ifNotEmpty: [ 
