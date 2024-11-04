@@ -361,7 +361,7 @@ CRFBinderVisitor >> visitFASTJavaTypeParameter: aFASTJavaTypeParameter [
 
 	(self sourceFamixEntity allToScope: FamixTType)
 		detect: [ :type | type name = aFASTJavaTypeParameter name ]
-		ifOne: [ :type | type fastTypeDefinition: aFASTJavaTypeParameter ]
+		ifFound: [ :type | type fastTypeDefinition: aFASTJavaTypeParameter ]
 ]
 
 { #category : 'visitor' }
