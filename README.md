@@ -1,7 +1,9 @@
 # Carrefour
 
 [![Moose version](https://img.shields.io/badge/Moose-11-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
-[![CI](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose11.yml/badge.svg?branch=v4)](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose11.yml)
+[![Moose version](https://img.shields.io/badge/Moose-12-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
+[![CI](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose11.yml/badge.svg?branch=v5)](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose11.yml)
+[![CI](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose12.yml/badge.svg?branch=v5)](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose12.yml)
 [![Coverage Status](https://coveralls.io/repos/github/moosetechnology/Carrefour/badge.svg?branch=v5)](https://coveralls.io/github/moosetechnology/Carrefour?branch=v5)
 
 Binding between Famix and FAST
