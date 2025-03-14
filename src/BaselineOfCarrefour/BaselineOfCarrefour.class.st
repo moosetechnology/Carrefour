@@ -21,10 +21,10 @@ BaselineOfCarrefour >> baseline: spec [
 { #category : 'baselines' }
 BaselineOfCarrefour >> customProjectAttributes [
 
-	^ RPackageOrganizer default packages
-		  detect: [ :package | package name = 'BaselineOfTinyLogger' ]
-		  ifFound: [ #(  ) ]
-		  ifNone: [ #( #NeedsTinyLogger ) ]
+	^ self class environment
+		at: #BaselineOfTinyLogger
+		ifPresent: [ #(  ) ]
+		ifAbsent: [ #( #NeedsTinyLogger ) ]
 ]
 
 { #category : 'baselines' }
