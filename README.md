@@ -1,10 +1,8 @@
 # Carrefour
 
-[![Moose version](https://img.shields.io/badge/Moose-11-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
 [![Moose version](https://img.shields.io/badge/Moose-12-%23aac9ff.svg)](https://github.com/moosetechnology/Moose)
-[![CI](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose11.yml/badge.svg?branch=v5)](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose11.yml)
-[![CI](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose12.yml/badge.svg?branch=v5)](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose12.yml)
-[![Coverage Status](https://coveralls.io/repos/github/moosetechnology/Carrefour/badge.svg?branch=v5)](https://coveralls.io/github/moosetechnology/Carrefour?branch=v5)
+[![CI](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose.yml/badge.svg?branch=v6)](https://github.com/moosetechnology/Carrefour/actions/workflows/test-moose.yml)
+[![Coverage Status](https://coveralls.io/repos/github/moosetechnology/Carrefour/badge.svg?branch=v6)](https://coveralls.io/github/moosetechnology/Carrefour?branch=v6)
 
 Binding between Famix and FAST
 
@@ -14,7 +12,7 @@ The last stable version is
 
 ```st
 Metacello new
-  githubUser: 'moosetechnology' project: 'Carrefour' commitish: 'v5' path: 'src';
+  githubUser: 'moosetechnology' project: 'Carrefour' commitish: 'v6' path: 'src';
   baseline: 'Carrefour';
   load
 ```
