@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingMethodWithTypeParameter,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingMethodWithTypeParameter',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingMethodWithTypeParameter >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,7 +19,7 @@ CRFBindingMethodWithTypeParameter >> setUp [
 				detect: [ :method | method name = 'methodWithTypeParameter' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingMethodWithTypeParameter >> testBindTypeParameter [
 
 	self
@@ -27,7 +28,7 @@ CRFBindingMethodWithTypeParameter >> testBindTypeParameter [
 				 method name = 'methodWithTypeParameter' ]) first declaredType
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingMethodWithTypeParameter >> testBindingMethod [
 
 	self

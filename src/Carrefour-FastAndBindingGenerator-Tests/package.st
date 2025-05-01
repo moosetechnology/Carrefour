@@ -1,1 +1,1 @@
-Package { #name : #'Carrefour-FastAndBindingGenerator-Tests' }
+Package { #name : 'Carrefour-FastAndBindingGenerator-Tests' }

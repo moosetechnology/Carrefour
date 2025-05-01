@@ -1,14 +1,15 @@
 Class {
-	#name : #CRFBindingExternalAttributeTest,
-	#superclass : #CRFBindingTest,
+	#name : 'CRFBindingExternalAttributeTest',
+	#superclass : 'CRFBindingTest',
 	#instVars : [
 		'helloClass',
 		'externalAttributeVar'
 	],
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CRFBindingExternalAttributeTest >> setUp [
 	super setUp.
 	helloClass := (self famixModel allModelClasses detect: [:class | class name = #'Hello']).
@@ -18,12 +19,12 @@ CRFBindingExternalAttributeTest >> setUp [
 	CRFBinderVisitor new bindFastModel: self fastModel fromEntity: helloClass
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CRFBindingExternalAttributeTest >> sourceCodeOfClass: aClass [
 	^ self fastString copyFrom: aClass sourceAnchor startPos to: aClass sourceAnchor endPos  
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CRFBindingExternalAttributeTest >> testAccessOfExternalAttribute [
 
 	| externalAttributeVarFast externalAttributeVarFamix |
@@ -41,7 +42,7 @@ CRFBindingExternalAttributeTest >> testAccessOfExternalAttribute [
 		equals: externalAttributeVarFamix
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CRFBindingExternalAttributeTest >> testBindInnerAttribute [
 
 	| externalAttributeVarFast externalAttributeVarFamix |

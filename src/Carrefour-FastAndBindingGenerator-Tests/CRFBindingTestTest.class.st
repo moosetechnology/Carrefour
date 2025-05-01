@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingTestTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingTestTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingTestTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,7 +19,7 @@ CRFBindingTestTest >> setUp [
 				detect: [ :method | method name = 'test' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 	self
 		assert:
@@ -36,7 +37,7 @@ CRFBindingTestTest >> testBindingMethodInvocationInnerPrintLN [
 				select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'onClick' ] ]) first famixInvocation
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testBindingMethodInvocationPrintLN [
 	self
 		assert: ((self famixModel select: [ :method | method name = 'test' ]) first outgoingInvocations select: [ :invocation | invocation signature = 'println(patate + hello)' ]) first fast
@@ -46,7 +47,7 @@ CRFBindingTestTest >> testBindingMethodInvocationPrintLN [
 		equals:((self fastModel allWithType: FASTJavaMethodInvocation) select: [ :fastMethodInvocation | fastMethodInvocation name = 'println' and: [ fastMethodInvocation parentNode parentNode parentNode name = 'test' ] ]) first famixInvocation
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 	self
 		assert:
@@ -60,7 +61,7 @@ CRFBindingTestTest >> testBindingMethodInvocationReturnNumber [
 		equals: ((self fastModel allWithType: FASTJavaMethodInvocation) select: [:fastMethodInvocation | fastMethodInvocation name = 'returnNumber' ]) first famixInvocation
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testBindingMethodOnClick [
 	self
 		assert: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fast
@@ -77,18 +78,18 @@ CRFBindingTestTest >> testBindingMethodOnClick [
 		equals: ((self famixModel allMethods select: [ :method | method name = 'onClick' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) second.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testBindingMethodTest [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'test' ]) first fast equals: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first.
 	self assert: (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'test' ]) first
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testHelloUsages [
 	self assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first fastAccesses size equals: 5
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testNewInnerAssignment [
 	self
 		assert: (self famixModel allLocalVariables select: [ :localVariable | localVariable name = 'innertButton' ]) anyOne fastDeclaration anyOne
@@ -98,7 +99,7 @@ CRFBindingTestTest >> testNewInnerAssignment [
 		equals: ((self fastModel allWithType: FASTJavaVariableDeclarator) select: [:variableDeclarator | variableDeclarator variable name = 'innertButton' ]) anyOne famixVariable.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testNewInnerClass [
 	self
 		assert: ((self famixModel allModelClasses select: [ :class | class name includesSubstring: 'Button' ]) sort: [:method1 :method2 | method1 sourceAnchor startPos < method2 sourceAnchor startPos ]) first fastDeclaration anyOne
@@ -115,7 +116,7 @@ CRFBindingTestTest >> testNewInnerClass [
 		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) sort: [:method1 :method2 | method1  startPos < method2  startPos ]) second famixType
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testStubAttributeUsagesOnClick [
 	self
 		assert: ((self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) first
@@ -123,7 +124,7 @@ CRFBindingTestTest >> testStubAttributeUsagesOnClick [
 	self assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) anyOne equals: ((self fastModel allWithType: FASTJavaClassProperty) detect: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) famixVariable
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testStubAttributeUsagesTest [
 	self
 		assert: ((self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first fastAccesses detect: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ])
@@ -131,7 +132,7 @@ CRFBindingTestTest >> testStubAttributeUsagesTest [
 	self assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'out' ]) first equals: ((self fastModel allWithType: FASTJavaClassProperty) detect: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ]) famixVariable
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testTypeAccessOnClick [
 	self
 		assert: ((self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) anyOne
@@ -141,7 +142,7 @@ CRFBindingTestTest >> testTypeAccessOnClick [
 		equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'onClick' ]) anyOne type famixVariable
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testTypeAccessTest [
 	self
 		assert: ((self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne fastAccesses select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ]) anyOne
@@ -149,7 +150,7 @@ CRFBindingTestTest >> testTypeAccessTest [
 	self assert: (self famixModel allTypes select: [ :type | type name = 'System' ]) anyOne equals: ((self fastModel allWithType: FASTJavaClassProperty) select: [ :fastAccess | (fastAccess atScope: FASTJavaMethodEntity) anyOne name = 'test' ]) anyOne type famixVariable
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingTestTest >> testVariableDeclarator [
 	self
 		assert: (self famixModel allAttributes select: [ :attribute | attribute name = 'hello' ]) first fastAssignment first

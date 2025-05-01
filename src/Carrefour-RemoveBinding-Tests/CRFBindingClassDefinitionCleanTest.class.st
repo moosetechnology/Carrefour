@@ -1,13 +1,14 @@
 Class {
-	#name : #CRFBindingClassDefinitionCleanTest,
-	#superclass : #CRFRemoveBindingTest,
+	#name : 'CRFBindingClassDefinitionCleanTest',
+	#superclass : 'CRFRemoveBindingTest',
 	#instVars : [
 		'helloClass'
 	],
-	#category : #'Carrefour-RemoveBinding-Tests'
+	#category : 'Carrefour-RemoveBinding-Tests',
+	#package : 'Carrefour-RemoveBinding-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassDefinitionCleanTest >> setUp [
 	super setUp.
 	helloClass := (self famixModel allModelClasses detect: [:class | class name = #'Hello']).
@@ -17,12 +18,12 @@ CRFBindingClassDefinitionCleanTest >> setUp [
 	CRFBinderVisitor new bindFastModel: self fastModel fromEntity: helloClass
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassDefinitionCleanTest >> sourceCodeOfClass: aClass [
 	^ self fastString copyFrom: aClass sourceAnchor startPos to: aClass sourceAnchor endPos  
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassDefinitionCleanTest >> testClassDefinitionIsBinded [
 
 	self

@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFRemoveBindingTest,
-	#superclass : #CRFTest,
-	#category : #'Carrefour-RemoveBinding-Tests'
+	#name : 'CRFRemoveBindingTest',
+	#superclass : 'CRFTest',
+	#category : 'Carrefour-RemoveBinding-Tests',
+	#package : 'Carrefour-RemoveBinding-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveBindingTest >> testCanLoadFamixAndFastModel [
 	"This test will fail if the setup failed --> it will mean that the famix model cannot be load"
 

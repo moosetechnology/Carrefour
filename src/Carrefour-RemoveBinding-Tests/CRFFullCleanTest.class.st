@@ -2,22 +2,23 @@
 This class contains tests
 "
 Class {
-	#name : #CRFFullCleanTest,
-	#superclass : #CRFRemoveBindingTest,
-	#category : #'Carrefour-RemoveBinding-Tests'
+	#name : 'CRFFullCleanTest',
+	#superclass : 'CRFRemoveBindingTest',
+	#category : 'Carrefour-RemoveBinding-Tests',
+	#package : 'Carrefour-RemoveBinding-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFullCleanTest >> famixTestMethod [
 	^ (self famixModel allMethods select: [ :method | method name = 'test' ]) first
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFullCleanTest >> fastTestMethod [
 	^ (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'test' ]) first
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFullCleanTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new parseCodeMethodString: self fastMethodTestString)
@@ -26,7 +27,7 @@ CRFFullCleanTest >> setUp [
 	CRFBinderVisitor bindFastModel: self fastModel fromFamixMethodEntity: (self famixModel allModelMethods detect: [ :method | method name = 'test' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFFullCleanTest >> testFullClean [
 	| mooseModel |
 	mooseModel := self fastTestMethod mooseModel.

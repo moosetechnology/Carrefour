@@ -1,13 +1,14 @@
 Class {
-	#name : #CRFBindingAttributeInitialisationTest,
-	#superclass : #CRFBindingTest,
+	#name : 'CRFBindingAttributeInitialisationTest',
+	#superclass : 'CRFBindingTest',
 	#instVars : [
 		'helloClass'
 	],
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingAttributeInitialisationTest >> setUp [
 	super setUp.
 	helloClass := (self famixModel allModelClasses detect: [:class | class name = #'Hello']).
@@ -17,19 +18,19 @@ CRFBindingAttributeInitialisationTest >> setUp [
 	CRFBinderVisitor new bindFastModel: self fastModel fromEntity: helloClass
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingAttributeInitialisationTest >> sourceCodeOfClass: aClass [
 	^ self fastString copyFrom: aClass sourceAnchor startPos to: aClass sourceAnchor endPos  
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeAreBound [
 	self assert: helloClass attributes size equals: 10.
 	helloClass attributes do: [ :attribute |
 		self assert: attribute fastDeclaration isNotEmpty ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingAttributeInitialisationTest >> testAllFamixAttributeInitializationAreBound [
 
 	| invocationsFamix invocationsFast |

@@ -1,1 +1,1 @@
-Package { #name : #'Carrefour-RemoveBinding-Tests' }
+Package { #name : 'Carrefour-RemoveBinding-Tests' }

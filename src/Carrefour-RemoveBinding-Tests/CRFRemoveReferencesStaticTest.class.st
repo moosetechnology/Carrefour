@@ -1,20 +1,21 @@
 Class {
-	#name : #CRFRemoveReferencesStaticTest,
-	#superclass : #CRFRemoveBindingTest,
-	#category : #'Carrefour-RemoveBinding-Tests'
+	#name : 'CRFRemoveReferencesStaticTest',
+	#superclass : 'CRFRemoveBindingTest',
+	#category : 'Carrefour-RemoveBinding-Tests',
+	#package : 'Carrefour-RemoveBinding-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesStaticTest >> famixTestMethod [
 	^ self famixModel allMethods detect: [ :method | method name = '<Initializer>' ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesStaticTest >> fastTestMethod [
 	^ (self fastModel allWithType: FASTJavaInitializer) first
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesStaticTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -25,10 +26,10 @@ CRFRemoveReferencesStaticTest >> setUp [
 		bindFastModel: self fastModel
 		fromFamixMethodEntity:
 			(self famixModel allModelMethods
-				detect: [ :method | method mooseName = #'hello::Hello.<Initializer>()' ])
+				detect: [ :method | method mooseName = #'hello.Hello.<Initializer>()' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesStaticTest >> testFromFASTRemoveStaticInitializerBinding [
 	| weakArray |
 	weakArray := WeakArray new: 1.

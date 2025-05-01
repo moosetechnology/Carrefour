@@ -1,21 +1,22 @@
 Class {
-	#name : #CRFRemoveReferencesTestTest,
-	#superclass : #CRFRemoveBindingTest,
-	#category : #'Carrefour-RemoveBinding-Tests'
+	#name : 'CRFRemoveReferencesTestTest',
+	#superclass : 'CRFRemoveBindingTest',
+	#category : 'Carrefour-RemoveBinding-Tests',
+	#package : 'Carrefour-RemoveBinding-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> famixTestMethod [
 
 	^ self famixModel allMethods detect: [ :method | method name = 'test' ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> fastTestMethod [
 	^ self fastModel allFASTJavaMethodEntity detect: [ :method | method name = 'test' ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -29,7 +30,7 @@ CRFRemoveReferencesTestTest >> setUp [
 				detect: [ :method | method name = 'test' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveInvocationsBinding [
 
 	self fastTestMethod removeBinding.
@@ -38,7 +39,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveInvocationsBinding [
 		self assert: invocation fast equals: nil ].
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
 	| method |
 	method := self fastTestMethod. 
@@ -47,7 +48,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveMethodBinding [
 	self assert: self famixTestMethod fast equals: nil
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveStructuralEntityBinding [
 	| structuralEntities |
 	structuralEntities := (self famixModel allUsing: FamixTStructuralEntity).
@@ -61,7 +62,7 @@ CRFRemoveReferencesTestTest >> testFromFASTRemoveStructuralEntityBinding [
 	self assert: (structuralEntities flatCollect: #fastAssignment) size equals: 0.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesTestTest >> testFromFASTRemoveTypeBinding [
 	self assert: (self famixModel allTypes flatCollect: #fastDeclaration) size equals: 2.
 	self assert: (self famixModel allTypes flatCollect: #fastAccesses) size equals: 2.

@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingVariableInitialisationTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingVariableInitialisationTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingVariableInitialisationTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,6 +19,6 @@ CRFBindingVariableInitialisationTest >> setUp [
 				detect: [ :method | method name = 'test' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingVariableInitialisationTest >> testBindingVariableInitialisation [
 ]

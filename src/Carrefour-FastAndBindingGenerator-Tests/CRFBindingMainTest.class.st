@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingMainTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingMainTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingMainTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,7 +19,7 @@ CRFBindingMainTest >> setUp [
 				detect: [ :method | method name = 'main' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingMainTest >> testBindingMethod [
 	self
 		assert: (self famixModel allMethods select: [ :method | method name = 'main' ]) first fast

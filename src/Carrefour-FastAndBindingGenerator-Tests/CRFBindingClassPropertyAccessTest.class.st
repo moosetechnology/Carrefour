@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingClassPropertyAccessTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingClassPropertyAccessTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassPropertyAccessTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,17 +19,17 @@ CRFBindingClassPropertyAccessTest >> setUp [
 				detect: [ :method | method name = 'classPropertyAccess' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingClassPropertyAccessTest >> testClassPropertyBinding [
 	self assert: (self fastModel allWithType: FASTJavaClassProperty) anyOne famixVariable equals: (self famixModel allAttributes select: [:attribute | attribute name = 'classProperty' ]) anyOne.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingClassPropertyAccessTest >> testClassPropertyBindingFamixToFast [
 	self assert: (self fastModel allWithType: FASTJavaClassProperty) anyOne equals: (self famixModel allAttributes select: [:attribute | attribute name = 'classProperty' ]) anyOne fastAccesses anyOne.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingClassPropertyAccessTest >> testClassPropertySize [
 	self assert: (self fastModel allWithType: FASTJavaClassProperty) size equals: 1.
 ]

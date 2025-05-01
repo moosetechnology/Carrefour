@@ -1,15 +1,16 @@
 Class {
-	#name : #CRFRemoveReferencesFieldAccessTest,
-	#superclass : #CRFRemoveBindingTest,
-	#category : #'Carrefour-RemoveBinding-Tests'
+	#name : 'CRFRemoveReferencesFieldAccessTest',
+	#superclass : 'CRFRemoveBindingTest',
+	#category : 'Carrefour-RemoveBinding-Tests',
+	#package : 'Carrefour-RemoveBinding-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesFieldAccessTest >> fastTestMethod [
 	^ (self fastModel allFASTJavaMethodEntity select: [ :method | method name = 'fieldAccess' ]) first
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesFieldAccessTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -21,7 +22,7 @@ CRFRemoveReferencesFieldAccessTest >> setUp [
 		fromFamixMethodEntity: (self famixModel allModelMethods detect: [ :method | method name = 'fieldAccess' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFRemoveReferencesFieldAccessTest >> testFromFASTRemoveFieldAccessBinding [
 	self assert: ((self fastModel allWithType: FASTJavaFieldAccess) collect: #famixVariable) isNotEmpty.
 	self fastTestMethod removeBinding.
