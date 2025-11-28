@@ -33,7 +33,7 @@ BaselineOfCarrefour >> defineDependencies: spec [
 	spec baseline: 'FASTJava' with: [
 		spec
 			loads: #( 'all' );
-			repository: 'github://moosetechnology/FAST-JAVA:v3.0.8/src' ].
+			repository: 'github://moosetechnology/FAST-JAVA:v3.0.9/src' ].
 	spec
 		baseline: 'Famix2Java'
 		with: [
