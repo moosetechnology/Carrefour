@@ -53,53 +53,53 @@ CRFBinderVisitor >> bindFastModel: fastModel fromFamixMethodEntity: aFamixMethod
 
 { #category : 'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName from: aFASTEntity [
-
 	"I do a lookup for a variable in the famix code with the name = aVariableName 
 	 I return the variable if found nil else
 	
 	It should have only one variable possible for one identifier (if the lookup is done correctly)"
+
 	aVariableName ifNil: [ ^ nil ].
-	((aFASTEntity atAnyScope: { 
+	((aFASTEntity query containers ofAnyType: {
 			  FASTJavaInitializer.
-			  FASTJavaMethodEntity }) reject: [ :fastElement | 
+			  FASTJavaMethodEntity }) reject: [ :fastElement |
 		 fastElement famixMethod isNil ])
-		ifNotEmpty: [ :collectionOfMethods | 
-			(collectionOfMethods anyOne famixMethod allAtScope: FamixTMethod) 
-				do: [ :aFamixMethod | 
-					(self
-						 determineAttributeWithName: aVariableName
-						 ofFamixMethod: aFamixMethod
-						 for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
+		ifNotEmpty: [ :collectionOfMethods |
+				(collectionOfMethods anyOne famixMethod allContainersOfType:
+					 FamixTMethod) do: [ :aFamixMethod |
+						(self
+							 determineAttributeWithName: aVariableName
+							 ofFamixMethod: aFamixMethod
+							 for: aFASTEntity) ifNotNil: [ :found | ^ found ] ] ]
 		ifEmpty: [ "We are in a FASTJavaClassDeclaration (sourceFamixEntity) and in a direct creation
 			ifNone it is probably the name of a type... so we do not care
 			"
-			(self
-				 determineAttributeWithName: aVariableName
-				 fromFamixEntity:
-					 (aFASTEntity atAnyScope: {FASTJavaInterfaceDeclaration . FASTJavaClassDeclaration}) anyOne
-						 famixTypeDefinition) ifNotNil: [ :found | ^ found ].
-			
-			self sourceFamixEntity attributes
-				detect: [ :attribute | attribute name = aVariableName ]
-				ifFound: [ :attribute | ^ attribute ] ].
+				(self
+					 determineAttributeWithName: aVariableName
+					 fromFamixEntity: (aFASTEntity query containers ofAnyType: {
+								  FASTJavaInterfaceDeclaration.
+								  FASTJavaClassDeclaration }) anyOne famixTypeDefinition)
+					ifNotNil: [ :found | ^ found ].
+
+				self sourceFamixEntity attributes
+					detect: [ :attribute | attribute name = aVariableName ]
+					ifFound: [ :attribute | ^ attribute ] ].
 	^ nil
 ]
 
 { #category : 'private - action' }
 CRFBinderVisitor >> determineAttributeWithName: aVariableName fromFamixEntity: aFamixEntity [
 
-	((((aFamixEntity allAtAnyScope: { FamixTClass }) flatCollect:
-		   #withSuperclassHierarchy) select: [ :hierarchyElement |
-		  hierarchyElement isKindOf: FamixJavaClass ]) sorted: [
-		 :classA
-		 :classB |
-		 classA superclassHierarchy size > classB superclassHierarchy size ])
+	((((aFamixEntity query containers recursively ofAnyType:
+		    { FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [
+		  :hierarchyElement | hierarchyElement isKindOf: FamixJavaClass ])
+		 sorted: [ :classA :classB |
+			 classA superclassHierarchy size > classB superclassHierarchy size ])
 		ifNotEmpty: [ :scopes |
-			scopes do: [ :scope |
-				scope attributes
-					detect: [ :implicitVariable |
-					implicitVariable name = aVariableName ]
-					ifFound: [ :found | ^ found ] ] ].
+				scopes do: [ :scope |
+						scope attributes
+							detect: [ :implicitVariable |
+							implicitVariable name = aVariableName ]
+							ifFound: [ :found | ^ found ] ] ].
 	^ nil
 ]
 
@@ -115,11 +115,11 @@ CRFBinderVisitor >> determineAttributeWithName: aVariableName ofFamixMethod: aFa
 	aFamixMethod implicitVariables
 		detect: [ :implicitVariable | implicitVariable name = aVariableName ]
 		ifFound: [ :found | ^ found ].
-	(aFastEntity allAtScope: FASTJavaNewClassExpression) do: [ 
-		:aFastJavaNewClassExpression | 
-		aFastJavaNewClassExpression famixType attributes
-			detect: [ :attribute | attribute name = aVariableName ]
-			ifFound: [ :found | ^ found ] ].
+	(aFastEntity allContainersOfType: FASTJavaNewClassExpression) do: [
+			:aFastJavaNewClassExpression |
+			aFastJavaNewClassExpression famixType attributes
+				detect: [ :attribute | attribute name = aVariableName ]
+				ifFound: [ :found | ^ found ] ].
 	"(((aFamixMethod allAtAnyScope: { 
 			   FamixTParameterizedType.
 			   FamixTClass }) flatCollect: #withSuperclassHierarchy) select: [ 
@@ -165,7 +165,8 @@ CRFBinderVisitor >> sourceFamixEntityStartPo [
 
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTEntity: aFASTEntity [
-	^ aFASTEntity children do: [ :child | self accept: child ]
+
+	^ aFASTEntity containedEntities do: [ :child | self accept: child ]
 ]
 
 { #category : 'visitor' }
@@ -180,13 +181,14 @@ CRFBinderVisitor >> visitFASTJavaAssignmentExpression: aFASTJavaAssignmentExpres
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration [
 
-	(self sourceFamixEntity allToScope: FamixTClass)
-		detect: [ :class | 
-			class isAnonymousClass not and: [ 
-				class name = aFASTJavaClassDeclaration name ] ]
-		ifFound: [ :aJavaClassDeclaration | 
-			aFASTJavaClassDeclaration famixTypeDefinition: aJavaClassDeclaration ].
-	
+	(self sourceFamixEntity allContainedEntitiesOfType: FamixTClass)
+		detect: [ :class |
+				class isAnonymousClass not and: [
+					class name = aFASTJavaClassDeclaration name ] ]
+		ifFound: [ :aJavaClassDeclaration |
+			aFASTJavaClassDeclaration famixTypeDefinition:
+				aJavaClassDeclaration ].
+
 	super visitFASTJavaClassDeclaration: aFASTJavaClassDeclaration
 ]
 
@@ -231,27 +233,36 @@ CRFBinderVisitor >> visitFASTJavaIdentifier: aFASTJavaIdentifier [
 
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaInitializer: aFASTJavaInitializer [
-	(self sourceFamixEntity allToScope: FamixTMethod)
-		detect: [ :method | 
-			method name = '<Initializer>' and: [ method hasSourceAnchor
-				and: [ | sourceStartPos |
-					sourceStartPos := self sourceFamixEntityStartPo.
-					method sourceAnchor startPos - sourceStartPos <= (aFASTJavaInitializer startPos + 1)
-						and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaInitializer endPos - 1) ] ] ] ]
-		ifFound: [ :methodWithCorrectName | methodWithCorrectName fast: aFASTJavaInitializer ].
-	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock | self accept: statementBlock ]
+
+	(self sourceFamixEntity allContainedEntitiesOfType: FamixTMethod)
+		detect: [ :method |
+				method name = '<Initializer>' and: [
+						method hasSourceAnchor and: [
+								| sourceStartPos |
+								sourceStartPos := self sourceFamixEntityStartPo.
+								method sourceAnchor startPos - sourceStartPos
+								<= (aFASTJavaInitializer startPos + 1) and: [
+										method sourceAnchor endPos - sourceStartPos
+										>= (aFASTJavaInitializer endPos - 1) ] ] ] ]
+		ifFound: [ :methodWithCorrectName |
+			methodWithCorrectName fast: aFASTJavaInitializer ].
+	aFASTJavaInitializer statementBlock ifNotNil: [ :statementBlock |
+		self accept: statementBlock ]
 ]
 
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclaration [
 
-	(self sourceFamixEntity allToAnyScope: {FamixTClass . FamixJavaInterface})
-		detect: [ :class | 
-			class isAnonymousClass not and: [ 
-				class name = aFASTJavaInterfaceDeclaration name ] ]
-		ifFound: [ :aJavaClassDeclaration | 
-			aFASTJavaInterfaceDeclaration famixTypeDefinition:
-				aJavaClassDeclaration ].
+	(self sourceFamixEntity query containedEntities recursively
+		 ofAnyType: {
+				 FamixTClass.
+				 FamixJavaInterface })
+		detect: [ :class |
+				class isAnonymousClass not and: [
+					class name = aFASTJavaInterfaceDeclaration name ] ]
+		ifFound: [ :aJavaClassDeclaration |
+				aFASTJavaInterfaceDeclaration famixTypeDefinition:
+					aJavaClassDeclaration ].
 
 	super visitFASTJavaInterfaceDeclaration:
 		aFASTJavaInterfaceDeclaration
@@ -260,93 +271,109 @@ CRFBinderVisitor >> visitFASTJavaInterfaceDeclaration: aFASTJavaInterfaceDeclara
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaMethodEntity: aFASTJavaMethodEntity [
 
-	(aFASTJavaMethodEntity parentNode isNil and: [ aFASTJavaMethodEntity name = self sourceFamixEntity name ])
-		ifTrue: [ "The current node is the root of the analysis" self sourceFamixEntity fast: aFASTJavaMethodEntity ]
+	(aFASTJavaMethodEntity parentNode isNil and: [
+		 aFASTJavaMethodEntity name = self sourceFamixEntity name ])
+		ifTrue: [ "The current node is the root of the analysis"
+			self sourceFamixEntity fast: aFASTJavaMethodEntity ]
 		ifFalse: [ "The method is declared inside the root, so we need to use the sourceAnchor to be sure of the binding"
-			((self sourceFamixEntity allToScope: FamixTMethod)
-				select: [ :method | 
-					method name = aFASTJavaMethodEntity name
-						and: [ method hasSourceAnchor
-								and: [ | sourceStartPos |
-									sourceStartPos := self sourceFamixEntityStartPo.
-									method sourceAnchor startPos - sourceStartPos <= (aFASTJavaMethodEntity startPos + 1)
-										and: [ method sourceAnchor endPos - sourceStartPos >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
-				ifNotEmpty: [ :methodsWithCorrectName | (self sortCollection: methodsWithCorrectName byDistanceWith: aFASTJavaMethodEntity) first fast: aFASTJavaMethodEntity ] ].
-	aFASTJavaMethodEntity statements do: [ :statement | self accept: statement ].
-	aFASTJavaMethodEntity parameters do: [ :parameter | self accept: parameter ].
-	aFASTJavaMethodEntity typeParameters  do: [ :typeParameter | self accept: typeParameter ].	
+				((self sourceFamixEntity allContainedEntitiesOfType: FamixTMethod)
+					 select: [ :method |
+							 method name = aFASTJavaMethodEntity name and: [
+									 method hasSourceAnchor and: [
+											 | sourceStartPos |
+											 sourceStartPos := self sourceFamixEntityStartPo.
+											 method sourceAnchor startPos - sourceStartPos
+											 <= (aFASTJavaMethodEntity startPos + 1) and: [
+													 method sourceAnchor endPos - sourceStartPos
+													 >= (aFASTJavaMethodEntity endPos - 1) ] ] ] ])
+					ifNotEmpty: [ :methodsWithCorrectName |
+							(self
+								 sortCollection: methodsWithCorrectName
+								 byDistanceWith: aFASTJavaMethodEntity) first fast:
+								aFASTJavaMethodEntity ] ].
+	aFASTJavaMethodEntity statements do: [ :statement |
+		self accept: statement ].
+	aFASTJavaMethodEntity parameters do: [ :parameter |
+		self accept: parameter ].
+	aFASTJavaMethodEntity typeParameters do: [ :typeParameter |
+		self accept: typeParameter ]
 ]
 
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation [
 
-	(self sourceFamixEntity queryAllOutgoingInvocations select: [ :invoc |
-		 invoc hasSourceAnchor
-			 ifTrue: [
-				 | sourceStartPos |
-				 sourceStartPos := self sourceFamixEntityStartPo.
-				 invoc sourceAnchor startPos - sourceStartPos
-				 >= (aFASTJavaMethodInvocation startPos - 1) and: [
-					 invoc sourceAnchor endPos - sourceStartPos
-					 <= (aFASTJavaMethodInvocation endPos + 1) ] ]
-			 ifFalse: [
-			 invoc target first name beginsWith: aFASTJavaMethodInvocation name ] ])
-		ifNotEmpty: [ :collectionOfPotentialInvoc |
+	((self sourceFamixEntity queryOutgoing: FamixTInvocation) select: [
+			 :invoc |
+			 invoc hasSourceAnchor
+				 ifTrue: [
+						 | sourceStartPos |
+						 sourceStartPos := self sourceFamixEntityStartPo.
+						 invoc sourceAnchor startPos - sourceStartPos
+						 >= (aFASTJavaMethodInvocation startPos - 1) and: [
+								 invoc sourceAnchor endPos - sourceStartPos
+								 <= (aFASTJavaMethodInvocation endPos + 1) ] ]
+				 ifFalse: [
+				 invoc target first name beginsWith:
+					 aFASTJavaMethodInvocation name ] ]) ifNotEmpty: [
+			:collectionOfPotentialInvoc |
 			(collectionOfPotentialInvoc sorted: [ :invoc |
-				 invoc sourceAnchor
-					 ifNil: [ 0 ]
-					 ifNotNil: [ :sourceAnchor | sourceAnchor intervalAsCharPos size ] ]
-					 descending) first fast: aFASTJavaMethodInvocation ].
+					 invoc sourceAnchor
+						 ifNil: [ 0 ]
+						 ifNotNil: [ :sourceAnchor |
+						 sourceAnchor intervalAsCharPos size ] ] descending) first
+				fast: aFASTJavaMethodInvocation ].
 	super visitFASTJavaMethodInvocation: aFASTJavaMethodInvocation
 ]
 
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaNewClassExpression: aFASTJavaNewClassExpression [
-
 	"the dectected binding must be an anonymous class (because we are in a FASTJavaNewClassExpression and not in a new Expression)"
 
-	(self sourceFamixEntity allToScope: FamixTClass)
-		select: [ :class | 
-			class isAnonymousClass and: [ 
-				(class name includesSubstring: '(' , aFASTJavaNewClassExpression type fullName , ')') and: [ 
-					class hasSourceAnchor and: [ 
-						| sourceStartPos |
-						sourceStartPos := self sourceFamixEntityStartPo.
-						class sourceAnchor startPos - sourceStartPos >= (aFASTJavaNewClassExpression startPos - 1) and: [ 
-							class sourceAnchor endPos - sourceStartPos <= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
-		thenDo: [ :newClassExpression | aFASTJavaNewClassExpression famixType: newClassExpression ].
+	(self sourceFamixEntity allContainedEntitiesOfType: FamixTClass)
+		select: [ :class |
+				class isAnonymousClass and: [
+						(class name includesSubstring:
+							 '(' , aFASTJavaNewClassExpression type fullName , ')') and: [
+								class hasSourceAnchor and: [
+										| sourceStartPos |
+										sourceStartPos := self sourceFamixEntityStartPo.
+										class sourceAnchor startPos - sourceStartPos
+										>= (aFASTJavaNewClassExpression startPos - 1) and: [
+												class sourceAnchor endPos - sourceStartPos
+												<= (aFASTJavaNewClassExpression endPos + 1) ] ] ] ] ]
+		thenDo: [ :newClassExpression |
+			aFASTJavaNewClassExpression famixType: newClassExpression ].
 	"aFASTJavaNewClassExpression are kind og FASTJavaNewExpression, so execute also its visitor"
 	self visitFASTJavaNewExpression: aFASTJavaNewClassExpression
 ]
 
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaNewExpression: aFASTJavaNewExpression [
-
 	"We base the selection on sourceAnchor because it is the the most precise thing we have
 	However, we accept a one character error because it can happens with the source anchor of verveineJ"
 
-	(self sourceFamixEntity queryAllOutgoingInvocations select: [ :invoc | 
-		 invoc candidates anyOne isConstructor and: [ 
-			 invoc hasSourceAnchor and: [ 
-				 | sourceStartPos |
-				 sourceStartPos := self sourceFamixEntityStartPo.
-				 invoc sourceAnchor startPos - sourceStartPos
-				 >= (aFASTJavaNewExpression startPos - 1) and: [ 
-					 invoc sourceAnchor endPos - sourceStartPos
-					 <= (aFASTJavaNewExpression endPos + 1) ] ] ] ]) ifNotEmpty: [ 
-		:collectionOfPotentialInvoc | 
-		| sortedPotentialInvoc |
-		sortedPotentialInvoc := self
-			                        sortCollection: collectionOfPotentialInvoc
-			                        byDistanceWith: aFASTJavaNewExpression.
-		(((aFASTJavaNewExpression isKindOf: FASTJavaNewExpression) 
-			  and: [
-				  aFASTJavaNewExpression receiverOwner isNotNil and: [ 
-					  aFASTJavaNewExpression receiverOwner isKindOf:
-						  FASTJavaNewExpression ] ])
-			 ifTrue: [ sortedPotentialInvoc last.  ]
-			 ifFalse: [ sortedPotentialInvoc first ]) fast:
-			aFASTJavaNewExpression ].
+	((self sourceFamixEntity queryOutgoing: FamixTInvocation) select: [
+			 :invoc |
+			 invoc candidates anyOne isConstructor and: [
+					 invoc hasSourceAnchor and: [
+							 | sourceStartPos |
+							 sourceStartPos := self sourceFamixEntityStartPo.
+							 invoc sourceAnchor startPos - sourceStartPos
+							 >= (aFASTJavaNewExpression startPos - 1) and: [
+									 invoc sourceAnchor endPos - sourceStartPos
+									 <= (aFASTJavaNewExpression endPos + 1) ] ] ] ]) ifNotEmpty: [
+			:collectionOfPotentialInvoc |
+			| sortedPotentialInvoc |
+			sortedPotentialInvoc := self
+				                        sortCollection: collectionOfPotentialInvoc
+				                        byDistanceWith: aFASTJavaNewExpression.
+			(((aFASTJavaNewExpression isKindOf: FASTJavaNewExpression) and: [
+					  aFASTJavaNewExpression receiverOwner isNotNil and: [
+						  aFASTJavaNewExpression receiverOwner isKindOf:
+							  FASTJavaNewExpression ] ])
+				 ifTrue: [ sortedPotentialInvoc last ]
+				 ifFalse: [ sortedPotentialInvoc first ]) fast:
+				aFASTJavaNewExpression ].
 	super visitFASTJavaNewExpression: aFASTJavaNewExpression
 ]
 
@@ -359,7 +386,7 @@ CRFBinderVisitor >> visitFASTJavaParameter: aFASTJavaParameter [
 { #category : 'visitor' }
 CRFBinderVisitor >> visitFASTJavaTypeParameter: aFASTJavaTypeParameter [
 
-	(self sourceFamixEntity allToScope: FamixTType)
+	(self sourceFamixEntity allContainedEntitiesOfType: FamixTType)
 		detect: [ :type | type name = aFASTJavaTypeParameter name ]
 		ifFound: [ :type | type fastTypeDefinition: aFASTJavaTypeParameter ]
 ]

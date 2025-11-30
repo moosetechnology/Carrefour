@@ -2,12 +2,13 @@
 If I parse the inner class
 "
 Class {
-	#name : #CRFBindingExternalIdentifierMethodTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingExternalIdentifierMethodTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingExternalIdentifierMethodTest >> setUp [
 
 	| onClickMethod |
@@ -28,12 +29,12 @@ CRFBindingExternalIdentifierMethodTest >> setUp [
 		fromFamixMethodEntity: onClickMethod
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingExternalIdentifierMethodTest >> testIdentifier [
 	self assert: (self fastModel allWithType: FASTJavaIdentifier) size equals: 2
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingExternalIdentifierMethodTest >> testIdentifierDB [
 
 	self
@@ -44,7 +45,7 @@ CRFBindingExternalIdentifierMethodTest >> testIdentifierDB [
 		(self famixModel allLocalVariables detect: [ :var | var name = 'db' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingExternalIdentifierMethodTest >> testIdentifierExternalIdentifier [
 
 	self
@@ -55,7 +56,7 @@ CRFBindingExternalIdentifierMethodTest >> testIdentifierExternalIdentifier [
 		(self famixModel allLocalVariables detect: [ :var | var name = 'externalIdentifier' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingExternalIdentifierMethodTest >> testNumberIdentifier [
 	self assert: (self fastModel allWithType: FASTJavaIdentifier) size equals: 2
 ]

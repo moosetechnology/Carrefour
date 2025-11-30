@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingBuildMyClassTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingBuildMyClassTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CRFBindingBuildMyClassTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,7 +19,7 @@ CRFBindingBuildMyClassTest >> setUp [
 				detect: [ :method | method name = 'build' and: [ (method atScope: FamixTClass) anyOne name = 'MyClass' ] ])
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CRFBindingBuildMyClassTest >> testAStringIsCorrectlyBind [
 
 	self

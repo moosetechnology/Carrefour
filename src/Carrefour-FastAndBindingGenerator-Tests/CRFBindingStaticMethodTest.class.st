@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingStaticMethodTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingStaticMethodTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingStaticMethodTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -20,7 +21,7 @@ CRFBindingStaticMethodTest >> setUp [
 						and: [ method parentType isAnonymousClass not and: [ method sourceAnchor isNotNil ] ] ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingStaticMethodTest >> testBindingStaticInitialization [
 
 	self

@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingFieldAccessInitializationTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingFieldAccessInitializationTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingFieldAccessInitializationTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,27 +19,27 @@ CRFBindingFieldAccessInitializationTest >> setUp [
 				detect: [ :method | method name = 'useThisForFieldAccess' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingFieldAccessInitializationTest >> testClassPropertySize [
 	self assert: (self fastModel allWithType: FASTJavaFieldAccess) size equals: 2.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingFieldAccessInitializationTest >> testFieldAccessBinding [
 	self assert: (self fastModel allWithType: FASTJavaFieldAccess) anyOne famixVariable equals: (self famixModel allAttributes select: [:attribute | attribute name = 'patate' ]) anyOne.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingFieldAccessInitializationTest >> testFieldAccessCanardBindingFamixToFast [
 	self assert: ((self fastModel allWithType: FASTJavaFieldAccess) select: [ :access | access fieldName = 'canard' ]) anyOne equals: (self famixModel allAttributes select: [:attribute | attribute name = 'canard' ]) anyOne fastAccesses anyOne.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingFieldAccessInitializationTest >> testFieldAccessPatateBinding [
 	self assert: ((self fastModel allWithType: FASTJavaFieldAccess) select: [ :access | access fieldName = 'patate' ]) anyOne famixVariable equals: (self famixModel allAttributes select: [:attribute | attribute name = 'patate' ]) anyOne.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingFieldAccessInitializationTest >> testFieldAccessPatateBindingFamixToFast [
 	self assert: ((self fastModel allWithType: FASTJavaFieldAccess) select: [ :access | access fieldName = 'patate' ]) anyOne equals: (self famixModel allAttributes select: [:attribute | attribute name = 'patate' ]) anyOne fastAccesses anyOne.
 ]

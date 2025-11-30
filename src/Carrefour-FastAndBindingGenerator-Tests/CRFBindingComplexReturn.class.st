@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingComplexReturn,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingComplexReturn',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingComplexReturn >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,14 +19,14 @@ CRFBindingComplexReturn >> setUp [
 				detect: [ :method | method name = 'getMenuIcon' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingComplexReturn >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
 	self assert: self fastModel allFASTJavaMethodEntity first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'getMenuIcon' ]) first.
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingComplexReturn >> testBindingNewExpression [
 	self
 		assert:
