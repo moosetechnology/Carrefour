@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingReturnNumberTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingReturnNumberTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingReturnNumberTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,14 +19,14 @@ CRFBindingReturnNumberTest >> setUp [
 				detect: [ :method | method name = 'returnNumber' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingReturnNumberTest >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'returnNumber' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
 	self assert: self fastModel allFASTJavaMethodEntity first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'returnNumber' ]) first.
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingReturnNumberTest >> testUsagesOfParameterI [
 	"fastMethodReturnNumberString
 	^ 'private int returnNumber(int i){
@@ -33,11 +34,13 @@ CRFBindingReturnNumberTest >> testUsagesOfParameterI [
     }'"
 
 	self
-		assert: (self famixModel allParameters detect: [ :parameter | parameter mooseName = #'hello::Hello.returnNumber(int).i' ]) fastAccesses second variable
+		assert: (self famixModel allParameters detect: [ :parameter |
+			parameter mooseName = #'hello.Hello.returnNumber(int).i' ])
+			fastAccesses second variable
 		equals: self fastModel allFASTJavaMethodEntity first parameters first variable
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingReturnNumberTest >> testUsagesOfReturnI [
 	"fastMethodReturnNumberString
 	^ 'private int returnNumber(int i){
@@ -45,6 +48,9 @@ CRFBindingReturnNumberTest >> testUsagesOfReturnI [
     }'"
 
 	self
-		assert: (self famixModel allParameters detect: [ :parameter | parameter mooseName = #'hello::Hello.returnNumber(int).i' ]) fastAccesses first
-		equals: (self fastModel allWithType: FASTJavaReturnStatement) first children anyOne
+		assert: (self famixModel allParameters detect: [ :parameter |
+				 parameter mooseName = #'hello.Hello.returnNumber(int).i' ])
+				fastAccesses first
+		equals: (self fastModel allWithType: FASTJavaReturnStatement) first
+				containedEntities anyOne
 ]

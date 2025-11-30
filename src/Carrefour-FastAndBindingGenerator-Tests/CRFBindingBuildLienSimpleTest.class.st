@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingBuildLienSimpleTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingBuildLienSimpleTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingBuildLienSimpleTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,7 +19,7 @@ CRFBindingBuildLienSimpleTest >> setUp [
 				detect: [ :method | method name = 'buildLienSimple' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingBuildLienSimpleTest >> testBindingClassBLAbstractLienSimple [
 		
 	self
@@ -26,7 +27,7 @@ CRFBindingBuildLienSimpleTest >> testBindingClassBLAbstractLienSimple [
 		equals: ((self fastModel allWithType: FASTJavaNewClassExpression) detect: [ :variableExpression | variableExpression type fullName = 'BLAbstractLienSimple' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingBuildLienSimpleTest >> testBindingVariableRel [
 	self
 		assert: ((self fastModel allWithType: FASTJavaVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne famixVariable
@@ -37,7 +38,7 @@ CRFBindingBuildLienSimpleTest >> testBindingVariableRel [
 		equals: ((self fastModel allWithType: FASTJavaVariableExpression) select: [ :variableExpression | variableExpression name = 'rel' ]) anyOne
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CRFBindingBuildLienSimpleTest >> testBindingVariableRelDeclaration [
 		
 	self

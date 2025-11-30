@@ -1,13 +1,14 @@
 Class {
-	#name : #CRFBindingClassDefinitionTest,
-	#superclass : #CRFBindingTest,
+	#name : 'CRFBindingClassDefinitionTest',
+	#superclass : 'CRFBindingTest',
 	#instVars : [
 		'helloClass'
 	],
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassDefinitionTest >> setUp [
 	super setUp.
 	helloClass := (self famixModel allModelClasses detect: [:class | class name = #'Hello']).
@@ -17,12 +18,12 @@ CRFBindingClassDefinitionTest >> setUp [
 	CRFBinderVisitor new bindFastModel: self fastModel fromEntity: helloClass
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassDefinitionTest >> sourceCodeOfClass: aClass [
 	^ self fastString copyFrom: aClass sourceAnchor startPos to: aClass sourceAnchor endPos  
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingClassDefinitionTest >> testClassDefinitionIsBinded [
 	self assert: helloClass fastTypeDefinition equals: (fastModel allWithType: FASTJavaClassDeclaration) anyOne.
 	self assert: helloClass equals: (fastModel allWithType: FASTJavaClassDeclaration) anyOne famixTypeDefinition.

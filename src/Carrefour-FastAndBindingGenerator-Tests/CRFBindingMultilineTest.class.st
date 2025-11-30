@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingMultilineTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingMultilineTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingMultilineTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,7 +19,7 @@ CRFBindingMultilineTest >> setUp [
 				detect: [ :method | method name = 'multiLineNew' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingMultilineTest >> testMultiline [
 	self assert: (fastModel allWithType: FASTJavaNewExpression) anyOne famixInvocation equals: (self famixModel allMethods select: [ :method | method name = 'multiLineNew' ]) first outgoingInvocations first.
 	self assert: (fastModel allWithType: FASTJavaNewExpression) anyOne equals: (self famixModel allMethods select: [ :method | method name = 'multiLineNew' ]) first outgoingInvocations first fast

@@ -2,12 +2,13 @@
 This class contains tests
 "
 Class {
-	#name : #CRFBindingDeclarationInParameterTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingDeclarationInParameterTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingDeclarationInParameterTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -21,7 +22,7 @@ CRFBindingDeclarationInParameterTest >> setUp [
 				detect: [ :method | method name = 'decla' ]) 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingDeclarationInParameterTest >> testParameterIsDeclaration [
 	| variableExpressions |
 	variableExpressions := (self fastModel allWithType: FASTJavaVariableExpression) asOrderedCollection sort: #startPos ascending.

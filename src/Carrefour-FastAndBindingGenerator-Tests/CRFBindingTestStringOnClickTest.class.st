@@ -2,12 +2,13 @@
 This class contains tests
 "
 Class {
-	#name : #CRFBindingTestStringOnClickTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingTestStringOnClickTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingTestStringOnClickTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new 
@@ -23,14 +24,14 @@ CRFBindingTestStringOnClickTest >> setUp [
 	self fastModel metamodel: CRFModel metamodel.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingTestStringOnClickTest >> testBindingMethod [
 	self assert: (self famixModel allMethods select: [ :method | method name = 'onInternalMethod' ]) first fast equals: self fastModel allFASTJavaMethodEntity first.
 	self assert: self fastModel allFASTJavaMethodEntity first famixMethod equals: (self famixModel allMethods select: [ :method | method name = 'onInternalMethod' ]) first.
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingTestStringOnClickTest >> testResolveExternalLocalVariable [
 	self assert: (self famixModel allLocalVariables select: [ :attribute | attribute name = 'someLocalVariableDefineInExternalScope' ]) first fastAccesses size equals: 1
 ]

@@ -1,10 +1,11 @@
 Class {
-	#name : #CRFBindingNewAnonymousOfInnerClassTest,
-	#superclass : #CRFBindingTest,
-	#category : #'Carrefour-FastAndBindingGenerator-Tests'
+	#name : 'CRFBindingNewAnonymousOfInnerClassTest',
+	#superclass : 'CRFBindingTest',
+	#category : 'Carrefour-FastAndBindingGenerator-Tests',
+	#package : 'Carrefour-FastAndBindingGenerator-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingNewAnonymousOfInnerClassTest >> setUp [
 	super setUp.
 	fastModel := (JavaSmaCCProgramNodeImporterVisitor new
@@ -18,13 +19,13 @@ CRFBindingNewAnonymousOfInnerClassTest >> setUp [
 				detect: [ :method | method name = 'newAnonymousOfInnerClass' ])
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingNewAnonymousOfInnerClassTest >> testBindingClassCarrefour [
 	self assert: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne famixType equals: (self famixModel allModelClasses select: [ :class | class name = '_Anonymous(Carrefour.Oupsi)' ]) anyOne.
 	self assert: (self famixModel allModelClasses select: [ :class | class name = '_Anonymous(Carrefour.Oupsi)' ]) anyOne fastDeclaration anyOne equals: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 CRFBindingNewAnonymousOfInnerClassTest >> testBindingNewClassInvocationCarrefour [
 	self assert: (self fastModel allWithType: FASTJavaNewClassExpression) anyOne famixInvocation equals: ((self famixModel allUsing: FamixTInvocation) detect: [ :invocation | invocation signature = '_Anonymous(Carrefour.Oupsi)()' ]).
 	
