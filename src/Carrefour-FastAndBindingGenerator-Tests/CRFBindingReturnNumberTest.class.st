@@ -34,7 +34,9 @@ CRFBindingReturnNumberTest >> testUsagesOfParameterI [
     }'"
 
 	self
-		assert: (self famixModel allParameters detect: [ :parameter | parameter mooseName = #'hello::Hello.returnNumber(int).i' ]) fastAccesses second variable
+		assert: (self famixModel allParameters detect: [ :parameter |
+			parameter mooseName = #'hello.Hello.returnNumber(int).i' ])
+			fastAccesses second variable
 		equals: self fastModel allFASTJavaMethodEntity first parameters first variable
 ]
 
@@ -46,6 +48,9 @@ CRFBindingReturnNumberTest >> testUsagesOfReturnI [
     }'"
 
 	self
-		assert: (self famixModel allParameters detect: [ :parameter | parameter mooseName = #'hello::Hello.returnNumber(int).i' ]) fastAccesses first
-		equals: (self fastModel allWithType: FASTJavaReturnStatement) first children anyOne
+		assert: (self famixModel allParameters detect: [ :parameter |
+				 parameter mooseName = #'hello.Hello.returnNumber(int).i' ])
+				fastAccesses first
+		equals: (self fastModel allWithType: FASTJavaReturnStatement) first
+				containedEntities anyOne
 ]
